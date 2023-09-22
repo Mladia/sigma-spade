@@ -1,0 +1,210 @@
+%socket_connect = "event id" = '225558' and "operation" = 'connect'
+$all = $base.getEdge(%socket_connect)
+$first_connected_vertex = $base.getEdge(%socket_connect).getEdgeEndpoints()
+$all = $all + $first_connected_vertex
+
+$all = $all + $base.getLineage($first_connected_vertex, 3, 'd')
+
+$all = $all - $all.getEdge("type" = 'WasGeneratedBy' and "operation" = 'mmap (write)')
+$all = $all - $all.getVertex("subtype" = 'memory')
+$all = $all - $all.getEdge("type" = 'WasGeneratedBy' and "operation" = 'close')
+
+dump $all
+export > /export/vertex.dot
+dump $all
+
+
+
+
+
+$ ./detect_scenario_test.sh /mnt/c/Users/Nick/Dropbox/Documents/KIT/Masterarbeit/MA/log_parser/darpa-eval-scripts/Nginx\ Drakon\ APT/audit.log
+---Control
+remove storage Neo4j
+
+SPADE 3.0 Control Client
+
+Available commands:
+        add reporter|storage <class name> <initialization arguments>
+        add analyzer|sketch <class name>
+        add filter|transformer <class name> position=<number> <initialization arguments>
+        set storage <class name>
+        remove reporter|analyzer|storage|sketch <class name>
+        remove filter|transformer <position number>
+        list reporters|storages|analyzers|filters|sketches|transformers|all
+        config load|save <filename>
+        exit
+
+-> remove storage Neo4j
+Shutting down storage Neo4j... done (1440 vertices and 3832 edges added)
+
+->
+rm -rf /home/nmlad/Repos/SPADE/lib/neo4j-community-4.1.1/spade.graph
+
+add storage Neo4j
+set storage Neo4j
+add reporter Audit inputLog=/logs/audit-log-23-09-22-16-46.log
+
+SPADE 3.0 Control Client
+
+Available commands:
+        add reporter|storage <class name> <initialization arguments>
+        add analyzer|sketch <class name>
+        add filter|transformer <class name> position=<number> <initialization arguments>
+        set storage <class name>
+        remove reporter|analyzer|storage|sketch <class name>
+        remove filter|transformer <position number>
+        list reporters|storages|analyzers|filters|sketches|transformers|all
+        config load|save <filename>
+        exit
+
+-> add storage Neo4j
+Adding storage Neo4j... done. [ Querying default ]
+
+-> set storage Neo4j
+Setting default query storage Neo4j... Already set
+
+-> add reporter Audit inputLog=/logs/audit-log-23-09-22-16-46.log
+Adding reporter Audit... done
+
+->
+---Query
+TO SEND:
+%socket_connect = "event id" = '225558' and "operation" = 'connect'
+$all = $base.getEdge(%socket_connect)
+dump $all
+$first_connected_vertex = $base.getEdge(%socket_connect).getEdgeEndpoints()
+$all = $all + $first_connected_vertex
+$all = $all + $base.getLineage($first_connected_vertex, 3, 'd')
+$all = $all - $all.getEdge("type" = 'WasGeneratedBy' and "operation" = 'mmap (write)')
+$all = $all - $all.getVertex("subtype" = 'memory')
+$all = $all - $all.getEdge("type" = 'WasGeneratedBy' and "operation" = 'close')
+dump $all
+export > /export/vertex.dot
+dump $all
+---
+
+Host 'c4643aa93200': SPADE Query Client
+
+Executing queries from file '/SPADE/cfg/spade.client.CommandLine.config'
+
+-> set storage Neo4j
+Storage 'Neo4j' successfully set for querying.
+
+-> env set precision 3
+OK
+
+-> env set exportLimit 4096
+OK
+
+Finished executing queries in file '/SPADE/cfg/spade.client.CommandLine.config'.
+
+-> %socket_connect = "event id" = '225558' and "operation" = 'connect'
+OK
+
+->
+
+-> $all = $base.getEdge(%socket_connect)
+OK
+
+->
+
+-> dump $all
+[
+{"annotations":{"event id":"225558","source":"syscall","time":"1695032440.660","operation":"connect"},"from":"0107ef1f960bc79f2ced57b0bde92894","to":"a432d93f45a5c328611891820aee7263","type":"WasGeneratedBy"}
+]
+Output exported to STDOUT
+
+->
+
+-> $first_connected_vertex = $base.getEdge(%socket_connect).getEdgeEndpoints()
+OK
+
+->
+
+-> $all = $all + $first_connected_vertex
+OK
+
+->
+
+-> $all = $all + $base.getLineage($first_connected_vertex, 3, 'd')
+OK
+
+->
+
+-> $all = $all - $all.getEdge("type" = 'WasGeneratedBy' and "operation" = 'mmap (write)')
+OK
+
+->
+
+-> $all = $all - $all.getVertex("subtype" = 'memory')
+OK
+
+->
+
+-> $all = $all - $all.getEdge("type" = 'WasGeneratedBy' and "operation" = 'close')
+OK
+
+->
+
+-> dump $all
+[
+{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032440.664","pid":"2851","source":"syscall","ppid":"2850"},"id":"bf0b5a782973cdfb2bace426cbcb72d1","type":"Process"}
+,{"annotations":{"local address":"","remote port":"4242","protocol":"tcp","subtype":"network socket","epoch":"0","source":"syscall","remote address":"192.168.178.56","local port":"","version":"0"},"id":"0107ef1f960bc79f2ced57b0bde92894","type":"Artifact"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/hostname","gid":"33","euid":"33","command line":"hostname","name":"hostname","start time":"1695032462.284","pid":"2853","source":"syscall","ppid":"2850"},"id":"285bc820b6b7f31e3a63e31f9e4213e0","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032440.704","pid":"2852","source":"syscall","ppid":"2850"},"id":"733c3bfe47ef47adb21a1a6b9db08621","type":"Process"}
+,{"annotations":{"cwd":"/","uid":"33","egid":"33","exe":"/usr/bin/ls","gid":"33","euid":"33","command line":"ls","name":"ls","start time":"1695032483.652","pid":"2858","source":"syscall","ppid":"2850"},"id":"70d55446ae66ccdb0ebc93328d26011a","type":"Process"}
+,{"annotations":{"cwd":"/etc","uid":"33","egid":"33","exe":"/usr/bin/cat","gid":"33","euid":"33","command line":"cat shadow","name":"cat","start time":"1695032500.105","pid":"2860","source":"syscall","ppid":"2850"},"id":"f21e7a77793863191228482c52aa1717","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/grep","gid":"33","euid":"33","command line":"grep www-data","name":"grep","start time":"1695032480.012","pid":"2857","source":"syscall","ppid":"2850"},"id":"592fa87322896f1048582edbe4f7676e","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"/bin/bash /var/www/localhost/index.cgi","name":"index.cgi","start time":"1695032440.660","pid":"2850","source":"syscall","ppid":"2847"},"id":"a432d93f45a5c328611891820aee7263","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032480.012","pid":"2857","source":"syscall","ppid":"2850"},"id":"24d1f7997e17ba1875198c1c7979a34c","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032466.308","pid":"2854","source":"syscall","ppid":"2850"},"id":"00707c2f06c0ba81e47d512b0d616537","type":"Process"}
+,{"annotations":{"cwd":"/etc","uid":"33","egid":"33","exe":"/usr/bin/cat","gid":"33","euid":"33","command line":"cat passwd","name":"cat","start time":"1695032498.069","pid":"2859","source":"syscall","ppid":"2850"},"id":"d79356d016aede0a8783ede6f941ed6f","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/id","gid":"33","euid":"33","command line":"id","name":"id","start time":"1695032466.308","pid":"2854","source":"syscall","ppid":"2850"},"id":"2c991639e7fc53b44962cc8eef455741","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/ls","gid":"33","euid":"33","command line":"ls","name":"ls","start time":"1695032469.048","pid":"2855","source":"syscall","ppid":"2850"},"id":"70d6e2858a08b2fd790f5a59d7420bd9","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032498.069","pid":"2859","source":"syscall","ppid":"2850"},"id":"5a60056ee7926c9672abda97de3c84c7","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/groups","gid":"33","euid":"33","command line":"groups","name":"groups","start time":"1695032440.676","pid":"2851","source":"syscall","ppid":"2850"},"id":"5de51e296ed08f7f010340f1994b119a","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032480.012","pid":"2856","source":"syscall","ppid":"2850"},"id":"f3f13e1b781292834731809775180644","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/ps","gid":"33","euid":"33","command line":"ps aux","name":"ps","start time":"1695032480.012","pid":"2856","source":"syscall","ppid":"2850"},"id":"b6c8b1f9377d940e0304da321d263aea","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032483.652","pid":"2858","source":"syscall","ppid":"2850"},"id":"0e79cb66a194277c1a215b2866161b5e","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032469.048","pid":"2855","source":"syscall","ppid":"2850"},"id":"b86af227e1f209a96a862f28218b9c6d","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032500.105","pid":"2860","source":"syscall","ppid":"2850"},"id":"011cc1f5d7e560b1c8a24fa9fc62b3bd","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032440.664","pid":"2850","source":"syscall","ppid":"2847"},"id":"46f82ace7fb910202efcab913324d0b5","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032462.284","pid":"2853","source":"syscall","ppid":"2850"},"id":"b9f3e97e0e54018114c9d188010ac8ec","type":"Process"}
+,{"annotations":{"event id":"225784","flags":"CLONE_CHILD_CLEARTID|SIGCHLD|CLONE_CHILD_SETTID","source":"syscall","time":"1695032440.704","operation":"fork"},"from":"733c3bfe47ef47adb21a1a6b9db08621","to":"46f82ace7fb910202efcab913324d0b5","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"227403","flags":"CLONE_CHILD_CLEARTID|SIGCHLD|CLONE_CHILD_SETTID","source":"syscall","time":"1695032483.652","operation":"fork"},"from":"0e79cb66a194277c1a215b2866161b5e","to":"46f82ace7fb910202efcab913324d0b5","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"225934","flags":"CLONE_CHILD_CLEARTID|SIGCHLD|CLONE_CHILD_SETTID","source":"syscall","time":"1695032469.048","operation":"fork"},"from":"b86af227e1f209a96a862f28218b9c6d","to":"46f82ace7fb910202efcab913324d0b5","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"225810","source":"syscall","time":"1695032462.284","operation":"execve"},"from":"285bc820b6b7f31e3a63e31f9e4213e0","to":"b9f3e97e0e54018114c9d188010ac8ec","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"225657","source":"syscall","time":"1695032440.676","operation":"execve"},"from":"5de51e296ed08f7f010340f1994b119a","to":"bf0b5a782973cdfb2bace426cbcb72d1","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"225837","source":"syscall","time":"1695032466.308","operation":"execve"},"from":"2c991639e7fc53b44962cc8eef455741","to":"00707c2f06c0ba81e47d512b0d616537","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"227404","source":"syscall","time":"1695032483.652","operation":"execve"},"from":"70d55446ae66ccdb0ebc93328d26011a","to":"0e79cb66a194277c1a215b2866161b5e","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"225836","flags":"CLONE_CHILD_CLEARTID|SIGCHLD|CLONE_CHILD_SETTID","source":"syscall","time":"1695032466.308","operation":"fork"},"from":"00707c2f06c0ba81e47d512b0d616537","to":"46f82ace7fb910202efcab913324d0b5","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"226020","source":"syscall","time":"1695032480.012","operation":"execve"},"from":"b6c8b1f9377d940e0304da321d263aea","to":"f3f13e1b781292834731809775180644","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"227479","flags":"CLONE_CHILD_CLEARTID|SIGCHLD|CLONE_CHILD_SETTID","source":"syscall","time":"1695032498.069","operation":"fork"},"from":"5a60056ee7926c9672abda97de3c84c7","to":"46f82ace7fb910202efcab913324d0b5","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"225564","source":"syscall","time":"1695032440.664","operation":"execve"},"from":"46f82ace7fb910202efcab913324d0b5","to":"a432d93f45a5c328611891820aee7263","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"225558","source":"syscall","time":"1695032440.660","operation":"connect"},"from":"0107ef1f960bc79f2ced57b0bde92894","to":"a432d93f45a5c328611891820aee7263","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226009","flags":"CLONE_CHILD_CLEARTID|SIGCHLD|CLONE_CHILD_SETTID","source":"syscall","time":"1695032480.012","operation":"fork"},"from":"f3f13e1b781292834731809775180644","to":"46f82ace7fb910202efcab913324d0b5","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"226016","source":"syscall","time":"1695032480.012","operation":"execve"},"from":"592fa87322896f1048582edbe4f7676e","to":"24d1f7997e17ba1875198c1c7979a34c","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"225809","flags":"CLONE_CHILD_CLEARTID|SIGCHLD|CLONE_CHILD_SETTID","source":"syscall","time":"1695032462.284","operation":"fork"},"from":"b9f3e97e0e54018114c9d188010ac8ec","to":"46f82ace7fb910202efcab913324d0b5","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"227480","source":"syscall","time":"1695032498.069","operation":"execve"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"5a60056ee7926c9672abda97de3c84c7","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"227525","flags":"CLONE_CHILD_CLEARTID|SIGCHLD|CLONE_CHILD_SETTID","source":"syscall","time":"1695032500.105","operation":"fork"},"from":"011cc1f5d7e560b1c8a24fa9fc62b3bd","to":"46f82ace7fb910202efcab913324d0b5","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"227526","source":"syscall","time":"1695032500.105","operation":"execve"},"from":"f21e7a77793863191228482c52aa1717","to":"011cc1f5d7e560b1c8a24fa9fc62b3bd","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"225652","flags":"CLONE_CHILD_CLEARTID|SIGCHLD|CLONE_CHILD_SETTID","source":"syscall","time":"1695032440.664","operation":"fork"},"from":"bf0b5a782973cdfb2bace426cbcb72d1","to":"46f82ace7fb910202efcab913324d0b5","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"226012","flags":"CLONE_CHILD_CLEARTID|SIGCHLD|CLONE_CHILD_SETTID","source":"syscall","time":"1695032480.012","operation":"fork"},"from":"24d1f7997e17ba1875198c1c7979a34c","to":"46f82ace7fb910202efcab913324d0b5","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"225935","source":"syscall","time":"1695032469.048","operation":"execve"},"from":"70d6e2858a08b2fd790f5a59d7420bd9","to":"b86af227e1f209a96a862f28218b9c6d","type":"WasTriggeredBy"}
+]
+Output exported to STDOUT
+
+->
+
+-> export > /export/vertex.dot
+Output export path set to '/export/vertex.dot' for next query.
+
+->
+
+-> dump $all
+Output exported to file: /export/vertex.dot
+
+->
+
+->
+Current query environment saved to file: /SPADE/./cfg/spade.client.CommandLine.config

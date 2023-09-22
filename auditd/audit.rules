@@ -1,0 +1,80 @@
+## First rule - delete all
+-D
+
+## Increase the buffers to survive stress events.
+## Make this bigger for busy systems
+-b 81920
+
+## This determine how long to wait in burst of events
+--backlog_wait_time 0
+
+## Set failure mode to syslog
+-f 1
+
+
+# With reference to http://seclab.cs.sunysb.edu/sekar/papers/syscallclassif.htm 
+
+# When sent into the kernel, all syscall fields are put into a mask so that one compare can determine if the syscall is of interest. So, adding multiple syscalls in one rule is very efficient.
+
+# # System call auditing - Process Control
+# # Process Creation and Termination: exit,clone,execve,fork,vfork,waitid,getpid,getppid
+# # Signals: kill,signal,pause
+# # Synchronization: poll,select,semctl,semget,semop
+# # User/Group ID: getuid,getgid,geteuid,getegid,getresuid,getsid,setegid,seteuid,setresuid,setreuid,setuid,setgid
+# # Resource Control: getrlimit,getrlimit,getrlimit,getrlimit,getrlimit,nice
+# # Virtual Memory: brk,mlock,mlockall,munlock,munlockall,mprotect,mremap
+# # Miscellaneous: uselib,profil,ptrace
+# # -a exit,always -F arch=b64 -S exit,clone,execve,fork,vfork,waitid,getpid,getppid,kill,signal,pause,poll,select,semctl,semget,semop,getuid,
+# # getgid,geteuid,getegid,getresuid,getsid,setegid,seteuid,setresuid,setreuid,setuid,setgid,getrlimit,getrlimit,getrlimit,getrlimit,getrlimit,nice,
+# # brk,mlock,mlockall,munlock,munlockall,mprotect,mremap,uselib,profil,ptrace 
+ -a exit,always -F arch=b64 -S fork,vfork,exit,waitid,clone,execve,kill,setresuid,setreuid,setuid,kill,ptrace
+
+# # System call auditing - File Access
+# # Setup: write,open,creat,truncate,pipe
+# # File Attributes: stat,fstat,lstat,access,chmod,chown,fchmod,fchown,link,symlink,umask,utime,utimes,rename,unlink
+# # Read/Write: lseek, readlink
+# # Directory Operations: mkdir,mknod,rmdir,getdents,readdir
+# # Miscellaneous: fdatasync,fsync,msync,chroot,chdir,fchdir 
+# # -a exit,always -F arch=b64 -S write,open,creat,truncate,pipe,stat,fstat,lstat,access,chmod,chown,fchmod,fchown,link,symlink,umask,utime,utimes,rename,
+# # unlink,lseek,readlink,mkdir,mknod,rmdir,getdents,readdir,fdatasync,fsync,msync,chroot,chdir,fchdir
+ -a exit,always -F arch=b64 -S open,openat,creat,close,chmod,fchmod,fchmodat,ftruncate,truncate,link,linkat,unlink,unlinkat,mknod,mknodat,mkdir,rename,renameat,symlink,symlinkat
+
+# # System call auditing - Network Access
+# # Setup: socket,socketpair,getsockopt,setsockopt,bind,getsockname,listen,accept,connect,shutdown
+# # Send/Receive: recv,recvfrom,recvmsg,send,sendto,sendmsg
+# # Naming: sethostname,getpeername  
+# # -a exit,always -F arch=b64 -S socket,socketpair,getsockopt,setsockopt,bind,getsockname,listen,accept,connect,shutdown,recv,recvfrom,recvmsg,send,sendto,sendmsg,sethostname,getpeername 
+ -a exit,always -F arch=b64 -S socket,socketpair,bind,listen,accept,connect,recvfrom,sendto
+ 
+
+# # System call auditing - Message Queues
+# # -a exit,always -F arch=b64 -S msgctl,msgget,msgsnd,msgrcv 
+ -a exit,always -F arch=b64 -S msgrcv 
+
+# # System call auditing - Shared Memory
+# # -a exit,always -F arch=b64 -S shmctl,shmat,shmdt,shmget 
+ -a exit,always -F arch=b64 -S shmget 
+
+# # System call auditing - File Descriptor Operations
+# # Setup: close,mmap,munmap,getdtablesize,dup,dup2,dup3
+# # Read/Write: read,readv,write,writev  (Recording readv takes way too much system resources!)  
+# # File Descriptor Control: flock,fcntl,ioctl
+# # -a exit,always -F arch=b64 -S close,mmap,munmap,getdtablesize,dup,dup2,dup3,read,readv,write,writev,flock,fcntl,ioctl
+ -a exit,always -F arch=b64 -S close,mmap,munmap,dup,dup2,dup3,read,write,fcntl,ioctl
+
+# # System call auditing - Time-Related
+# # -a exit,always -F arch=b64 -S nanosleep,alarm,getitimer,setitimer,time,times
+ -a exit,always -F arch=b64 -S alarm,time,times
+
+# # System call auditing - System-Wide
+# # Unprivileged -- Filesystem: sync,ustat,sysfs
+# # Unprivileged -- Miscellaneous: getpagesize,sysinfo,uname
+# # Privileged -- Filesystem: setup,swapoff,swapon,mount,unmount
+# # Process Scheduling: sched_get_priority_max 
+# # Privileged -- Time: stime,adjtimex 
+# # Loadable Modules: create_module,delete_module 
+# # Accounting and Quota: acct,quotactl 
+# # Privileged -- Miscellaneous: sysctl,syslog,idle,iopl,reboot,ipc,socketcall 
+# -a exit,always -F arch=b64 -S syslog
+
+

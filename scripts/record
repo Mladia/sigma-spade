@@ -1,0 +1,61 @@
+#!/bin/bash
+
+
+countdown_seconds_1=30
+
+start_auditd () {
+    echo [*] Stopping auditd
+    ssh $SSH_PARAM $VICTIM_HOST -t \
+        "systemctl stop auditd"
+
+    countdown 10
+
+    echo [*] Removing the old log
+    ssh $SSH_PARAM $VICTIM_HOST -t \
+        "sudo rm /var/log/audit/audit.log"
+
+    echo [*] Starting auditd $(date)
+    ssh $SSH_PARAM $VICTIM_HOST -t \
+        "sudo systemctl start auditd"
+
+    countdown $countdown_seconds_1
+
+    echo [*] Auditd started and running
+
+}
+
+
+pull_log () {
+
+    echo [*] Stop auditd logging $(date)
+    ssh $SSH_PARAM $VICTIM_HOST -t \
+        "sudo systemctl stop auditd"
+
+    countdown 10
+
+    echo [*] Pull the log "$(date)"
+    log_name="audit-log-"$(date '+%y-%m-%d-%H-%M')".log"
+    #TODO: redundancy
+    log_location="$LOG_LOCATION/$log_name"
+    scp $SSH_PARAM $VICTIM_HOST:/var/log/audit/audit.log $log_location
+
+    echo [*] Removing the old log [2]
+    ssh $SSH_PARAM $VICTIM_HOST -t \
+        "sudo rm /var/log/audit/audit.log"
+
+    echo Location of the recorded log:
+    echo $log_location
+}
+
+
+
+
+main  () {
+    start_auditd
+    read -n 1 -p Continue?;
+    pull_log
+}
+
+
+
+main

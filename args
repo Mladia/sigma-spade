@@ -1,0 +1,54 @@
+#!/bin/bash
+
+
+
+sigma_spade_directory=~/.sigma-spade/
+
+cache_directory="$sigma_spade_directory"/cache
+
+export_location="$sigma_spade_directory"/export
+svg_location="$sigma_spade_directory"/export
+
+
+
+# spade_directory=""
+# spade_directory=~/.sigma-spade/spade/
+
+fast_output=False
+
+
+spade_queries_filename="$sigma_spade_directory"/rules.txt
+
+LOG_LOCATION="$sigma_spade_directory"/logs
+
+COMMANDS_LOC="$cache_directory"/commands.txt
+
+
+VICTIM_HOST="root@victim"
+
+SSH_PARAM=""
+
+init(){
+    #TODO:
+    if [ -d "$sigma_spade_directory" ]
+    then
+        echo [*] Creating spade directories
+        mkdir "$sigma_spade_directory"
+        mkdir "$cache_directory"
+        mkdir "$export_location"
+        mkdir "$svg_location"
+        mkdir "$LOG_LOCATION"
+    fi
+
+
+    if ! docker ps | grep -q spade  
+    then
+        echo [*] Starting the docker container...
+        cd ./docker/
+        docker-compose build
+        docker-compose up -d
+    fi
+}
+
+
+init 

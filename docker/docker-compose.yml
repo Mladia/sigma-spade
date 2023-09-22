@@ -1,0 +1,22 @@
+version: "3"
+
+
+services:
+
+  sigma-spade:
+    build:
+      dockerfile: ./Dockerfile
+    container_name: sigma-spade
+    image: sigma-spade
+    #TODO: to clairfy; need to match these in args
+    volumes:
+      #location of spade
+      - ~/.sigma-spade/SPADE:/SPADE
+      #$log_location
+      - ~/./sigma-spade/cache/logs:/logs/:r
+      #$export_location
+      - ~/.sigma-spade/:/export/:rw
+    #can be used to access neo4j directly
+    # ports:
+      # - 7474:7474
+      # - 7687:7687

@@ -1,0 +1,1014 @@
+$ ./detect.sh Nginx\ Drakon\ APT/audit.log
+---Control
+
+SPADE 3.0 Control Client
+
+Available commands:
+        add reporter|storage <class name> <initialization arguments>
+        add analyzer|sketch <class name>
+        add filter|transformer <class name> position=<number> <initialization arguments>
+        set storage <class name>
+        remove reporter|analyzer|storage|sketch <class name>
+        remove filter|transformer <position number>
+        list reporters|storages|analyzers|filters|sketches|transformers|all
+        config load|save <filename>
+        exit
+
+-> remove storage Neo4j
+Shutting down storage Neo4j... done (4954 vertices and 15728 edges added)
+
+->
+rm -rf /home/nmlad/Repos/SPADE/lib/neo4j-community-4.1.1/spade.graph
+
+/home/nmlad/temp/big-logs/audit-log-23-09-20-16-32.log
+
+SPADE 3.0 Control Client
+
+Available commands:
+        add reporter|storage <class name> <initialization arguments>
+        add analyzer|sketch <class name>
+        add filter|transformer <class name> position=<number> <initialization arguments>
+        set storage <class name>
+        remove reporter|analyzer|storage|sketch <class name>
+        remove filter|transformer <position number>
+        list reporters|storages|analyzers|filters|sketches|transformers|all
+        config load|save <filename>
+        exit
+
+-> add storage Neo4j
+Adding storage Neo4j... done. [ Querying default ]
+
+-> set storage Neo4j
+Setting default query storage Neo4j... Already set
+
+-> add reporter Audit inputLog=/logs/audit-log-23-09-20-16-32.log
+Adding reporter Audit... done
+
+->
+++++++++++++++++++++++++++
+
+---lnx_auditd_dd_delete_file
+%con = "command line" like '%dd%'
+%con = %con and "command line" like '%if=/dev/null%'
+%con = %con or "command line" like '%if=/dev/zero%'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_user_discovery
+%con = "command line" = 'who' or "command line" = 'w' or "command line" = 'users'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_shell_clear_cmd_history
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_auditing_config_change
+%selection_path = "path" like '/etc/audit/%'
+%selection_path = %selection_path or "path" = '/etc/libaudit.conf'
+%selection_path = %selection_path or "path" like '/etc/audisp/%'
+%con = %selection_path
+dump $base.getVertex(%con)
+
+[
+{"annotations":{"path":"/etc/audit/rules.d","subtype":"directory","permissions":"0750","epoch":"0","source":"syscall","version":"0"},"id":"9fe509330b98fb8f08e62a5f2da24f84","type":"Artifact"}
+,{"annotations":{"path":"/etc/audit/audit.rules","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"a120e4fd2aae192a1dc35c93b7795802","type":"Artifact"}
+,{"annotations":{"path":"/etc/audit/rules.d/audit.rules","subtype":"file","permissions":"0640","epoch":"0","source":"syscall","version":"0"},"id":"2a04be761c031e0d21a3800e010866a8","type":"Artifact"}
+++++++++++++++++++++++++++
+
+---lnx_auditd_bpfdoor_port_redirect
+%cmd1 = "command line" like '%iptables -t nat'
+%cmd2 = "command line" like '%iptables -t nat %'
+%cmd = %cmd1 or %cmd2
+%keywords_1 = "command line" like '%--to-port 42%'
+%keywords_2 = "command line" like '%--to-port 43%'
+%keywords = %keywords_1 or %keywords_2
+%con = %cmd and %keywords
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_bpfdoor_port_redirect_c
+%exe = "exe" = '/usr/sbin/xtables-nft-multi' and "name" = 'iptables'
+%cmd1 = "command line" like '%-t nat%'
+%cmd2 = "command line" like '%--to-port 42%'
+%cmd3 = "command line" like '%--to-port 43%'
+%con = %exe and %cmd1 and (%cmd2 or %cmd3)
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_capabilities_discovery
+%con = "command line" like 'getcap -r /'
+%con = %con or "command line" like 'getcap -r / %'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_capabilities_discovery_c
+%exe = "exe" = '/usr/sbin/getcap' and "name" = 'getcap'
+%cmd = "command line" like '%-r /%'
+%con = %exe and %cmd
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_change_file_time_attr
+%con1 = "command line" like '%touch%'
+%con2 ="command line" like '%-t%'
+%con2 = %con2 or "command line" like '%-d%'
+%con2 = %con2 or "command line" like '%-r%'
+%con2 = %con2 or "command line" like '%-acmr%'
+%con = %con1 and %con2
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_clipboard_collection
+%lnx_auditd_clipboard_collection_0 = "command line" like 'xclip -selection clipboard -o%'
+%lnx_auditd_clipboard_collection_1 = "command line" like 'xclip -selection clip -o%'
+%lnx_auditd_clipboard_collection_2 = "command line" like 'xclip -sel clipboard -o%'
+%lnx_auditd_clipboard_collection_3 = "command line" like 'xclip -sel clip -o%'
+%con = %lnx_auditd_clipboard_collection_0 or %lnx_auditd_clipboard_collection_1 or %lnx_auditd_clipboard_collection_2 or %lnx_auditd_clipboard_collection_3
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_clipboard_collection_c
+%exe = "exe" = '/usr/bin/xclip' and "name" = 'xclip'
+%arg1 = "command line" like '%-selection clipboard%'
+%arg2 = "command line" like '%-sel clipboard%'
+%arg3 = "command line" like '%-selection clipbo%'
+%arg4 = "command line" like '%-sel clip%'
+%arg5 = "command line" like '%-o%'
+%arg = ( %arg1 or %arg2 or %arg3 or %arg4 ) and %arg5
+%con = %exe and %arg
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_data_compressed
+%lnx_auditd_data_compressed_0_0 = "command line" = 'zip'
+%lnx_auditd_data_compressed_0_1 = "command line" like 'zip %'
+%lnx_auditd_data_compressed_0 = %lnx_auditd_data_compressed_0_0 or %lnx_auditd_data_compressed_0_1
+%lnx_auditd_data_compressed_1_0 = "command line" like 'gzip -f%'
+%lnx_auditd_data_compressed_1 = %lnx_auditd_data_compressed_1_0
+%lnx_auditd_data_compressed_2_0 = "command line" like 'tar %-c%'
+%lnx_auditd_data_compressed_2 = %lnx_auditd_data_compressed_2_0
+%lnx_auditd_data_compressed = %lnx_auditd_data_compressed_0 or %lnx_auditd_data_compressed_1 or %lnx_auditd_data_compressed_2
+%con = %lnx_auditd_data_compressed
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_data_compressed_c
+%lnx_auditd_data_compressed_0_0 = "exe" = '/usr/bin/zip' and  "name" = 'zip'
+%lnx_auditd_data_compressed_0 = %lnx_auditd_data_compressed_0_0
+%lnx_auditd_data_compressed_1_0 = "exe" = '/usr/bin/gzip' and "name" = 'gzip'
+%lnx_auditd_data_compressed_1_1 = "command line" like '%gzip %-f%'
+%lnx_auditd_data_compressed_1 = %lnx_auditd_data_compressed_1_0 and %lnx_auditd_data_compressed_1_1
+%lnx_auditd_data_compressed_2_0 = "exe" = '/usr/bin/tar' and "name" = 'tar'
+%lnx_auditd_data_compressed_2_1 = "command line" like '%tar %-%c%'
+%lnx_auditd_data_compressed_2 = %lnx_auditd_data_compressed_2_0 and %lnx_auditd_data_compressed_2_1
+%lnx_auditd_data_compressed = %lnx_auditd_data_compressed_0 or %lnx_auditd_data_compressed_1 or %lnx_auditd_data_compressed_2
+%con = %lnx_auditd_data_compressed
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_file_or_folder_permissions
+%lnx_auditd_file_or_folder_permissions_0 = "command line" = '%chmod%'
+%lnx_auditd_file_or_folder_permissions_1 = "command line" like '%chmod% %'
+%lnx_auditd_file_or_folder_permissions_2 = "command line" = '%chown%'
+%lnx_auditd_file_or_folder_permissions_3 = "command line" like '%chown% %'
+%lnx_auditd_file_or_folder_permissions = %lnx_auditd_file_or_folder_permissions_0 or %lnx_auditd_file_or_folder_permissions_1 or %lnx_auditd_file_or_folder_permissions_2 or %lnx_auditd_file_or_folder_permissions_3
+%con = %lnx_auditd_file_or_folder_permissions
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_find_cred_in_files
+%grep = "command line" like '%grep%'
+%passwd = "command line" like '%passwd%'
+%con = %grep or %passwd
+dump $base.getVertex(%con)
+
+[
+{"annotations":{"cwd":"/","uid":"0","egid":"0","exe":"/usr/bin/grep","gid":"0","euid":"0","command line":"grep \\.rules$","name":"grep","start time":"1695032385.712","pid":"2833","source":"syscall","ppid":"2831"},"id":"5892f0ae3a850f305bcececf96a48cbb","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/grep","gid":"33","euid":"33","command line":"grep www-data","name":"grep","start time":"1695032480.012","pid":"2857","source":"syscall","ppid":"2850"},"id":"592fa87322896f1048582edbe4f7676e","type":"Process"}
+,{"annotations":{"cwd":"/etc","uid":"33","egid":"33","exe":"/usr/bin/cat","gid":"33","euid":"33","command line":"cat passwd","name":"cat","start time":"1695032498.069","pid":"2859","source":"syscall","ppid":"2850"},"id":"d79356d016aede0a8783ede6f941ed6f","type":"Process"}
+++++++++++++++++++++++++++
+
+---lnx_auditd_susp_cmds
+%lnx_auditd_susp_cmds_0_0 = "command line" like 'chmod 777%'
+%lnx_auditd_susp_cmds_0 = %lnx_auditd_susp_cmds_0_0
+%lnx_auditd_susp_cmds_1_0 = "command line" like 'chmod u+s%'
+%lnx_auditd_susp_cmds_1 = %lnx_auditd_susp_cmds_1_0
+%lnx_auditd_susp_cmds_2_0 = "command line" like 'cp /bin/ksh%'
+%lnx_auditd_susp_cmds_2 = %lnx_auditd_susp_cmds_2_0
+%lnx_auditd_susp_cmds_3_0 = "command line" like 'cp /bin/sh%'
+%lnx_auditd_susp_cmds_3 = %lnx_auditd_susp_cmds_3_0
+%con = %lnx_auditd_susp_cmds_0 or %lnx_auditd_susp_cmds_1 or %lnx_auditd_susp_cmds_2 or %lnx_auditd_susp_cmds_3
+%con = %con or  "command line" like '%chmod%'
+%con = %con or  "command line" like 'cp%'
+%con = %con or  "command line" like '%cp%'
+%con = %con or  "exe" = '/usr/bin/chmod'
+%con = %con or  "exe" = '/usr/bin/cp'
+%con = %con or  "name" = 'cp'
+%con = %con or  "name" = 'chmod'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_susp_exe_folders
+%con = "exe" like '/tmp/%'
+%con = %con or "exe" like '/var/www/%'
+%con = %con or "exe" like '/home/%/public_html/%'
+%con = %con or "exe" like '/usr/local/apache2/%'
+%con = %con or "exe" like '/var/lib/mysql/%'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_system_info_discovery
+%lnx_auditd_system_info_discovery_0_0 = "path" = '/etc/lsb-release'
+%lnx_auditd_system_info_discovery_0_1 = "path" = '/etc/redhat-release'
+%lnx_auditd_system_info_discovery_0_2 = "path" = '/etc/issue'
+%lnx_auditd_system_info_discovery_0 = %lnx_auditd_system_info_discovery_0_0 or %lnx_auditd_system_info_discovery_0_1 or %lnx_auditd_system_info_discovery_0_2
+%lnx_auditd_system_info_discovery_1_0 = "command line" = 'uname'
+%lnx_auditd_system_info_discovery_1_1 = "command line" like 'uname %'
+%lnx_auditd_system_info_discovery_1_2 = "command line" = 'uptime'
+%lnx_auditd_system_info_discovery_1_3 = "command line" like 'uptime %'
+%lnx_auditd_system_info_discovery_1_4 = "command line" = 'lsmod'
+%lnx_auditd_system_info_discovery_1_5 = "command line" like 'lsmod %'
+%lnx_auditd_system_info_discovery_1_6 = "command line" = 'hostname'
+%lnx_auditd_system_info_discovery_1_7 = "command line" like 'hostname %'
+%lnx_auditd_system_info_discovery_1_8 = "command line" = 'env'
+%lnx_auditd_system_info_discovery_1_9 = "command line" like 'env %'
+%lnx_auditd_system_info_discovery_1 = %lnx_auditd_system_info_discovery_1_0 or %lnx_auditd_system_info_discovery_1_1 or %lnx_auditd_system_info_discovery_1_2 or %lnx_auditd_system_info_discovery_1_3 or %lnx_auditd_system_info_discovery_1_4 or %lnx_auditd_system_info_discovery_1_5 or %lnx_auditd_system_info_discovery_1_6 or %lnx_auditd_system_info_discovery_1_7 or %lnx_auditd_system_info_discovery_1_8 or %lnx_auditd_system_info_discovery_1_9
+%lnx_auditd_system_info_discovery_2_0 = "command line" like 'grep %vbox%'
+%lnx_auditd_system_info_discovery_2_1 = "command line" like 'grep %vm%'
+%lnx_auditd_system_info_discovery_2_2 = "command line" like 'grep %xen%'
+%lnx_auditd_system_info_discovery_2_3 = "command line" like 'grep %virtio%'
+%lnx_auditd_system_info_discovery_2_4 = "command line" like 'grep %hv%'
+%lnx_auditd_system_info_discovery_2 = %lnx_auditd_system_info_discovery_2_0 or %lnx_auditd_system_info_discovery_2_1 or %lnx_auditd_system_info_discovery_2_2 or %lnx_auditd_system_info_discovery_2_3 or %lnx_auditd_system_info_discovery_2_4
+%lnx_auditd_system_info_discovery_3_0 = "command line" like 'kmod list%'
+%lnx_auditd_system_info_discovery_3 = %lnx_auditd_system_info_discovery_3_0
+%con = %lnx_auditd_system_info_discovery_0 or %lnx_auditd_system_info_discovery_1 or %lnx_auditd_system_info_discovery_2 or %lnx_auditd_system_info_discovery_3
+dump $base.getVertex(%con)
+
+[
+{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/hostname","gid":"33","euid":"33","command line":"hostname","name":"hostname","start time":"1695032462.284","pid":"2853","source":"syscall","ppid":"2850"},"id":"285bc820b6b7f31e3a63e31f9e4213e0","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/hostname","gid":"33","euid":"33","command line":"hostname","name":"hostname","start time":"1695032440.648","pid":"2849","source":"syscall","ppid":"2847"},"id":"e95f9edcfd119a9b12f9ee485f665f3f","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/env","gid":"33","euid":"33","command line":"env","name":"env","start time":"1695032440.640","pid":"2848","source":"syscall","ppid":"2847"},"id":"3d1c4d552eea567b329def4053ff40b1","type":"Process"}
+++++++++++++++++++++++++++
+
+---lnx_auditd_password_policy_discovery
+%selection_path = "path" = '/etc/pam.d/common-password'
+%selection_path = %selection_path or "path" = '/etc/security/pwquality.conf'
+%selection_path = %selection_path or "path" = '/etc/pam.d/system-auth'
+%selection_path = %selection_path or "path" = '/etc/login.defs'
+%selection_chage = "command line" like 'chage --list %'
+%selection_chage = %selection_chage or "command line" like 'chage -l %'
+%selection_passwd =  "command line" like 'passwd -S %'
+%selection_passwd =  %selection_passwd or "command line" like 'passwd --status %'
+%con = %selection_path or %selection_chage or %selection_passwd
+dump $base.getVertex(%con)
+
+[
+{"annotations":{"path":"/etc/login.defs","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Artifact"}
+,{"annotations":{"path":"/etc/pam.d/common-password","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"3164eb6778956bc66846934dcc67c716","type":"Artifact"}
+++++++++++++++++++++++++++
+
+---lnx_auditd_create_account
+%con = "exe" like '%/useradd'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_create_account_root
+%con = "exe" like '%/useradd'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_system_info_discovery
+%selection_1 = "path" = '/etc/issue'
+%selection_1 = %selection_1 or "path" = '/etc/redhat-release'
+%selection_1 = %selection_1 or "path" = '/etc/lsb-release'
+%selection_2 =  "command line" = 'uname' or "exe" = '/usr/bin/uname' or "name" = 'uname'
+%selection_2 =  %selection_2 or "command line" = 'uptime' and "exe" = '/usr/bin/uptime' and "name" = 'uptime'
+%selection_2 =  %selection_2 or "name" = 'lsmod' or "exe" = '/usr/bin/kmod' or "command line" = 'lsmod'
+%selection_2 =  %selection_2 or "name" = 'hostname' or "exe" = 'usr/bin/hostname' or "command line" = 'hostname'
+%selection_2 =  %selection_2 or "name" = 'env' or "exe" = '/usr/bin/env' or "command line" = 'env'
+%selection_3 =  "command line" = ''
+%selection_4 =  "command line" = 'kmod list'
+%con = %selection_1 or %selection_2 or %selection_3 or %selection_4
+dump $base.getVertex(%con)
+
+[
+{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/hostname","gid":"33","euid":"33","command line":"hostname","name":"hostname","start time":"1695032462.284","pid":"2853","source":"syscall","ppid":"2850"},"id":"285bc820b6b7f31e3a63e31f9e4213e0","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/hostname","gid":"33","euid":"33","command line":"hostname","name":"hostname","start time":"1695032440.648","pid":"2849","source":"syscall","ppid":"2847"},"id":"e95f9edcfd119a9b12f9ee485f665f3f","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/env","gid":"33","euid":"33","command line":"env","name":"env","start time":"1695032440.640","pid":"2848","source":"syscall","ppid":"2847"},"id":"3d1c4d552eea567b329def4053ff40b1","type":"Process"}
+++++++++++++++++++++++++++
+
+---lnx_auditd_binary_padding
+%keywords_truncate = "command line" like '%truncate%' and "command line" like '%-s%'
+%keywords_dd =  "command line" like '%dd%' and "command line" like '%if=%'
+%keywords_filter = "command line" like '%of=%'
+%con1 = %keywords_truncate or %keywords_dd
+%con = %con1 and not %keywords_filter
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_bpfdoor_file_accessed
+%lnx_auditd_bpfdoor_file_accessed_0 = "path" = '/var/run/haldrund.pid'
+%lnx_auditd_bpfdoor_file_accessed_1 = "path" = '/var/run/xinetd.lock'
+%lnx_auditd_bpfdoor_file_accessed_2 = "path" = '/var/run/kdevrund.pid'
+%con = %lnx_auditd_bpfdoor_file_accessed_0 or %lnx_auditd_bpfdoor_file_accessed_1 or %lnx_auditd_bpfdoor_file_accessed_2
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_chattr_immutable_removal
+%con = "command line" like '%chattr% %-i%'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_clipboard_image_collection
+%con = "command line" like 'xclip -selection clipboard -t image/% -o%'
+%con = %con or "command line" like 'xclip -sel clipboard -t image/% -o%'
+%con = %con or "command line" like 'xclip -selection clip -t image/% -o%'
+%con = %con or "command line" like  'xclip -sel clip -t image/% -o%'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_clipboard_image_collection_c
+%exe = "exe" = '/usr/bin/xclip' and "name" = 'xclip'
+%arg1 = "command line" like '%-selection clipboard%'
+%arg2 = "command line" like '%-sel clipboard%'
+%arg3 = "command line" like '%-selection clipbo%'
+%arg4 = "command line" like '%-sel clip%'
+%arg5 = "command line" like '%-o%'
+%arg_img = "command line" like '%-t image/%'
+%arg = ( %arg1 or %arg2 or %arg3 or %arg4 ) and %arg5 and %arg_img
+%con = %exe and %arg
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_data_exfil_wget
+%lnx_auditd_data_exfil_wget_0 = "command line" like 'wget --post-file=%'
+%con = %lnx_auditd_data_exfil_wget_0
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_hidden_binary_execution
+%lnx_auditd_hidden_binary_execution_0_0 = "path" like '%/.%'
+%lnx_auditd_hidden_binary_execution_0 = %lnx_auditd_hidden_binary_execution_0_0
+%lnx_auditd_hidden_binary_execution_1_0 = "path" like '%/.cache/%'
+%lnx_auditd_hidden_binary_execution_1_1 = "path" like '%/.config/%'
+%lnx_auditd_hidden_binary_execution_1_2 = "path" like '%/.pyenv/%'
+%lnx_auditd_hidden_binary_execution_1_3 = "path" like '%/.rustup/toolchains%'
+%lnx_auditd_hidden_binary_execution_1 = %lnx_auditd_hidden_binary_execution_1_0 or %lnx_auditd_hidden_binary_execution_1_1 or %lnx_auditd_hidden_binary_execution_1_2 or %lnx_auditd_hidden_binary_execution_1_3
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_hidden_files_directories
+%commands_0_0 = "command line" like 'mkdir %/.%'
+%commands_0_1 = "command line" like 'mkdir .%'
+%commands_0 = %commands_0_0 or %commands_0_1
+%commands_1_0 = "command line" like 'touch %'
+%commands_1_1 = "command line" like 'asd'
+%commands_1 = %commands_1_0 or %commands_1_1
+%commands_2_0 = "command line" like 'vim %/.%'
+%commands_2_1 = "command line" like 'vim .%'
+%commands_2 = %commands_2_0 or %commands_2_1
+%commands_3_0 = "command line" like 'nano %/.%'
+%commands_3_1 = "command line" like 'nano .%'
+%commands_3 = %commands_3_0 or %commands_3_1
+%commands_4_0 = "command line" like 'vi %/.%'
+%commands_4_1 = "command line" like 'vi .%'
+%commands_4 = %commands_4_0 or %commands_4_1
+%con = %commands_0 or %commands_1 or %commands_2 or %commands_3 or %commands_4
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+------lnx_auditd_hidden_files_directories_c
+%path1 = "path" like '%/.%
+%path2 = "path" like '.%'
+%con = %path1 or %path2
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_hidden_files_directories_broken
+%commands_0 = "command line" like 'mkdir .%/.%'
+%con = %commands_0  or "exe" = '/usr/bin/mkdir'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_hidden_zip_files_steganography
+%lnx_auditd_hidden_zip_files_steganography_0 = "command line" like 'cat %.jpg %.zip'
+%lnx_auditd_hidden_zip_files_steganography_1 = "command line" like 'cat %.jpg %.zip %'
+%lnx_auditd_hidden_zip_files_steganography_2 = "command line" like 'cat %.png %.zip'
+%lnx_auditd_hidden_zip_files_steganography_3 = "command line" like 'cat %.png %.zip %'
+%con = %lnx_auditd_hidden_zip_files_steganography_0 or %lnx_auditd_hidden_zip_files_steganography_1 or %lnx_auditd_hidden_zip_files_steganography_2 or %lnx_auditd_hidden_zip_files_steganography_3
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_hidden_zip_files_steganography_c
+%exe = "exe" = '/usr/bin/cat' and "name" = 'cat'
+%cmd1 = "command line" like '%.jpg%' or "command line" like '%.jpg'
+%cmd2 = "command line" like '%.zip%'
+%con = %exe and %cmd1 and %cmd2
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_keylogging_with_pam_d
+%con1 = "path" = '/etc/pam.d/system-auth'
+%con2 = "path" = '/etc/pam.d/password-auth'
+%con = %con1 or %con2
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_ld_so_preload_mod
+%con = "path" = '/etc/ld.so.preload'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_load_module_insmod
+%name = "name" = 'insmod'
+%exe = "exe" = '/usr/bin/kmod'
+%con = %name and %exe
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_logging_config_change
+%lnx_auditd_logging_config_change_0 = "path" = '/etc/syslog.conf'
+%lnx_auditd_logging_config_change_1 = "path" = '/etc/rsyslog.conf'
+%lnx_auditd_logging_config_change_2 = "path" = '/etc/syslog-ng/syslog-ng.conf'
+%con = %lnx_auditd_logging_config_change_0 or %lnx_auditd_logging_config_change_1 or %lnx_auditd_logging_config_change_2
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_masquerading_crond
+%con = "command line" like 'cp -i /bin/sh %/crond'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_modify_system_firewall
+%lnx_auditd_modify_system_firewall_0_0 = "command line" like 'iptables %DROP%'
+%lnx_auditd_modify_system_firewall_0 = %lnx_auditd_modify_system_firewall_0_0
+%lnx_auditd_modify_system_firewall_1_0 = "command line" like 'firewall-cmd %remove%'
+%lnx_auditd_modify_system_firewall_1 = %lnx_auditd_modify_system_firewall_1_0
+%lnx_auditd_modify_system_firewall_2_0 = "command line" like 'ufw %delete%'
+%lnx_auditd_modify_system_firewall_2 = %lnx_auditd_modify_system_firewall_2_0
+%con = %lnx_auditd_modify_system_firewall_0 or %lnx_auditd_modify_system_firewall_1 or %lnx_auditd_modify_system_firewall_2
+dump $base.getVertex(%con)
+%con1 = "command line" like '%iptables%'
+%con2 = "command line" like '%firewall-cmd%'
+%con3 = "command line" like '%ufw%'
+%con = %con1 or %con2 or %con3
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_network_service_scanni
+%con1 = "exe" like '%telnet' or "command line" like '%nmap%'
+%con2 = "exe" like '%nmap'
+%con3 = "exe" like '%netcat'
+%con4 = "exe" like '%nc'
+%con = %con1 or %con2 or %con3 or %con4
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_network_service_scanning
+%con1 = "command line" like '%nmap%'
+%con2 = "command line" like '%nmap%'
+%con3 = "command line" like '%netcat%'
+%con4 = "command line" like '%nc%'
+%con = %con1 or %con2 or %con3 or %con4
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_network_sniffing
+%selection_1 = "command line" like 'tcpdump -c % %-i%'
+%selection_2 = "command line" like 'tshark -c % -i%'
+%con = %selection_1 or %selection_2
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_pers_systemd_reload
+%con = "command line" like '%systemctl%'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_screencapture_import
+%import = "command line" like 'import %'
+%import_window_root_0 = "command line" like '% -window root %.png%'
+%import_window_root_1 = "command line" like '% -window root %.jpg%'
+%import_window_root_2 = "command line" like '% -window root %.jpeg%'
+%import_window_root = %import_window_root_0 or %import_window_root_1 or %import_window_root_2
+%import_no_window_root_0 = "command line" like '%.png%'
+%import_no_window_root_1 = "command line" like '%.jpg%'
+%import_no_window_root_2 = "command line" like '%.jpeg%'
+%import_no_window_root = %import_no_window_root_0 or %import_no_window_root_1 or %import_no_window_root_2
+%con = %import and ( %import_window_root or %import_no_window_root)
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_split_file_into_pieces
+%con = "name" = 'split'
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_steghide_embed_steganography
+%selection_0 = "command line" like 'steghide embed -cf % -ef %'
+%selection_1 = "command line" like 'steghide embed -ef % -cf %'
+%con = %selection_0 or %selection_1
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_steghide_extract_steganography
+%selection_0 = "command line" like 'steghide extract -sf %.jpg%'
+%selection_1 = "command line" like 'steghide extract -sf %.png%'
+%con = %selection_0 or %selection_1
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_susp_histfile_operations
+%history_0 = "command line" like '%.bash_history'
+%history_1 = "command line" like '%.zsh_history'
+%history_2 = "command line" like '%.zhistory'
+%history_3 = "command line" like '%.history'
+%history_4 = "command line" like '%.sh_history'
+%history_5 = "command line" like '%fish_history'
+%con = %history_0 or %history_1 or %history_2  or %history_3  or %history_4 or %history_5
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_system_info_discovery2
+%lnx_auditd_system_info_discovery2_0 = "path" = '/sys/class/dmi/id/bios_version'
+%lnx_auditd_system_info_discovery2_1 = "path" = '/sys/class/dmi/id/product_name'
+%lnx_auditd_system_info_discovery2_2 = "path" = '/sys/class/dmi/id/chassis_vendor'
+%lnx_auditd_system_info_discovery2_3 = "path" = '/proc/scsi/scsi'
+%lnx_auditd_system_info_discovery2_4 = "path" = '/proc/ide/hd0/model'
+%lnx_auditd_system_info_discovery2_5 = "path" = '/proc/version'
+%lnx_auditd_system_info_discovery2_6 = "path" like '/etc/%version'
+%lnx_auditd_system_info_discovery2_7 = "path" like '/etc/%release'
+%lnx_auditd_system_info_discovery2_8 = "path" = '/etc/issue'
+%con = %lnx_auditd_system_info_discovery2_0 or %lnx_auditd_system_info_discovery2_1 or %lnx_auditd_system_info_discovery2_2 or %lnx_auditd_system_info_discovery2_3 or %lnx_auditd_system_info_discovery2_4 or %lnx_auditd_system_info_discovery2_5 or %lnx_auditd_system_info_discovery2_6 or %lnx_auditd_system_info_discovery2_7 or %lnx_auditd_system_info_discovery2_8
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_auditing_config_change_changed
+%con = "path" = '/etc/audit/audit.rules'
+dump $base.getVertex(%con)
+
+[
+{"annotations":{"path":"/etc/audit/audit.rules","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"a120e4fd2aae192a1dc35c93b7795802","type":"Artifact"}
+++++++++++++++++++++++++++
+
+---lnx_auditd_audio_capture
+%lnx_auditd_audio_capture_0 = "command line" like 'arecord -vv -fdat %'
+%con = %lnx_auditd_audio_capture_0
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---lnx_auditd_audio_capture_c
+%exe = "exe" = '/usr/bin/aplay' and "command line" like '%arecord%'
+%con = %exe
+dump $base.getVertex(%con)
+
+[
+++++++++++++++++++++++++++
+
+---
+
+Host 'c4643aa93200': SPADE Query Client
+
+Executing queries from file '/SPADE/cfg/spade.client.CommandLine.config'
+
+-> set storage Neo4j
+Storage 'Neo4j' successfully set for querying.
+
+-> env set precision 3
+OK
+
+-> env set exportLimit 4096
+OK
+
+Finished executing queries in file '/SPADE/cfg/spade.client.CommandLine.config'.
+
+-> dump $res
+[
+{"annotations":{"path":"/etc/audit/rules.d","subtype":"directory","permissions":"0750","epoch":"0","source":"syscall","version":"0"},"id":"9fe509330b98fb8f08e62a5f2da24f84","type":"Artifact"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/hostname","gid":"33","euid":"33","command line":"hostname","name":"hostname","start time":"1695032462.284","pid":"2853","source":"syscall","ppid":"2850"},"id":"285bc820b6b7f31e3a63e31f9e4213e0","type":"Process"}
+,{"annotations":{"cwd":"/","uid":"0","egid":"0","exe":"/usr/bin/grep","gid":"0","euid":"0","command line":"grep \\.rules$","name":"grep","start time":"1695032385.712","pid":"2833","source":"syscall","ppid":"2831"},"id":"5892f0ae3a850f305bcececf96a48cbb","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/grep","gid":"33","euid":"33","command line":"grep www-data","name":"grep","start time":"1695032480.012","pid":"2857","source":"syscall","ppid":"2850"},"id":"592fa87322896f1048582edbe4f7676e","type":"Process"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/hostname","gid":"33","euid":"33","command line":"hostname","name":"hostname","start time":"1695032440.648","pid":"2849","source":"syscall","ppid":"2847"},"id":"e95f9edcfd119a9b12f9ee485f665f3f","type":"Process"}
+,{"annotations":{"path":"/etc/login.defs","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Artifact"}
+,{"annotations":{"path":"/etc/pam.d/common-password","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"3164eb6778956bc66846934dcc67c716","type":"Artifact"}
+,{"annotations":{"path":"/etc/audit/audit.rules","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"a120e4fd2aae192a1dc35c93b7795802","type":"Artifact"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/env","gid":"33","euid":"33","command line":"env","name":"env","start time":"1695032440.640","pid":"2848","source":"syscall","ppid":"2847"},"id":"3d1c4d552eea567b329def4053ff40b1","type":"Process"}
+,{"annotations":{"cwd":"/etc","uid":"33","egid":"33","exe":"/usr/bin/cat","gid":"33","euid":"33","command line":"cat passwd","name":"cat","start time":"1695032498.069","pid":"2859","source":"syscall","ppid":"2850"},"id":"d79356d016aede0a8783ede6f941ed6f","type":"Process"}
+,{"annotations":{"path":"/etc/audit/rules.d/audit.rules","subtype":"file","permissions":"0640","epoch":"0","source":"syscall","version":"0"},"id":"2a04be761c031e0d21a3800e010866a8","type":"Artifact"}
+]
+Output exported to STDOUT
+
+->
+Current query environment saved to file: /SPADE/./cfg/spade.client.CommandLine.config
+TO SEND:
+---Graph
+$a_lineage = $base.getLineage($res , 1, 'b')
+dump all $a_lineage
+export > /export/vertex.dot
+dump all $a_lineage
+---
+
+Host 'c4643aa93200': SPADE Query Client
+
+Executing queries from file '/SPADE/cfg/spade.client.CommandLine.config'
+
+-> set storage Neo4j
+Storage 'Neo4j' successfully set for querying.
+
+-> env set precision 3
+OK
+
+-> env set exportLimit 4096
+OK
+
+Finished executing queries in file '/SPADE/cfg/spade.client.CommandLine.config'.
+
+-> $a_lineage = $base.getLineage($res , 1, 'b')
+OK
+
+-> dump all $a_lineage
+[
+{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/grep","gid":"33","euid":"33","command line":"grep www-data","name":"grep","start time":"1695032480.012","pid":"2857","source":"syscall","ppid":"2850"},"id":"592fa87322896f1048582edbe4f7676e","type":"Process"}
+,{"annotations":{"path":"/etc/audit/audit.rules","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"a120e4fd2aae192a1dc35c93b7795802","type":"Artifact"}
+,{"annotations":{"memory address":"7f96a5080000","size":"2e85e0","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"dea89f3e9d26a77075f0d2cfa676cabe","type":"Artifact"}
+,{"annotations":{"memory address":"7fbc1ad6d000","size":"6000","subtype":"memory","tgid":"2853","source":"syscall","version":"0"},"id":"580688969562032f064d94c932986d05","type":"Artifact"},{"annotations":{"memory address":"7fb773581000","size":"2e85e0","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"3ac93591023db911962cf5134f68179c","type":"Artifact"}
+,{"annotations":{"memory address":"7f96a560a000","size":"8f57","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"e9a1475bb72a25dc0bce57f1d653ed42","type":"Artifact"},{"annotations":{"memory address":"7fd006705000","size":"ce50","subtype":"memory","tgid":"2859","source":"syscall","version":"0"},"id":"f58602367d1826c01fbb21a88ad3856a","type":"Artifact"},{"annotations":{"path":"/etc/ld.so.cache","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Artifact"}
+,{"annotations":{"path":"/lib/x86_64-linux-gnu/libpcre.so.3","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"5a8e03bdb300c9335ccac793b8b2a393","type":"Artifact"}
+,{"annotations":{"cwd":"/","uid":"0","egid":"0","exe":"/usr/bin/cmp","gid":"0","euid":"0","command line":"cmp -s /tmp/aurules.NMsYG5ru /etc/audit/audit.rules","name":"cmp","start time":"1695032386.016","pid":"2835","source":"syscall","ppid":"2827"},"id":"f3d8e7776a6bc1f30248f6ec7e0990a3","type":"Process"}
+,{"annotations":{"path":"/etc/audit/rules.d/audit.rules","subtype":"file","permissions":"0640","epoch":"0","source":"syscall","version":"0"},"id":"2a04be761c031e0d21a3800e010866a8","type":"Artifact"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/hostname","gid":"33","euid":"33","command line":"hostname","name":"hostname","start time":"1695032462.284","pid":"2853","source":"syscall","ppid":"2850"},"id":"285bc820b6b7f31e3a63e31f9e4213e0","type":"Process"}
+,{"annotations":{"memory address":"7fb77386d000","size":"227e50","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"e5b21633383c961d3f789015f5181e28","type":"Artifact"}
+,{"annotations":{"cwd":"/","uid":"0","egid":"0","exe":"/usr/bin/dash","gid":"0","euid":"0","command line":"/bin/sh /sbin/augenrules --load","name":"augenrules","start time":"1695032385.688","pid":"2833","source":"syscall","ppid":"2831"},"id":"ef4f12523dd58453f384288ada74fe17","type":"Process"}
+,{"annotations":{"cwd":"/","uid":"0","egid":"0","exe":"/usr/sbin/sshd","gid":"0","euid":"0","name":"sshd","pid":"2771","seen time":"1695032386.528","source":"syscall","ppid":"739"},"id":"f87cf544c15228b53afd233b00dc3e61","type":"Process"}
+,{"annotations":{"memory address":"7f7ba7d82000","size":"ce50","subtype":"memory","tgid":"2849","source":"syscall","version":"0"},"id":"f75ae1d7feb938ca509eb86f2433bd92","type":"Artifact"},{"annotations":{"memory address":"7fd0061dc000","size":"22000","subtype":"memory","tgid":"2859","source":"syscall","version":"0"},"id":"53dc8324d4e32b2b97d836bce4cbfa31","type":"Artifact"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032498.069","pid":"2859","source":"syscall","ppid":"2850"},"id":"5a60056ee7926c9672abda97de3c84c7","type":"Process"}
+,{"annotations":{"memory address":"7fb773a88000","size":"ce50","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"257103d6fe30ca4ee7ca2601a05e7fd0","type":"Artifact"},{"annotations":{"memory address":"7fd0064e7000","size":"3000","subtype":"memory","tgid":"2859","source":"syscall","version":"0"},"id":"f37dce4b8c0ee3154064c53ae512e0cb","type":"Artifact"},{"annotations":{"path":"/proc/2857/maps","subtype":"file","permissions":"0444","epoch":"0","source":"syscall","version":"0"},"id":"8ab4e11dcfc83eb4351177816c2db7d1","type":"Artifact"}
+,{"annotations":{"memory address":"7fd006512000","size":"195000","subtype":"memory","tgid":"2859","source":"syscall","version":"0"},"id":"6ff2d9f133d6054100b293a69271d27d","type":"Artifact"}
+,{"annotations":{"cwd":"/","uid":"0","egid":"0","exe":"/usr/bin/cat","gid":"0","euid":"0","command line":"cat /etc/audit/rules.d/audit.rules","name":"cat","start time":"1695032385.952","pid":"2834","source":"syscall","ppid":"2829"},"id":"e2441b6f92f01714a32aada18e7251f0","type":"Process"}
+,{"annotations":{"memory address":"7f2c68fdf000","size":"58000","subtype":"memory","tgid":"2848","source":"syscall","version":"0"},"id":"a9d418930f30d8e73ae310d0c83ee2ce","type":"Artifact"}
+,{"annotations":{"memory address":"7f96a5596000","size":"55000","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"f34420007f8df1b26ac10b48a11ead71","type":"Artifact"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032480.012","pid":"2857","source":"syscall","ppid":"2850"},"id":"24d1f7997e17ba1875198c1c7979a34c","type":"Process"}
+,{"annotations":{"memory address":"7f96a560c000","size":"697a","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"04f2e019b40c50e7b89c6e31bf3c3792","type":"Artifact"},{"annotations":{"path":"/proc/2833/maps","subtype":"file","permissions":"0444","epoch":"0","source":"syscall","version":"0"},"id":"166e2acdd3620c2a83a094ffda27fc71","type":"Artifact"}
+,{"annotations":{"path":"/usr/bin/cat","subtype":"file","permissions":"0755","epoch":"0","source":"syscall","version":"0"},"id":"d3e46fd5126e5528753550054bd8b159","type":"Artifact"}
+,{"annotations":{"memory address":"7f96a536c000","size":"227e50","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"fdddb531c248579ce1f5f04d51aebec4","type":"Artifact"}
+,{"annotations":{"path":"/lib/x86_64-linux-gnu/libc.so.6","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"e97474158ef64156f84bd249cda5f870","type":"Artifact"}
+,{"annotations":{"path":"/etc/passwd","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"732f148a3fc032ce9969e8309e40bd32","type":"Artifact"}
+,{"annotations":{"memory address":"7f96a5581000","size":"6000","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"4919de5df88676dc46b00c36b6b33351","type":"Artifact"},{"annotations":{"memory address":"7f96a5608000","size":"2000","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"2d10413c9975e8009e6886e586ee55f9","type":"Artifact"},{"annotations":{"memory address":"7f96a5529000","size":"58000","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"a3e5b0108899ba6547430c3639f3715c","type":"Artifact"}
+,{"annotations":{"memory address":"7fd0066a7000","size":"58000","subtype":"memory","tgid":"2859","source":"syscall","version":"0"},"id":"d88166f2a051431a3f1afb9803088c7e","type":"Artifact"}
+,{"annotations":{"memory address":"7fb773b14000","size":"2000","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"acb2bb55533be0529b7412020c77bb22","type":"Artifact"},{"annotations":{"path":"/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"4c4fd5cd3cfb9797c8d8b4ec65a95489","type":"Artifact"}
+,{"annotations":{"path":"/usr/bin/grep","subtype":"file","permissions":"0755","epoch":"0","source":"syscall","version":"0"},"id":"63f3a986babf340d1d98ac82e4614aaa","type":"Artifact"}
+,{"annotations":{"memory address":"7fbc1ab58000","size":"227e50","subtype":"memory","tgid":"2853","source":"syscall","version":"0"},"id":"ce161ba25aaa3e5646be7bfbc5301fc1","type":"Artifact"}
+,{"annotations":{"memory address":"7fbc1ab55000","size":"3000","subtype":"memory","tgid":"2853","source":"syscall","version":"0"},"id":"fc6765e9528e35ea06dcf3002f5ebeb4","type":"Artifact"},{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"/bin/bash /var/www/localhost/index.cgi","name":"index.cgi","start time":"1695032440.644","pid":"2849","source":"syscall","ppid":"2847"},"id":"080ec71c0fd0e6599153012f8cd23fc7","type":"Process"}
+,{"annotations":{"cwd":"/root","uid":"0","egid":"0","exe":"/usr/bin/sudo","gid":"0","euid":"0","name":"sudo","pid":"2819","seen time":"1695032386.524","source":"syscall","ppid":"2771"},"id":"b2662ecbce0a37b1796fe3c9ccd1e386","type":"Process"}
+,{"annotations":{"path":"/etc/pam.d/common-password","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"3164eb6778956bc66846934dcc67c716","type":"Artifact"}
+,{"annotations":{"memory address":"7f2c68e4a000","size":"195000","subtype":"memory","tgid":"2848","source":"syscall","version":"0"},"id":"a2122d56d5f18ba7b8c42cc48bddd275","type":"Artifact"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/env","gid":"33","euid":"33","command line":"env","name":"env","start time":"1695032440.640","pid":"2848","source":"syscall","ppid":"2847"},"id":"3d1c4d552eea567b329def4053ff40b1","type":"Process"}
+,{"annotations":{"path":"/usr/share/locale/locale.alias","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"8b9f89e2913b1a3fcc7aa14f37065f48","type":"Artifact"}
+,{"annotations":{"memory address":"7f7ba7d8f000","size":"8f57","subtype":"memory","tgid":"2849","source":"syscall","version":"0"},"id":"da52fbbb9520855157c8ec4a16510f9d","type":"Artifact"},{"annotations":{"path":"/lib64/ld-linux-x86-64.so.2","subtype":"file","permissions":"0755","epoch":"0","source":"syscall","version":"0"},"id":"02a4195a9866b7c9eba7405c13110dad","type":"Artifact"}
+,{"annotations":{"memory address":"7f96a5587000","size":"ce50","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"1e567c674de84d95cf35b150d112a7b6","type":"Artifact"},{"annotations":{"memory address":"7fb773895000","size":"195000","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"da67f99e511b6511dbbe7f4b1290f068","type":"Artifact"}
+,{"annotations":{"memory address":"7f714d4aa000","size":"2ba","subtype":"memory","tgid":"2837","source":"syscall","version":"0"},"id":"a148bdf7e8da065400339f2c2cf410a7","type":"Artifact"}
+,{"annotations":{"memory address":"7fb773a2a000","size":"58000","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"ac55981f7b73eb0d2943168640b23c7d","type":"Artifact"}
+,{"annotations":{"memory address":"7f7ba7d24000","size":"58000","subtype":"memory","tgid":"2849","source":"syscall","version":"0"},"id":"03a637404da9d9f53720eb28261014d6","type":"Artifact"}
+,{"annotations":{"local address":"","remote port":"4242","protocol":"tcp","subtype":"network socket","epoch":"0","source":"syscall","remote address":"192.168.178.56","local port":"","version":"0"},"id":"0107ef1f960bc79f2ced57b0bde92894","type":"Artifact"}
+,{"annotations":{"cwd":"/","uid":"0","egid":"0","exe":"/usr/bin/grep","gid":"0","euid":"0","command line":"grep \\.rules$","name":"grep","start time":"1695032385.712","pid":"2833","source":"syscall","ppid":"2831"},"id":"5892f0ae3a850f305bcececf96a48cbb","type":"Process"}
+,{"annotations":{"memory address":"7fb773b0b000","size":"2000","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"6fe609c052e10bde8dc20ebf2de5b269","type":"Artifact"},{"annotations":{"memory address":"7fb77386a000","size":"3000","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"6828eaed9a4c4debea80c75ea9120e20","type":"Artifact"},{"annotations":{"path":"/usr/bin/hostname","subtype":"file","permissions":"0755","epoch":"0","source":"syscall","version":"0"},"id":"68f69c4e2a477d575c442525efd67df3","type":"Artifact"}
+,{"annotations":{"memory address":"7f2c68b36000","size":"2e85e0","subtype":"memory","tgid":"2848","source":"syscall","version":"0"},"id":"3dd389cb3b9124feaa7e5c6bc05fdcb0","type":"Artifact"}
+,{"annotations":{"cwd":"/","uid":"0","egid":"0","exe":"/usr/sbin/auditctl","gid":"0","euid":"0","command line":"/sbin/auditctl -R /etc/audit/audit.rules","name":"auditctl","start time":"1695032386.208","pid":"2837","source":"syscall","ppid":"2827"},"id":"5dfa705e84329caa82cac602cebdb52f","type":"Process"}
+,{"annotations":{"memory address":"7f2c69037000","size":"6000","subtype":"memory","tgid":"2848","source":"syscall","version":"0"},"id":"5d40860412bd456173a0f4f764cdff09","type":"Artifact"},{"annotations":{"memory address":"7fd0066ff000","size":"6000","subtype":"memory","tgid":"2859","source":"syscall","version":"0"},"id":"37b27a4a65a02a957c978e785c2b52be","type":"Artifact"},{"annotations":{"memory address":"7f96a560a000","size":"2000","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"4ae2f11bbfd6f4ff07b373f73f23e1d9","type":"Artifact"},{"annotations":{"memory address":"7fb773b0d000","size":"697a","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"393096437145a7180db6aa87ab3bc6cf","type":"Artifact"},{"annotations":{"memory address":"7f96a5394000","size":"195000","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"1b96c50df2da22c45b11131647dd9985","type":"Artifact"}
+,{"annotations":{"memory address":"7fbc1ad15000","size":"58000","subtype":"memory","tgid":"2853","source":"syscall","version":"0"},"id":"5e93213f1a551d9983ca8c5abd1cdb59","type":"Artifact"}
+,{"annotations":{"path":"/usr/bin/env","subtype":"file","permissions":"0755","epoch":"0","source":"syscall","version":"0"},"id":"ca9f324928339b7aeb053e4e6a1c9154","type":"Artifact"}
+,{"annotations":{"memory address":"7f96a5369000","size":"3000","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"2b6903d20d85774e797390ab42fa6d1e","type":"Artifact"},{"annotations":{"memory address":"7fd0061fe000","size":"2e85e0","subtype":"memory","tgid":"2859","source":"syscall","version":"0"},"id":"37a1c10cfb2f9db48c3f63043b38759e","type":"Artifact"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/hostname","gid":"33","euid":"33","command line":"hostname","name":"hostname","start time":"1695032440.648","pid":"2849","source":"syscall","ppid":"2847"},"id":"e95f9edcfd119a9b12f9ee485f665f3f","type":"Process"}
+,{"annotations":{"memory address":"7fd006712000","size":"8f57","subtype":"memory","tgid":"2859","source":"syscall","version":"0"},"id":"16877e5cb2c36fe92233a5860d4b3089","type":"Artifact"},{"annotations":{"memory address":"7fd0064ea000","size":"227e50","subtype":"memory","tgid":"2859","source":"syscall","version":"0"},"id":"9444bae0b106331a0778db9cb74f464d","type":"Artifact"}
+,{"annotations":{"cwd":"/","uid":"0","egid":"0","exe":"/usr/bin/ls","gid":"0","euid":"0","command line":"/bin/ls -1v /etc/audit/rules.d","name":"ls","start time":"1695032385.704","pid":"2832","source":"syscall","ppid":"2831"},"id":"0122359c95c9b140a6b848b99d6249cd","type":"Process"}
+,{"annotations":{"memory address":"7f2c68e22000","size":"227e50","subtype":"memory","tgid":"2848","source":"syscall","version":"0"},"id":"1b6f9f17877b3211e9d6d6ec3209606f","type":"Artifact"}
+,{"annotations":{"cwd":"/","uid":"0","egid":"0","exe":"/usr/sbin/sshd","gid":"0","euid":"0","command line":"/usr/sbin/sshd -D -R","name":"sshd","start time":"1695032510.873","pid":"2861","source":"syscall","ppid":"739"},"id":"3ce976e4e3e611d0bfb1eff595a5f0bb","type":"Process"}
+,{"annotations":{"path":"/usr/lib/locale/locale-archive","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"0482cf46830e5cd59eb6fedbc075af35","type":"Artifact"}
+,{"annotations":{"memory address":"7f7ba7d7c000","size":"6000","subtype":"memory","tgid":"2849","source":"syscall","version":"0"},"id":"096f404068cebbe5d36413d65a58750f","type":"Artifact"},{"annotations":{"memory address":"7f7ba7b67000","size":"227e50","subtype":"memory","tgid":"2849","source":"syscall","version":"0"},"id":"6d32720ebfcf5f31c7325b08248695ef","type":"Artifact"}
+,{"annotations":{"memory address":"7fbc1ad80000","size":"8f57","subtype":"memory","tgid":"2853","source":"syscall","version":"0"},"id":"dac8fed142a4f77dd37e3804c8abb472","type":"Artifact"},{"annotations":{"memory address":"7f2c6904a000","size":"8f57","subtype":"memory","tgid":"2848","source":"syscall","version":"0"},"id":"a12ceed3ae190fc52f6005fdd00ea135","type":"Artifact"},{"annotations":{"memory address":"7f7ba7b8f000","size":"195000","subtype":"memory","tgid":"2849","source":"syscall","version":"0"},"id":"9280a1939fd3af8377aa0907499a81f8","type":"Artifact"}
+,{"annotations":{"memory address":"7f96a5613000","size":"2000","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"25b785a0397643cceeed2d8559d640bf","type":"Artifact"},{"annotations":{"memory address":"7fbc1ab80000","size":"195000","subtype":"memory","tgid":"2853","source":"syscall","version":"0"},"id":"b32a57dea940a6d1c2d4003462b4e7d0","type":"Artifact"}
+,{"annotations":{"memory address":"7f96a5594000","size":"75110","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"d87c3e534f9bfa041b4a37799c51cc2b","type":"Artifact"}
+,{"annotations":{"memory address":"7fb773a95000","size":"75110","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"a0d28a4eadf5c49eea0065027828e717","type":"Artifact"}
+,{"annotations":{"memory address":"7fb773a97000","size":"55000","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"0ff0df47723485ae49de1ca196f3d44d","type":"Artifact"}
+,{"annotations":{"memory address":"7f2c6903d000","size":"ce50","subtype":"memory","tgid":"2848","source":"syscall","version":"0"},"id":"6cbae18baffdfedf235b2874d1ff637c","type":"Artifact"},{"annotations":{"memory address":"7fbc1ad73000","size":"ce50","subtype":"memory","tgid":"2853","source":"syscall","version":"0"},"id":"dc88614b4e3afe5e71913fdb9dcd5cab","type":"Artifact"},{"annotations":{"memory address":"7f96a55eb000","size":"1d000","subtype":"memory","tgid":"2857","source":"syscall","version":"0"},"id":"f9372b2a0eb4f0460e5d29430e3cc164","type":"Artifact"}
+,{"annotations":{"path":"/etc/login.defs","subtype":"file","permissions":"0644","epoch":"0","source":"syscall","version":"0"},"id":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Artifact"}
+,{"annotations":{"memory address":"7fb773aec000","size":"1d000","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"5ea8286b3d3c377eb6f705a063dd36d6","type":"Artifact"}
+,{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"/bin/bash /var/www/localhost/index.cgi","name":"index.cgi","start time":"1695032440.640","pid":"2848","source":"syscall","ppid":"2847"},"id":"931a0599be5729a8b0a8c196d89d5a86","type":"Process"}
+,{"annotations":{"memory address":"7f2c68e1f000","size":"3000","subtype":"memory","tgid":"2848","source":"syscall","version":"0"},"id":"f9b5e174ea0f3fb956da4b84906b3733","type":"Artifact"},{"annotations":{"path":"/etc/audit/rules.d","subtype":"directory","permissions":"0750","epoch":"0","source":"syscall","version":"0"},"id":"9fe509330b98fb8f08e62a5f2da24f84","type":"Artifact"}
+,{"annotations":{"memory address":"7f7ba7b64000","size":"3000","subtype":"memory","tgid":"2849","source":"syscall","version":"0"},"id":"8ea6874b0fc2935740911e39ec6758a0","type":"Artifact"},{"annotations":{"memory address":"7fbc1ad89000","size":"2000","subtype":"memory","tgid":"2853","source":"syscall","version":"0"},"id":"044fe67cc4dabe68a6500fe5574b2772","type":"Artifact"},{"annotations":{"memory address":"7fd00671b000","size":"2000","subtype":"memory","tgid":"2859","source":"syscall","version":"0"},"id":"3358cb56f8b426077a12026bfec00e17","type":"Artifact"},{"annotations":{"memory address":"7fb773b0b000","size":"8f57","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"9892d72aec24c685bf02c2b048350bbd","type":"Artifact"},{"annotations":{"cwd":"/etc","uid":"33","egid":"33","exe":"/usr/bin/cat","gid":"33","euid":"33","command line":"cat passwd","name":"cat","start time":"1695032498.069","pid":"2859","source":"syscall","ppid":"2850"},"id":"d79356d016aede0a8783ede6f941ed6f","type":"Process"}
+,{"annotations":{"memory address":"7fb773b09000","size":"2000","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"fd6ce2be57ed38a647966e0df85582cc","type":"Artifact"},{"annotations":{"memory address":"7fb773a82000","size":"6000","subtype":"memory","tgid":"2833","source":"syscall","version":"0"},"id":"2feca7d2f6ffa9feed72724bc928c5fc","type":"Artifact"},{"annotations":{"memory address":"7f2c69053000","size":"2000","subtype":"memory","tgid":"2848","source":"syscall","version":"0"},"id":"f9bcca07f78157fa782942ef68558fda","type":"Artifact"},{"annotations":{"memory address":"7f7ba7d98000","size":"2000","subtype":"memory","tgid":"2849","source":"syscall","version":"0"},"id":"544cc64881d69c1f27004c13ca6c42c0","type":"Artifact"},{"annotations":{"cwd":"/var/www/localhost","uid":"33","egid":"33","exe":"/usr/bin/bash","gid":"33","euid":"33","command line":"bash -i","name":"bash","start time":"1695032462.284","pid":"2853","source":"syscall","ppid":"2850"},"id":"b9f3e97e0e54018114c9d188010ac8ec","type":"Process"}
+,{"annotations":{"event id":"226016","source":"syscall","time":"1695032480.012","operation":"load"},"from":"592fa87322896f1048582edbe4f7676e","to":"63f3a986babf340d1d98ac82e4614aaa","type":"Used"}
+,{"annotations":{"event id":"226074","protection":"3","source":"syscall","time":"1695032480.044","operation":"mmap (write)"},"from":"4ae2f11bbfd6f4ff07b373f73f23e1d9","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225518","protection":"3","source":"syscall","time":"1695032440.644","operation":"mmap (write)"},"from":"5d40860412bd456173a0f4f764cdff09","to":"3d1c4d552eea567b329def4053ff40b1","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225544","protection":"1","source":"syscall","time":"1695032440.652","operation":"mmap (write)"},"from":"6d32720ebfcf5f31c7325b08248695ef","to":"e95f9edcfd119a9b12f9ee485f665f3f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226032","flags":"O_RDONLY","source":"syscall","time":"1695032480.032","operation":"open"},"from":"592fa87322896f1048582edbe4f7676e","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"226023","protection":"1","source":"syscall","time":"1695032480.028","operation":"mmap (write)"},"from":"e9a1475bb72a25dc0bce57f1d653ed42","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224044","source":"syscall","time":"1695032385.768","operation":"mmap (read)"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"226047","protection":"1","source":"syscall","time":"1695032480.040","operation":"mmap (write)"},"from":"04f2e019b40c50e7b89c6e31bf3c3792","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"227484","source":"syscall","time":"1695032498.077","operation":"close"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"224035","source":"syscall","time":"1695032385.712","operation":"load"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"02a4195a9866b7c9eba7405c13110dad","type":"Used"}
+,{"annotations":{"event id":"224160","source":"syscall","time":"1695032385.908","operation":"close"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"166e2acdd3620c2a83a094ffda27fc71","type":"Used"}
+,{"annotations":{"event id":"224157","protection":"3","source":"syscall","time":"1695032385.904","operation":"mmap (write)"},"from":"6fe609c052e10bde8dc20ebf2de5b269","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224111","protection":"3","source":"syscall","time":"1695032385.872","operation":"mmap (write)"},"from":"257103d6fe30ca4ee7ca2601a05e7fd0","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226047","source":"syscall","time":"1695032480.040","operation":"mmap (read)"},"from":"592fa87322896f1048582edbe4f7676e","to":"4c4fd5cd3cfb9797c8d8b4ec65a95489","type":"Used"}
+,{"annotations":{"event id":"225822","source":"syscall","time":"1695032462.292","operation":"close"},"from":"285bc820b6b7f31e3a63e31f9e4213e0","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"226030","protection":"3","source":"syscall","time":"1695032480.028","operation":"mmap (write)"},"from":"2d10413c9975e8009e6886e586ee55f9","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224389","flags":"O_RDONLY","source":"syscall","time":"1695032386.364","operation":"open"},"from":"5dfa705e84329caa82cac602cebdb52f","to":"a120e4fd2aae192a1dc35c93b7795802","type":"Used"}
+,{"annotations":{"event id":"226025","flags":"O_RDONLY","source":"syscall","time":"1695032480.028","operation":"open"},"from":"592fa87322896f1048582edbe4f7676e","to":"5a8e03bdb300c9335ccac793b8b2a393","type":"Used"}
+,{"annotations":{"event id":"225810","source":"syscall","time":"1695032462.284","operation":"execve"},"from":"285bc820b6b7f31e3a63e31f9e4213e0","to":"b9f3e97e0e54018114c9d188010ac8ec","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"224112","source":"syscall","time":"1695032385.872","operation":"close"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"225819","source":"syscall","time":"1695032462.292","operation":"mmap (read)"},"from":"285bc820b6b7f31e3a63e31f9e4213e0","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"227489","source":"syscall","time":"1695032498.081","operation":"mmap (read)"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"226029","source":"syscall","time":"1695032480.028","operation":"mmap (read)"},"from":"592fa87322896f1048582edbe4f7676e","to":"5a8e03bdb300c9335ccac793b8b2a393","type":"Used"}
+,{"annotations":{"event id":"224502","flags":"O_RDONLY","source":"syscall","time":"1695032386.528","operation":"open"},"from":"b2662ecbce0a37b1796fe3c9ccd1e386","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"225549","source":"syscall","time":"1695032440.652","operation":"close"},"from":"e95f9edcfd119a9b12f9ee485f665f3f","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"228333","flags":"O_RDONLY","source":"syscall","time":"1695032511.069","operation":"open"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"224035","source":"syscall","time":"1695032385.712","operation":"execve"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"ef4f12523dd58453f384288ada74fe17","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"224131","source":"syscall","time":"1695032385.896","operation":"close"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"4c4fd5cd3cfb9797c8d8b4ec65a95489","type":"Used"}
+,{"annotations":{"event id":"224106","protection":"1","source":"syscall","time":"1695032385.868","operation":"mmap (write)"},"from":"ac55981f7b73eb0d2943168640b23c7d","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226043","flags":"O_RDONLY","source":"syscall","time":"1695032480.040","operation":"open"},"from":"592fa87322896f1048582edbe4f7676e","to":"0482cf46830e5cd59eb6fedbc075af35","type":"Used"}
+,{"annotations":{"event id":"224054","protection":"1","source":"syscall","time":"1695032385.796","operation":"mmap (write)"},"from":"5ea8286b3d3c377eb6f705a063dd36d6","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224060","protection":"3","source":"syscall","time":"1695032385.812","operation":"mmap (write)"},"from":"fd6ce2be57ed38a647966e0df85582cc","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"228329","flags":"O_RDONLY","source":"syscall","time":"1695032511.069","operation":"open"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"224126","flags":"O_RDONLY","source":"syscall","time":"1695032385.892","operation":"open"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"4c4fd5cd3cfb9797c8d8b4ec65a95489","type":"Used"}
+,{"annotations":{"event id":"226073","flags":"O_RDONLY","source":"syscall","time":"1695032480.044","operation":"open"},"from":"592fa87322896f1048582edbe4f7676e","to":"8ab4e11dcfc83eb4351177816c2db7d1","type":"Used"}
+,{"annotations":{"event id":"227485","flags":"O_RDONLY","source":"syscall","time":"1695032498.077","operation":"open"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"225812","flags":"O_RDONLY","source":"syscall","time":"1695032462.288","operation":"open"},"from":"285bc820b6b7f31e3a63e31f9e4213e0","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"224044","protection":"1","source":"syscall","time":"1695032385.768","operation":"mmap (write)"},"from":"9892d72aec24c685bf02c2b048350bbd","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225525","source":"syscall","time":"1695032440.644","operation":"close"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"0482cf46830e5cd59eb6fedbc075af35","type":"Used"}
+,{"annotations":{"event id":"224053","source":"syscall","time":"1695032385.792","operation":"mmap (read)"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"5a8e03bdb300c9335ccac793b8b2a393","type":"Used"}
+,{"annotations":{"event id":"227496","protection":"1","source":"syscall","time":"1695032498.081","operation":"mmap (write)"},"from":"37a1c10cfb2f9db48c3f63043b38759e","to":"d79356d016aede0a8783ede6f941ed6f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224493","source":"syscall","time":"1695032386.528","operation":"close"},"from":"b2662ecbce0a37b1796fe3c9ccd1e386","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"226058","source":"syscall","time":"1695032480.040","operation":"close"},"from":"592fa87322896f1048582edbe4f7676e","to":"8b9f89e2913b1a3fcc7aa14f37065f48","type":"Used"}
+,{"annotations":{"event id":"225516","protection":"5","source":"syscall","time":"1695032440.644","operation":"mmap (write)"},"from":"a2122d56d5f18ba7b8c42cc48bddd275","to":"3d1c4d552eea567b329def4053ff40b1","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226048","source":"syscall","time":"1695032480.040","operation":"close"},"from":"592fa87322896f1048582edbe4f7676e","to":"4c4fd5cd3cfb9797c8d8b4ec65a95489","type":"Used"}
+,{"annotations":{"event id":"225818","protection":"5","source":"syscall","time":"1695032462.292","operation":"mmap (write)"},"from":"b32a57dea940a6d1c2d4003462b4e7d0","to":"285bc820b6b7f31e3a63e31f9e4213e0","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225546","source":"syscall","time":"1695032440.652","operation":"mmap (read)"},"from":"e95f9edcfd119a9b12f9ee485f665f3f","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"228238","flags":"O_RDONLY","source":"syscall","time":"1695032511.053","operation":"open"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"225508","source":"syscall","time":"1695032440.640","operation":"load"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"02a4195a9866b7c9eba7405c13110dad","type":"Used"}
+,{"annotations":{"event id":"225523","flags":"O_RDONLY","source":"syscall","time":"1695032440.644","operation":"open"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"0482cf46830e5cd59eb6fedbc075af35","type":"Used"}
+,{"annotations":{"event id":"224045","source":"syscall","time":"1695032385.772","operation":"close"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"225823","protection":"3","source":"syscall","time":"1695032462.292","operation":"mmap (write)"},"from":"fc6765e9528e35ea06dcf3002f5ebeb4","to":"285bc820b6b7f31e3a63e31f9e4213e0","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224110","protection":"3","source":"syscall","time":"1695032385.872","operation":"mmap (write)"},"from":"2feca7d2f6ffa9feed72724bc928c5fc","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226023","source":"syscall","time":"1695032480.028","operation":"mmap (read)"},"from":"592fa87322896f1048582edbe4f7676e","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"227498","flags":"O_RDONLY","source":"syscall","time":"1695032498.081","operation":"open"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"732f148a3fc032ce9969e8309e40bd32","type":"Used"}
+,{"annotations":{"event id":"224129","source":"syscall","time":"1695032385.892","operation":"mmap (read)"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"4c4fd5cd3cfb9797c8d8b4ec65a95489","type":"Used"}
+,{"annotations":{"event id":"224132","flags":"O_RDONLY","source":"syscall","time":"1695032385.896","operation":"open"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"8b9f89e2913b1a3fcc7aa14f37065f48","type":"Used"}
+,{"annotations":{"event id":"225537","source":"syscall","time":"1695032440.648","operation":"load"},"from":"e95f9edcfd119a9b12f9ee485f665f3f","to":"68f69c4e2a477d575c442525efd67df3","type":"Used"}
+,{"annotations":{"event id":"224124","protection":"1","source":"syscall","time":"1695032385.892","operation":"mmap (write)"},"from":"3ac93591023db911962cf5134f68179c","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"227480","source":"syscall","time":"1695032498.069","operation":"execve"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"5a60056ee7926c9672abda97de3c84c7","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"224308","source":"syscall","time":"1695032386.124","operation":"close"},"from":"f3d8e7776a6bc1f30248f6ec7e0990a3","to":"a120e4fd2aae192a1dc35c93b7795802","type":"Used"}
+,{"annotations":{"event id":"227493","protection":"3","source":"syscall","time":"1695032498.081","operation":"mmap (write)"},"from":"f37dce4b8c0ee3154064c53ae512e0cb","to":"d79356d016aede0a8783ede6f941ed6f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224156","flags":"O_RDONLY","source":"syscall","time":"1695032385.904","operation":"open"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"166e2acdd3620c2a83a094ffda27fc71","type":"Used"}
+,{"annotations":{"event id":"224575","flags":"O_RDONLY","source":"syscall","time":"1695032386.536","operation":"open"},"from":"f87cf544c15228b53afd233b00dc3e61","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"228286","source":"syscall","time":"1695032511.065","operation":"close"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"227379","source":"syscall","time":"1695032480.104","operation":"close"},"from":"0107ef1f960bc79f2ced57b0bde92894","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225547","protection":"3","source":"syscall","time":"1695032440.652","operation":"mmap (write)"},"from":"096f404068cebbe5d36413d65a58750f","to":"e95f9edcfd119a9b12f9ee485f665f3f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"227505","source":"syscall","time":"1695032498.089","operation":"close"},"from":"0107ef1f960bc79f2ced57b0bde92894","to":"d79356d016aede0a8783ede6f941ed6f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225515","protection":"1","source":"syscall","time":"1695032440.644","operation":"mmap (write)"},"from":"1b6f9f17877b3211e9d6d6ec3209606f","to":"3d1c4d552eea567b329def4053ff40b1","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225545","source":"syscall","time":"1695032440.652","operation":"mmap (read)"},"from":"e95f9edcfd119a9b12f9ee485f665f3f","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"226029","protection":"1","source":"syscall","time":"1695032480.028","operation":"mmap (write)"},"from":"f9372b2a0eb4f0460e5d29430e3cc164","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224139","source":"syscall","time":"1695032385.896","operation":"close"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"8b9f89e2913b1a3fcc7aa14f37065f48","type":"Used"}
+,{"annotations":{"event id":"225512","source":"syscall","time":"1695032440.644","operation":"close"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"224069","protection":"1","source":"syscall","time":"1695032385.840","operation":"mmap (write)"},"from":"e5b21633383c961d3f789015f5181e28","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224122","flags":"O_RDONLY","source":"syscall","time":"1695032385.884","operation":"open"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"0482cf46830e5cd59eb6fedbc075af35","type":"Used"}
+,{"annotations":{"event id":"226031","source":"syscall","time":"1695032480.028","operation":"close"},"from":"592fa87322896f1048582edbe4f7676e","to":"5a8e03bdb300c9335ccac793b8b2a393","type":"Used"}
+,{"annotations":{"event id":"224446","source":"syscall","time":"1695032386.520","operation":"close"},"from":"5dfa705e84329caa82cac602cebdb52f","to":"a120e4fd2aae192a1dc35c93b7795802","type":"Used"}
+,{"annotations":{"event id":"227378","source":"syscall","time":"1695032480.104","operation":"close"},"from":"0107ef1f960bc79f2ced57b0bde92894","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225810","source":"syscall","time":"1695032462.284","operation":"load"},"from":"285bc820b6b7f31e3a63e31f9e4213e0","to":"68f69c4e2a477d575c442525efd67df3","type":"Used"}
+,{"annotations":{"event id":"225821","protection":"3","source":"syscall","time":"1695032462.292","operation":"mmap (write)"},"from":"dc88614b4e3afe5e71913fdb9dcd5cab","to":"285bc820b6b7f31e3a63e31f9e4213e0","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224506","source":"syscall","time":"1695032386.528","operation":"close"},"from":"b2662ecbce0a37b1796fe3c9ccd1e386","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"225810","source":"syscall","time":"1695032462.284","operation":"load"},"from":"285bc820b6b7f31e3a63e31f9e4213e0","to":"02a4195a9866b7c9eba7405c13110dad","type":"Used"}
+,{"annotations":{"event id":"226049","flags":"O_RDONLY","source":"syscall","time":"1695032480.040","operation":"open"},"from":"592fa87322896f1048582edbe4f7676e","to":"8b9f89e2913b1a3fcc7aa14f37065f48","type":"Used"}
+,{"annotations":{"event id":"225811","protection":"3","source":"syscall","time":"1695032462.284","operation":"mmap (write)"},"from":"044fe67cc4dabe68a6500fe5574b2772","to":"285bc820b6b7f31e3a63e31f9e4213e0","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226028","source":"syscall","time":"1695032480.028","operation":"mmap (read)"},"from":"592fa87322896f1048582edbe4f7676e","to":"5a8e03bdb300c9335ccac793b8b2a393","type":"Used"}
+,{"annotations":{"event id":"227491","protection":"3","source":"syscall","time":"1695032498.081","operation":"mmap (write)"},"from":"f58602367d1826c01fbb21a88ad3856a","to":"d79356d016aede0a8783ede6f941ed6f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"227497","source":"syscall","time":"1695032498.081","operation":"close"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"0482cf46830e5cd59eb6fedbc075af35","type":"Used"}
+,{"annotations":{"event id":"224052","protection":"1","source":"syscall","time":"1695032385.792","operation":"mmap (write)"},"from":"a0d28a4eadf5c49eea0065027828e717","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"227499","protection":"3","source":"syscall","time":"1695032498.081","operation":"mmap (write)"},"from":"53dc8324d4e32b2b97d836bce4cbfa31","to":"d79356d016aede0a8783ede6f941ed6f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224042","protection":"3","source":"syscall","time":"1695032385.760","operation":"mmap (write)"},"from":"acb2bb55533be0529b7412020c77bb22","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225509","protection":"3","source":"syscall","time":"1695032440.644","operation":"mmap (write)"},"from":"f9bcca07f78157fa782942ef68558fda","to":"3d1c4d552eea567b329def4053ff40b1","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225524","protection":"1","source":"syscall","time":"1695032440.644","operation":"mmap (write)"},"from":"3dd389cb3b9124feaa7e5c6bc05fdcb0","to":"3d1c4d552eea567b329def4053ff40b1","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"228282","flags":"O_RDONLY","source":"syscall","time":"1695032511.065","operation":"open"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"225521","protection":"3","source":"syscall","time":"1695032440.644","operation":"mmap (write)"},"from":"f9b5e174ea0f3fb956da4b84906b3733","to":"3d1c4d552eea567b329def4053ff40b1","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226035","protection":"5","source":"syscall","time":"1695032480.036","operation":"mmap (write)"},"from":"1b96c50df2da22c45b11131647dd9985","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225539","flags":"O_RDONLY","source":"syscall","time":"1695032440.652","operation":"open"},"from":"e95f9edcfd119a9b12f9ee485f665f3f","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"228344","source":"syscall","time":"1695032511.069","operation":"close"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"224125","source":"syscall","time":"1695032385.892","operation":"close"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"0482cf46830e5cd59eb6fedbc075af35","type":"Used"}
+,{"annotations":{"event id":"224186","source":"syscall","time":"1695032385.940","operation":"close"},"from":"0122359c95c9b140a6b848b99d6249cd","to":"9fe509330b98fb8f08e62a5f2da24f84","type":"Used"}
+,{"annotations":{"event id":"225540","source":"syscall","time":"1695032440.652","operation":"mmap (read)"},"from":"e95f9edcfd119a9b12f9ee485f665f3f","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"227489","protection":"1","source":"syscall","time":"1695032498.081","operation":"mmap (write)"},"from":"d88166f2a051431a3f1afb9803088c7e","to":"d79356d016aede0a8783ede6f941ed6f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225537","source":"syscall","time":"1695032440.648","operation":"load"},"from":"e95f9edcfd119a9b12f9ee485f665f3f","to":"02a4195a9866b7c9eba7405c13110dad","type":"Used"}
+,{"annotations":{"event id":"225541","source":"syscall","time":"1695032440.652","operation":"close"},"from":"e95f9edcfd119a9b12f9ee485f665f3f","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"225813","source":"syscall","time":"1695032462.292","operation":"mmap (read)"},"from":"285bc820b6b7f31e3a63e31f9e4213e0","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"224072","protection":"5","source":"syscall","time":"1695032385.848","operation":"mmap (write)"},"from":"da67f99e511b6511dbbe7f4b1290f068","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224052","source":"syscall","time":"1695032385.792","operation":"mmap (read)"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"5a8e03bdb300c9335ccac793b8b2a393","type":"Used"}
+,{"annotations":{"event id":"228129","flags":"O_RDONLY","source":"syscall","time":"1695032510.993","operation":"open"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"3164eb6778956bc66846934dcc67c716","type":"Used"}
+,{"annotations":{"event id":"225508","source":"syscall","time":"1695032440.640","operation":"load"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"ca9f324928339b7aeb053e4e6a1c9154","type":"Used"}
+,{"annotations":{"event id":"227488","protection":"5","source":"syscall","time":"1695032498.081","operation":"mmap (write)"},"from":"6ff2d9f133d6054100b293a69271d27d","to":"d79356d016aede0a8783ede6f941ed6f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"227487","protection":"1","source":"syscall","time":"1695032498.081","operation":"mmap (write)"},"from":"9444bae0b106331a0778db9cb74f464d","to":"d79356d016aede0a8783ede6f941ed6f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225520","source":"syscall","time":"1695032440.644","operation":"close"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"224184","flags":"O_RDONLY","source":"syscall","time":"1695032385.936","operation":"open"},"from":"0122359c95c9b140a6b848b99d6249cd","to":"9fe509330b98fb8f08e62a5f2da24f84","type":"Used"}
+,{"annotations":{"event id":"226030","source":"syscall","time":"1695032480.028","operation":"mmap (read)"},"from":"592fa87322896f1048582edbe4f7676e","to":"5a8e03bdb300c9335ccac793b8b2a393","type":"Used"}
+,{"annotations":{"event id":"224063","flags":"O_RDONLY","source":"syscall","time":"1695032385.820","operation":"open"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"227492","source":"syscall","time":"1695032498.081","operation":"close"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"225546","protection":"1","source":"syscall","time":"1695032440.652","operation":"mmap (write)"},"from":"03a637404da9d9f53720eb28261014d6","to":"e95f9edcfd119a9b12f9ee485f665f3f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224302","flags":"O_RDONLY","source":"syscall","time":"1695032386.112","operation":"open"},"from":"f3d8e7776a6bc1f30248f6ec7e0990a3","to":"a120e4fd2aae192a1dc35c93b7795802","type":"Used"}
+,{"annotations":{"event id":"224129","protection":"1","source":"syscall","time":"1695032385.892","operation":"mmap (write)"},"from":"393096437145a7180db6aa87ab3bc6cf","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224391","source":"syscall","time":"1695032386.368","operation":"mmap (read)"},"from":"5dfa705e84329caa82cac602cebdb52f","to":"a120e4fd2aae192a1dc35c93b7795802","type":"Used"}
+,{"annotations":{"event id":"226027","protection":"1","source":"syscall","time":"1695032480.028","operation":"mmap (write)"},"from":"d87c3e534f9bfa041b4a37799c51cc2b","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224072","source":"syscall","time":"1695032385.848","operation":"mmap (read)"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"224113","protection":"3","source":"syscall","time":"1695032385.876","operation":"mmap (write)"},"from":"6828eaed9a4c4debea80c75ea9120e20","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226044","protection":"1","source":"syscall","time":"1695032480.040","operation":"mmap (write)"},"from":"dea89f3e9d26a77075f0d2cfa676cabe","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"227480","source":"syscall","time":"1695032498.069","operation":"load"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"d3e46fd5126e5528753550054bd8b159","type":"Used"}
+,{"annotations":{"event id":"224489","flags":"O_RDONLY","source":"syscall","time":"1695032386.528","operation":"open"},"from":"b2662ecbce0a37b1796fe3c9ccd1e386","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"226027","source":"syscall","time":"1695032480.028","operation":"mmap (read)"},"from":"592fa87322896f1048582edbe4f7676e","to":"5a8e03bdb300c9335ccac793b8b2a393","type":"Used"}
+,{"annotations":{"event id":"227482","flags":"O_RDONLY","source":"syscall","time":"1695032498.073","operation":"open"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"225815","flags":"O_RDONLY","source":"syscall","time":"1695032462.292","operation":"open"},"from":"285bc820b6b7f31e3a63e31f9e4213e0","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"224391","pid":"2837","source":"syscall","time":"1695032386.368","operation":"mmap"},"from":"a148bdf7e8da065400339f2c2cf410a7","to":"a120e4fd2aae192a1dc35c93b7795802","type":"WasDerivedFrom"}
+,{"annotations":{"event id":"226046","flags":"O_RDONLY","source":"syscall","time":"1695032480.040","operation":"open"},"from":"592fa87322896f1048582edbe4f7676e","to":"4c4fd5cd3cfb9797c8d8b4ec65a95489","type":"Used"}
+,{"annotations":{"event id":"227480","source":"syscall","time":"1695032498.069","operation":"load"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"02a4195a9866b7c9eba7405c13110dad","type":"Used"}
+,{"annotations":{"event id":"226040","source":"syscall","time":"1695032480.040","operation":"close"},"from":"592fa87322896f1048582edbe4f7676e","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"226045","source":"syscall","time":"1695032480.040","operation":"close"},"from":"592fa87322896f1048582edbe4f7676e","to":"0482cf46830e5cd59eb6fedbc075af35","type":"Used"}
+,{"annotations":{"event id":"228242","source":"syscall","time":"1695032511.053","operation":"close"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"224048","flags":"O_RDONLY","source":"syscall","time":"1695032385.776","operation":"open"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"5a8e03bdb300c9335ccac793b8b2a393","type":"Used"}
+,{"annotations":{"event id":"224239","source":"syscall","time":"1695032386.004","operation":"close"},"from":"e2441b6f92f01714a32aada18e7251f0","to":"2a04be761c031e0d21a3800e010866a8","type":"Used"}
+,{"annotations":{"event id":"226038","source":"syscall","time":"1695032480.036","operation":"mmap (read)"},"from":"592fa87322896f1048582edbe4f7676e","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"224043","flags":"O_RDONLY","source":"syscall","time":"1695032385.764","operation":"open"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"225537","source":"syscall","time":"1695032440.648","operation":"execve"},"from":"e95f9edcfd119a9b12f9ee485f665f3f","to":"080ec71c0fd0e6599153012f8cd23fc7","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"224060","source":"syscall","time":"1695032385.812","operation":"mmap (read)"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"5a8e03bdb300c9335ccac793b8b2a393","type":"Used"}
+,{"annotations":{"event id":"226038","protection":"3","source":"syscall","time":"1695032480.036","operation":"mmap (write)"},"from":"4919de5df88676dc46b00c36b6b33351","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225820","source":"syscall","time":"1695032462.292","operation":"mmap (read)"},"from":"285bc820b6b7f31e3a63e31f9e4213e0","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"225515","source":"syscall","time":"1695032440.644","operation":"mmap (read)"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"228336","source":"syscall","time":"1695032511.069","operation":"close"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"225813","protection":"1","source":"syscall","time":"1695032462.292","operation":"mmap (write)"},"from":"dac8fed142a4f77dd37e3804c8abb472","to":"285bc820b6b7f31e3a63e31f9e4213e0","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224231","flags":"O_RDONLY","source":"syscall","time":"1695032386.000","operation":"open"},"from":"e2441b6f92f01714a32aada18e7251f0","to":"2a04be761c031e0d21a3800e010866a8","type":"Used"}
+,{"annotations":{"event id":"227495","flags":"O_RDONLY","source":"syscall","time":"1695032498.081","operation":"open"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"0482cf46830e5cd59eb6fedbc075af35","type":"Used"}
+,{"annotations":{"event id":"225547","source":"syscall","time":"1695032440.652","operation":"mmap (read)"},"from":"e95f9edcfd119a9b12f9ee485f665f3f","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"225517","protection":"1","source":"syscall","time":"1695032440.644","operation":"mmap (write)"},"from":"a9d418930f30d8e73ae310d0c83ee2ce","to":"3d1c4d552eea567b329def4053ff40b1","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226036","source":"syscall","time":"1695032480.036","operation":"mmap (read)"},"from":"592fa87322896f1048582edbe4f7676e","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"224062","source":"syscall","time":"1695032385.820","operation":"close"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"5a8e03bdb300c9335ccac793b8b2a393","type":"Used"}
+,{"annotations":{"event id":"225517","source":"syscall","time":"1695032440.644","operation":"mmap (read)"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"225817","source":"syscall","time":"1695032462.292","operation":"mmap (read)"},"from":"285bc820b6b7f31e3a63e31f9e4213e0","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"224069","source":"syscall","time":"1695032385.840","operation":"mmap (read)"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"224579","source":"syscall","time":"1695032386.536","operation":"close"},"from":"f87cf544c15228b53afd233b00dc3e61","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"226034","protection":"1","source":"syscall","time":"1695032480.036","operation":"mmap (write)"},"from":"fdddb531c248579ce1f5f04d51aebec4","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226016","source":"syscall","time":"1695032480.012","operation":"load"},"from":"592fa87322896f1048582edbe4f7676e","to":"02a4195a9866b7c9eba7405c13110dad","type":"Used"}
+,{"annotations":{"event id":"224035","source":"syscall","time":"1695032385.712","operation":"load"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"63f3a986babf340d1d98ac82e4614aaa","type":"Used"}
+,{"annotations":{"event id":"225548","protection":"3","source":"syscall","time":"1695032440.652","operation":"mmap (write)"},"from":"f75ae1d7feb938ca509eb86f2433bd92","to":"e95f9edcfd119a9b12f9ee485f665f3f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224054","source":"syscall","time":"1695032385.796","operation":"mmap (read)"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"5a8e03bdb300c9335ccac793b8b2a393","type":"Used"}
+,{"annotations":{"event id":"225508","source":"syscall","time":"1695032440.640","operation":"execve"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"931a0599be5729a8b0a8c196d89d5a86","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"224604","source":"syscall","time":"1695032386.536","operation":"close"},"from":"f87cf544c15228b53afd233b00dc3e61","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"227481","protection":"3","source":"syscall","time":"1695032498.073","operation":"mmap (write)"},"from":"3358cb56f8b426077a12026bfec00e17","to":"d79356d016aede0a8783ede6f941ed6f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225511","source":"syscall","time":"1695032440.644","operation":"mmap (read)"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"225818","source":"syscall","time":"1695032462.292","operation":"mmap (read)"},"from":"285bc820b6b7f31e3a63e31f9e4213e0","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"227483","source":"syscall","time":"1695032498.077","operation":"mmap (read)"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"225519","protection":"3","source":"syscall","time":"1695032440.644","operation":"mmap (write)"},"from":"6cbae18baffdfedf235b2874d1ff637c","to":"3d1c4d552eea567b329def4053ff40b1","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224106","source":"syscall","time":"1695032385.868","operation":"mmap (read)"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"227490","protection":"3","source":"syscall","time":"1695032498.081","operation":"mmap (write)"},"from":"37b27a4a65a02a957c978e785c2b52be","to":"d79356d016aede0a8783ede6f941ed6f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225545","protection":"5","source":"syscall","time":"1695032440.652","operation":"mmap (write)"},"from":"9280a1939fd3af8377aa0907499a81f8","to":"e95f9edcfd119a9b12f9ee485f665f3f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226035","source":"syscall","time":"1695032480.036","operation":"mmap (read)"},"from":"592fa87322896f1048582edbe4f7676e","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"225538","protection":"3","source":"syscall","time":"1695032440.652","operation":"mmap (write)"},"from":"544cc64881d69c1f27004c13ca6c42c0","to":"e95f9edcfd119a9b12f9ee485f665f3f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"227506","source":"syscall","time":"1695032498.089","operation":"close"},"from":"0107ef1f960bc79f2ced57b0bde92894","to":"d79356d016aede0a8783ede6f941ed6f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224110","source":"syscall","time":"1695032385.872","operation":"mmap (read)"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"225540","protection":"1","source":"syscall","time":"1695032440.652","operation":"mmap (write)"},"from":"da52fbbb9520855157c8ec4a16510f9d","to":"e95f9edcfd119a9b12f9ee485f665f3f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"227488","source":"syscall","time":"1695032498.081","operation":"mmap (read)"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"225820","protection":"3","source":"syscall","time":"1695032462.292","operation":"mmap (write)"},"from":"580688969562032f064d94c932986d05","to":"285bc820b6b7f31e3a63e31f9e4213e0","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"224053","protection":"5","source":"syscall","time":"1695032385.792","operation":"mmap (write)"},"from":"0ff0df47723485ae49de1ca196f3d44d","to":"5892f0ae3a850f305bcececf96a48cbb","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"227487","source":"syscall","time":"1695032498.081","operation":"mmap (read)"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"225550","protection":"3","source":"syscall","time":"1695032440.652","operation":"mmap (write)"},"from":"8ea6874b0fc2935740911e39ec6758a0","to":"e95f9edcfd119a9b12f9ee485f665f3f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"228135","source":"syscall","time":"1695032511.001","operation":"close"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"3164eb6778956bc66846934dcc67c716","type":"Used"}
+,{"annotations":{"event id":"225542","flags":"O_RDONLY","source":"syscall","time":"1695032440.652","operation":"open"},"from":"e95f9edcfd119a9b12f9ee485f665f3f","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"226016","source":"syscall","time":"1695032480.012","operation":"execve"},"from":"592fa87322896f1048582edbe4f7676e","to":"24d1f7997e17ba1875198c1c7979a34c","type":"WasTriggeredBy"}
+,{"annotations":{"event id":"226041","protection":"3","source":"syscall","time":"1695032480.040","operation":"mmap (write)"},"from":"2b6903d20d85774e797390ab42fa6d1e","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225510","flags":"O_RDONLY","source":"syscall","time":"1695032440.644","operation":"open"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"226044","source":"syscall","time":"1695032480.040","operation":"mmap (read)"},"from":"592fa87322896f1048582edbe4f7676e","to":"0482cf46830e5cd59eb6fedbc075af35","type":"Used"}
+,{"annotations":{"event id":"226039","protection":"3","source":"syscall","time":"1695032480.040","operation":"mmap (write)"},"from":"1e567c674de84d95cf35b150d112a7b6","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"225516","source":"syscall","time":"1695032440.644","operation":"mmap (read)"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"226036","protection":"1","source":"syscall","time":"1695032480.036","operation":"mmap (write)"},"from":"a3e5b0108899ba6547430c3639f3715c","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"227490","source":"syscall","time":"1695032498.081","operation":"mmap (read)"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"228148","flags":"O_RDONLY","source":"syscall","time":"1695032511.005","operation":"open"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"3164eb6778956bc66846934dcc67c716","type":"Used"}
+,{"annotations":{"event id":"226021","protection":"3","source":"syscall","time":"1695032480.020","operation":"mmap (write)"},"from":"25b785a0397643cceeed2d8559d640bf","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226034","source":"syscall","time":"1695032480.036","operation":"mmap (read)"},"from":"592fa87322896f1048582edbe4f7676e","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"228151","source":"syscall","time":"1695032511.009","operation":"close"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"3164eb6778956bc66846934dcc67c716","type":"Used"}
+,{"annotations":{"event id":"226028","protection":"5","source":"syscall","time":"1695032480.028","operation":"mmap (write)"},"from":"f34420007f8df1b26ac10b48a11ead71","to":"592fa87322896f1048582edbe4f7676e","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"228340","flags":"O_RDONLY","source":"syscall","time":"1695032511.069","operation":"open"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"227483","protection":"1","source":"syscall","time":"1695032498.077","operation":"mmap (write)"},"from":"16877e5cb2c36fe92233a5860d4b3089","to":"d79356d016aede0a8783ede6f941ed6f","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"227496","source":"syscall","time":"1695032498.081","operation":"mmap (read)"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"0482cf46830e5cd59eb6fedbc075af35","type":"Used"}
+,{"annotations":{"event id":"224600","flags":"O_RDONLY","source":"syscall","time":"1695032386.536","operation":"open"},"from":"f87cf544c15228b53afd233b00dc3e61","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"225817","protection":"1","source":"syscall","time":"1695032462.292","operation":"mmap (write)"},"from":"ce161ba25aaa3e5646be7bfbc5301fc1","to":"285bc820b6b7f31e3a63e31f9e4213e0","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226552","source":"syscall","time":"1695032480.072","operation":"close"},"from":"592fa87322896f1048582edbe4f7676e","to":"8ab4e11dcfc83eb4351177816c2db7d1","type":"Used"}
+,{"annotations":{"event id":"225544","source":"syscall","time":"1695032440.652","operation":"mmap (read)"},"from":"e95f9edcfd119a9b12f9ee485f665f3f","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"225819","protection":"1","source":"syscall","time":"1695032462.292","operation":"mmap (write)"},"from":"5e93213f1a551d9983ca8c5abd1cdb59","to":"285bc820b6b7f31e3a63e31f9e4213e0","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"226024","source":"syscall","time":"1695032480.028","operation":"close"},"from":"592fa87322896f1048582edbe4f7676e","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"225524","source":"syscall","time":"1695032440.644","operation":"mmap (read)"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"0482cf46830e5cd59eb6fedbc075af35","type":"Used"}
+,{"annotations":{"event id":"224124","source":"syscall","time":"1695032385.892","operation":"mmap (read)"},"from":"5892f0ae3a850f305bcececf96a48cbb","to":"0482cf46830e5cd59eb6fedbc075af35","type":"Used"}
+,{"annotations":{"event id":"225513","flags":"O_RDONLY","source":"syscall","time":"1695032440.644","operation":"open"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+,{"annotations":{"event id":"228332","source":"syscall","time":"1695032511.069","operation":"close"},"from":"3ce976e4e3e611d0bfb1eff595a5f0bb","to":"b1d3ac1a72344ece79f4e2452e39d48a","type":"Used"}
+,{"annotations":{"event id":"225814","source":"syscall","time":"1695032462.292","operation":"close"},"from":"285bc820b6b7f31e3a63e31f9e4213e0","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"226022","flags":"O_RDONLY","source":"syscall","time":"1695032480.024","operation":"open"},"from":"592fa87322896f1048582edbe4f7676e","to":"7674ff82f7b427f1429d85c7f25e5fc2","type":"Used"}
+,{"annotations":{"event id":"225511","protection":"1","source":"syscall","time":"1695032440.644","operation":"mmap (write)"},"from":"a12ceed3ae190fc52f6005fdd00ea135","to":"3d1c4d552eea567b329def4053ff40b1","type":"WasGeneratedBy"}
+,{"annotations":{"event id":"227504","source":"syscall","time":"1695032498.089","operation":"close"},"from":"d79356d016aede0a8783ede6f941ed6f","to":"732f148a3fc032ce9969e8309e40bd32","type":"Used"}
+,{"annotations":{"event id":"225518","source":"syscall","time":"1695032440.644","operation":"mmap (read)"},"from":"3d1c4d552eea567b329def4053ff40b1","to":"e97474158ef64156f84bd249cda5f870","type":"Used"}
+]
+Output exported to STDOUT
+
+-> export > /export/vertex.dot
+Output export path set to '/export/vertex.dot' for next query.
+
+-> dump all $a_lineage
+Output exported to file: /export/vertex.dot
+
+->
+Current query environment saved to file: /SPADE/./cfg/spade.client.CommandLine.config
