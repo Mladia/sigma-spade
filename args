@@ -2,7 +2,7 @@
 
 
 
-sigma_spade_directory=~/.sigma-spade/
+sigma_spade_directory=~/.sigma-spade
 
 cache_directory="$sigma_spade_directory"/cache
 
@@ -19,7 +19,7 @@ fast_output=False
 
 spade_queries_filename="$sigma_spade_directory"/rules.txt
 
-LOG_LOCATION="$sigma_spade_directory"/logs
+LOG_LOCATION="$cache_directory"/logs
 
 COMMANDS_LOC="$cache_directory"/commands.txt
 
@@ -29,8 +29,7 @@ VICTIM_HOST="root@victim"
 SSH_PARAM=""
 
 init(){
-    #TODO:
-    if [ -d "$sigma_spade_directory" ]
+    if [ ! -d "$sigma_spade_directory" ]
     then
         echo [*] Creating spade directories
         mkdir "$sigma_spade_directory"
@@ -38,6 +37,9 @@ init(){
         mkdir "$export_location"
         mkdir "$svg_location"
         mkdir "$LOG_LOCATION"
+        mkdir "$sigma_spade_directory"/SPADE
+
+        touch $COMMANDS_LOC
     fi
 
 

@@ -7,9 +7,6 @@ log_location="${1}"
 main() {
 
 
-    echo hi
-    pwd
-
     control
     query
     #TODO:
@@ -25,9 +22,9 @@ control() {
 
     echo "remove storage Neo4j" >> $COMMANDS_LOC
     sed -i '/^$/d' $COMMANDS_LOC
-    docker exec -i spade_new spade control < $COMMANDS_LOC
+    docker exec -i  sigma-spade spade control < $COMMANDS_LOC
 
-    docker exec -i rm /SPADE/lib/neo4j-community-4.1.1/spade.graph
+    docker exec -i sigma-spade rm -rf /SPADE/lib/neo4j-community-4.1.1/spade.graph
 
     echo "add storage Neo4j" >$COMMANDS_LOC
     echo "set storage Neo4j" >>$COMMANDS_LOC
@@ -36,16 +33,16 @@ control() {
         new_log="audit-log-$(date "+%y-%m-%d-%H-%M").log"
         cp "$log_location" "$LOG_LOCATION/$new_log"
         echo "$LOG_LOCATION/$new_log"
-        echo "add reporter Audit inputLog=$test_vm_log_location/$new_log" >>$COMMANDS_LOC
+        echo "add reporter Audit inputLog=/logs/$new_log" >>$COMMANDS_LOC
     else
         echo Audit log file needs to be supplied
     fi
 
     sed -i '/^$/d' $COMMANDS_LOC
 
-    docker exec -i spade_new spade control <$COMMANDS_LOC 
+    docker exec -i sigma-spade spade control <$COMMANDS_LOC 
     #for some reason we need this twice
-    docker exec -i spade_new spade control <$COMMANDS_LOC >/dev/null 2>&1
+    docker exec -i sigma-spade spade control <$COMMANDS_LOC >/dev/null 2>&1
 }
 
 
@@ -106,7 +103,7 @@ query() {
 
     done <$spade_queries_filename
 
-    echo 'dump $res' |  docker exec -i spade_new spade query 
+    echo 'dump $res' |  docker exec -i sigma-spade spade query 
 }
 
 
@@ -122,7 +119,7 @@ dump all \$a_lineage
 EOF
     cat "$cache_directory/graph_query"
     echo "---"
-    docker exec -i spade_new spade query < "$cache_directory/graph_query" 
+    docker exec -i sigma-spade spade query < "$cache_directory/graph_query" 
     dot -Tsvg  "$export_location/vertex.dot" > "$export_location/last.svg"
 }
 

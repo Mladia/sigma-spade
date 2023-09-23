@@ -38,7 +38,7 @@ RUN useradd -u 1000 -g 1000 -m -s /bin/bash user
 
 ENV PATH "$PATH:/SPADE/bin"
 
-COPY run.sh /bin/
+COPY run.sh /
 
 
 
@@ -48,5 +48,5 @@ USER user
 
 
 # CMD ["tail", "-f", "/dev/null"]
-CMD ["/bin/run.sh"]
+CMD ["/run.sh"]
 
