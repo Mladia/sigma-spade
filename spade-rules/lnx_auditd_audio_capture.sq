@@ -1,0 +1,4 @@
+%lnx_auditd_audio_capture_0 = "command line" like 'arecord -vv -fdat'
+%lnx_auditd_audio_capture_1 = "command line" like 'arecord -vv -fdat %'
+%lnx_auditd_audio_capture = %lnx_auditd_audio_capture_0 or %lnx_auditd_audio_capture_1
+%con = %lnx_auditd_audio_capture

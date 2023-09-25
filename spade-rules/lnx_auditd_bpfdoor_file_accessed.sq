@@ -1,0 +1,5 @@
+%lnx_auditd_bpfdoor_file_accessed_0 = "path" = '/var/run/haldrund.pid'
+%lnx_auditd_bpfdoor_file_accessed_1 = "path" = '/var/run/xinetd.lock'
+%lnx_auditd_bpfdoor_file_accessed_2 = "path" = '/var/run/kdevrund.pid'
+%lnx_auditd_bpfdoor_file_accessed = %lnx_auditd_bpfdoor_file_accessed_0 or %lnx_auditd_bpfdoor_file_accessed_1 or %lnx_auditd_bpfdoor_file_accessed_2
+%con = %lnx_auditd_bpfdoor_file_accessed

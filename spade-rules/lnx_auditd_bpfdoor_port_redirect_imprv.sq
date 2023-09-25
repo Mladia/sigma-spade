@@ -1,0 +1,7 @@
+%exe = "exe" = '/usr/sbin/xtables-nft-multi' and "name" = 'iptables'
+%cmd1 = "command line" like '%-t nat%'
+%cmd2 = "command line" like '%--to-port 42%'
+%cmd3 = "command line" like '%--to-port 43%'
+
+%con = %exe and %cmd1 and (%cmd2 or %cmd3)
+dump $base.getVertex(%con)

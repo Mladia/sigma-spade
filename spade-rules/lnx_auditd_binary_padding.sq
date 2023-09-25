@@ -1,0 +1,5 @@
+%keywords_truncate = "command line" like '%truncate%' and "command line" like '%-s%'
+%keywords_dd =  "command line" like '%dd%' and "command line" like '%if=%'
+%keywords_filter = "command line" like '%of=%'
+%con1 = %keywords_truncate or %keywords_dd
+%con = %con1 and not %keywords_filter

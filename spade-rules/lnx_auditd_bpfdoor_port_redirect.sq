@@ -1,0 +1,7 @@
+%cmd1 = "command line" like '%iptables -t nat'
+%cmd2 = "command line" like '%iptables -t nat %'
+%cmd = %cmd1 or %cmd2
+%keywords_1 = "command line" like '%--to-port 42%'
+%keywords_2 = "command line" like '%--to-port 43%'
+%keywords = %keywords_1 or %keywords_2
+%con = %cmd and %keywords

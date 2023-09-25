@@ -1,0 +1,4 @@
+%lnx_auditd_chattr_immutable_removal_0 = "command line" like '%chattr% %-i%'
+%lnx_auditd_chattr_immutable_removal_1 = "command line" like '%chattr% %-i% %'
+%lnx_auditd_chattr_immutable_removal = %lnx_auditd_chattr_immutable_removal_0 or %lnx_auditd_chattr_immutable_removal_1
+%con = %lnx_auditd_chattr_immutable_removal 

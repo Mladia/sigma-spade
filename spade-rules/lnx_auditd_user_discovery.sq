@@ -1,0 +1,3 @@
+%con = "command line" = 'who'
+%con = %con or "command line" = 'w'
+%con = %con or "command line" = 'users'

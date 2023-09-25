@@ -1,0 +1,10 @@
+%lnx_auditd_change_file_time_attr_0_1_0 = "command line" like '%touch%'
+%lnx_auditd_change_file_time_attr_0_1 = %lnx_auditd_change_file_time_attr_0_1_0
+%lnx_auditd_change_file_time_attr_0 = %lnx_auditd_change_file_time_attr_0_1
+%lnx_auditd_change_file_time_attr_1_0 = "command line" like '%-t%'
+%lnx_auditd_change_file_time_attr_1_1 = "command line" like '%-acmr%'
+%lnx_auditd_change_file_time_attr_1_2 = "command line" like '%-d%'
+%lnx_auditd_change_file_time_attr_1_3 = "command line" like '%-r%'
+%lnx_auditd_change_file_time_attr_1 = %lnx_auditd_change_file_time_attr_1_0 or %lnx_auditd_change_file_time_attr_1_1 or %lnx_auditd_change_file_time_attr_1_2 or %lnx_auditd_change_file_time_attr_1_3
+%lnx_auditd_change_file_time_attr = %lnx_auditd_change_file_time_attr_0 and %lnx_auditd_change_file_time_attr_1
+%con = %lnx_auditd_change_file_time_attr 

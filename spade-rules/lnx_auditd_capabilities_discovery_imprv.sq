@@ -1,0 +1,3 @@
+%exe = "exe" = '/usr/sbin/getcap' and "name" = 'getcap'
+%cmd = "command line" like '%-r /%'
+%con = %exe and %cmd
