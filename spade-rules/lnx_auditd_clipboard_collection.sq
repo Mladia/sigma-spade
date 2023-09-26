@@ -1,0 +1,10 @@
+%lnx_auditd_clipboard_collection_0 = "command line" like 'xclip -selection clipboard -o %'
+%lnx_auditd_clipboard_collection_1 = "command line" like 'xclip -selection clipboard -o'
+%lnx_auditd_clipboard_collection_2 = "command line" like 'xclip -selection clip -o %'
+%lnx_auditd_clipboard_collection_3 = "command line" like 'xclip -selection clip -o'
+%lnx_auditd_clipboard_collection_4 = "command line" like 'xclip -sel clipboard -o %'
+%lnx_auditd_clipboard_collection_5 = "command line" like 'xclip -sel clipboard -o'
+%lnx_auditd_clipboard_collection_6 = "command line" like 'xclip -sel clip -o %'
+%lnx_auditd_clipboard_collection_7 = "command line" like 'xclip -sel clip -o'
+%lnx_auditd_clipboard_collection = %lnx_auditd_clipboard_collection_0 or %lnx_auditd_clipboard_collection_1 or %lnx_auditd_clipboard_collection_2 or %lnx_auditd_clipboard_collection_3 or %lnx_auditd_clipboard_collection_4 or %lnx_auditd_clipboard_collection_5 or %lnx_auditd_clipboard_collection_6 or %lnx_auditd_clipboard_collection_7
+%con = %lnx_auditd_clipboard_collection

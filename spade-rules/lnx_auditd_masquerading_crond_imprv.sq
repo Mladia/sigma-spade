@@ -1,0 +1,3 @@
+%cp = "exe" = '/usr/bin/cp' and "name" = 'cp'
+%cmd2 = "command line" like '%/crond%'
+%con = %cp and %cmd2

@@ -1,0 +1,3 @@
+%grep = "command line" like '%grep%'
+%passwd = "command line" like '%passwd%'
+%con = %grep or %passwd

@@ -1,0 +1,6 @@
+%lnx_auditd_hidden_zip_files_steganography_0 = "command line" like 'cat %.jpg %.zip'
+%lnx_auditd_hidden_zip_files_steganography_1 = "command line" like 'cat %.jpg %.zip %'
+%lnx_auditd_hidden_zip_files_steganography_2 = "command line" like 'cat %.png %.zip'
+%lnx_auditd_hidden_zip_files_steganography_3 = "command line" like 'cat %.png %.zip %'
+%lnx_auditd_hidden_zip_files_steganography = %lnx_auditd_hidden_zip_files_steganography_0 or %lnx_auditd_hidden_zip_files_steganography_1 or %lnx_auditd_hidden_zip_files_steganography_2 or %lnx_auditd_hidden_zip_files_steganography_3
+%con = %lnx_auditd_hidden_zip_files_steganography

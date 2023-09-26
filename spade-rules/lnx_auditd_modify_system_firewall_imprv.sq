@@ -1,0 +1,4 @@
+%iptables = "name" = 'iptables' and "command line" like '%DROP%'
+%ufw = "name" = 'ufw' and "command line" like '%delete%'
+%fw = "name" = 'firewall-cmd' and "command line" like '%remove%'
+%con = %ufw or %fw or %iptables

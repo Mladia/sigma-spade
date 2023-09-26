@@ -1,0 +1,3 @@
+%chmod = "name" = 'chmod' and "exe" = '/usr/bin/chmod'
+%chown = "name" = 'chown' and "exe" = '/usr/bin/chown'
+%con = %chmod or %chown

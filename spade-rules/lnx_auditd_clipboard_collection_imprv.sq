@@ -1,0 +1,8 @@
+%exe = "exe" = '/usr/bin/xclip' and "name" = 'xclip'
+%arg1 = "command line" like '%-selection clipboard%'
+%arg2 = "command line" like '%-sel clipboard%'
+%arg3 = "command line" like '%-selection clipbo%'
+%arg4 = "command line" like '%-sel clip%'
+%arg5 = "command line" like '%-o%'
+%arg = ( %arg1 or %arg2 or %arg3 or %arg4 ) and %arg5
+%con = %exe and %arg

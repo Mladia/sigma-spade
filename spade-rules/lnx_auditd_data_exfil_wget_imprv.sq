@@ -1,0 +1,3 @@
+%exe = "exe" = '/usr/bin/wget' and "name" = 'wget'
+%param = "command line" like '%--post-file=%'
+%con = %exe and %param

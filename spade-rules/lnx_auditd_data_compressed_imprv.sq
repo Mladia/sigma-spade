@@ -1,0 +1,13 @@
+%lnx_auditd_data_compressed_0_0 = "exe" = '/usr/bin/zip' and  "name" = 'zip'
+%lnx_auditd_data_compressed_0 = %lnx_auditd_data_compressed_0_0
+
+%lnx_auditd_data_compressed_1_0 = "exe" = '/usr/bin/gzip' and "name" = 'gzip'
+%lnx_auditd_data_compressed_1_1 = "command line" like '%gzip %-f%'
+%lnx_auditd_data_compressed_1 = %lnx_auditd_data_compressed_1_0 and %lnx_auditd_data_compressed_1_1
+
+%lnx_auditd_data_compressed_2_0 = "exe" = '/usr/bin/tar' and "name" = 'tar'
+%lnx_auditd_data_compressed_2_1 = "command line" like '%tar %-%c%'
+%lnx_auditd_data_compressed_2 = %lnx_auditd_data_compressed_2_0 and %lnx_auditd_data_compressed_2_1
+
+%lnx_auditd_data_compressed = %lnx_auditd_data_compressed_0 or %lnx_auditd_data_compressed_1 or %lnx_auditd_data_compressed_2
+%con = %lnx_auditd_data_compressed

@@ -1,0 +1,6 @@
+%exe = "exe" = '/usr/bin/cat' and "name" = 'cat'
+%cmd1_0 = "command line" like '%.jpg%'
+%cmd1_1 = "command line" like '%.png%'
+%cmd1 = %cmd1_0 or %cmd1_1
+%cmd2 = "command line" like '%.zip%'
+%con = %exe and %cmd1 and %cmd2

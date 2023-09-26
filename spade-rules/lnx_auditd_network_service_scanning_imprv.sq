@@ -1,0 +1,5 @@
+%telnet = "name" = 'telnet' and "exe" = '/usr/bin/nmap'
+%nmap =  "name" = 'nmap' and "exe" = '/usr/bin/nmap'
+%netcat =  "name" = 'netcat' and "exe" = '/usr/bin/nc.openbsd'
+%nc = "name" = 'nc' and "exe" = '/usr/bin/nc.openbsd'
+%con = %telnet or %nmap or %netcat or %nc

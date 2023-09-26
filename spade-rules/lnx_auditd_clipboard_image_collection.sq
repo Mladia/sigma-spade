@@ -1,0 +1,10 @@
+%lnx_auditd_clipboard_image_collection_0 = "command line" like 'xclip -selection clipboard -t image/% -o'
+%lnx_auditd_clipboard_image_collection_1 = "command line" like 'xclip -selection clipboard -t image/% -o %'
+%lnx_auditd_clipboard_image_collection_2 = "command line" like 'xclip -selection clip -t image/% -o'
+%lnx_auditd_clipboard_image_collection_3 = "command line" like 'xclip -selection clip -t image/% -o %'
+%lnx_auditd_clipboard_image_collection_4 = "command line" like 'xclip -sel clipboard -t image/% -o'
+%lnx_auditd_clipboard_image_collection_5 = "command line" like 'xclip -sel clipboard -t image/% -o %'
+%lnx_auditd_clipboard_image_collection_6 = "command line" like 'xclip -sel clip -t image/% -o'
+%lnx_auditd_clipboard_image_collection_7 = "command line" like 'xclip -sel clip -t image/% -o %'
+%lnx_auditd_clipboard_image_collection = %lnx_auditd_clipboard_image_collection_1 or %lnx_auditd_clipboard_image_collection_1 or %lnx_auditd_clipboard_image_collection_2 or %lnx_auditd_clipboard_image_collection_3 or %lnx_auditd_clipboard_image_collection_4 or %lnx_auditd_clipboard_image_collection_5 or %lnx_auditd_clipboard_image_collection_6 or %lnx_auditd_clipboard_image_collection_7
+%con = %lnx_auditd_clipboard_image_collection

@@ -1,0 +1,10 @@
+%lnx_auditd_hidden_binary_execution_0_0 = "path" like '%`/.`%'
+#%lnx_auditd_hidden_binary_execution_0_0 = "path" = '/etc/sdad'
+%lnx_auditd_hidden_binary_execution_0 = %lnx_auditd_hidden_binary_execution_0_0
+%lnx_auditd_hidden_binary_execution_1_0 = "path" like '%/.cache/%'
+%lnx_auditd_hidden_binary_execution_1_1 = "path" like '%/.config/%'
+%lnx_auditd_hidden_binary_execution_1_2 = "path" like '%/.pyenv/%'
+%lnx_auditd_hidden_binary_execution_1_3 = "path" like '%/.rustup/toolchains%'
+%lnx_auditd_hidden_binary_execution_1 = %lnx_auditd_hidden_binary_execution_1_0 or %lnx_auditd_hidden_binary_execution_1_1 or %lnx_auditd_hidden_binary_execution_1_2 or %lnx_auditd_hidden_binary_execution_1_3
+%lnx_auditd_hidden_binary_execution = %lnx_auditd_hidden_binary_execution_0 and not %lnx_auditd_hidden_binary_execution_1
+%con = %lnx_auditd_hidden_binary_execution

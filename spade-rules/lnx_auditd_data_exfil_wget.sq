@@ -1,0 +1,2 @@
+%lnx_auditd_data_exfil_wget_0 = "command line" like 'wget --post-file=%'
+%con = %lnx_auditd_data_exfil_wget_0

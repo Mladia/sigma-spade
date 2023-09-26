@@ -1,0 +1,7 @@
+%lnx_auditd_modify_system_firewall_0_0 = "command line" like 'iptables %DROP%'
+%lnx_auditd_modify_system_firewall_0 = %lnx_auditd_modify_system_firewall_0_0
+%lnx_auditd_modify_system_firewall_1_0 = "command line" like 'firewall-cmd %remove%'
+%lnx_auditd_modify_system_firewall_1 = %lnx_auditd_modify_system_firewall_1_0
+%lnx_auditd_modify_system_firewall_2_0 = "command line" like 'ufw %delete%'
+%lnx_auditd_modify_system_firewall_2 = %lnx_auditd_modify_system_firewall_2_0
+%con = %lnx_auditd_modify_system_firewall_0 or %lnx_auditd_modify_system_firewall_1 or %lnx_auditd_modify_system_firewall_2

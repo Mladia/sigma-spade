@@ -1,0 +1,3 @@
+%con1 = "path" = '/etc/pam.d/system-auth'
+%con2 = "path" = '/etc/pam.d/password-auth'
+%con = %con1 or %con2

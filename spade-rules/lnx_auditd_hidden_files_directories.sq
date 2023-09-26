@@ -1,0 +1,11 @@
+%mkdir = "command line" = 'mkdir %/.%' or "command line" = 'mkdir %.%'
+
+%touch = "command line" = 'touch %/.%' or "command line" = 'touch %.%'
+
+%vim = "command line" = 'vim %/.%' or "command line" = 'vim %.%'
+
+%nano = "command line" = 'nano %/.%' or "command line" = 'nano %.%'
+
+%vi = "command line" = 'vi %/.%' or "command line" = 'vi %.%'
+
+%con = %mkdir or %touch  or %vim or %nano or %vi

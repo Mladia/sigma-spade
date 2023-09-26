@@ -1,0 +1,6 @@
+%lnx_auditd_load_module_insmod_0_0 = "name" = 'insmod'
+%lnx_auditd_load_module_insmod_0 = %lnx_auditd_load_module_insmod_0_0
+%lnx_auditd_load_module_insmod_1_0 = "exe" = '/usr/bin/kmod'
+%lnx_auditd_load_module_insmod_1 = %lnx_auditd_load_module_insmod_1_0
+%lnx_auditd_load_module_insmod = %lnx_auditd_load_module_insmod_0 and %lnx_auditd_load_module_insmod_1
+%con = %lnx_auditd_load_module_insmod
