@@ -1,0 +1,4 @@
+%tshark = "name" = 'tshark' and "exe" = '/usr/bin/tshark'
+%tcpdump = "name" = 'tcpdump' and "exe" = '/usr/bin/tcpdump'
+%cmd = "command line" like '% -c %' and "command line" like '% -i %'
+%con = (%tshark and %cmd) or (%tcpdump and %cmd)

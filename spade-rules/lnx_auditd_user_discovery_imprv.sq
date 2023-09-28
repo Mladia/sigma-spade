@@ -1,0 +1,4 @@
+%who = "exe" = '/usr/bin/who' and "name" = 'who'
+%w = "exe" = '/usr/bin/w' and "name" = 'w'
+%users = "exe" = '/usr/bin/users' and "name" = 'users'
+%con = %who or %w or %users

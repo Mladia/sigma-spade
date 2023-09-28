@@ -42,7 +42,8 @@ COPY run.sh /
 
 
 
-#WORKDIR /SPADE
+WORKDIR /SPADE
+RUN chown user:user /SPADE
 USER user
 
 

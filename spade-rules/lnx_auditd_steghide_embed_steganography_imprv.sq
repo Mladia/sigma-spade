@@ -1,0 +1,3 @@
+%steghide = "exe" = '/usr/bin/steghide' and "name" = 'steghide'
+%cmd = "command line" like '% embed %' or "command line" like '% -cf %' or "command line" like '% -ef %'
+%con = %steghide and %cmd

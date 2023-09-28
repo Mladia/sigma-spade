@@ -1,0 +1,14 @@
+%lnx_auditd_susp_cmds_0_0 = "command line" like 'chmod 777'
+%lnx_auditd_susp_cmds_0_1 = "command line" like 'chmod 777 %'
+%lnx_auditd_susp_cmds_0 = %lnx_auditd_susp_cmds_0_0 or %lnx_auditd_susp_cmds_0_1
+%lnx_auditd_susp_cmds_1_0 = "command line" like 'chmod u+s'
+%lnx_auditd_susp_cmds_1_1 = "command line" like 'chmod u+s %'
+%lnx_auditd_susp_cmds_1 = %lnx_auditd_susp_cmds_1_0 or %lnx_auditd_susp_cmds_1_1
+%lnx_auditd_susp_cmds_2_0 = "command line" like 'cp /bin/ksh'
+%lnx_auditd_susp_cmds_2_1 = "command line" like 'cp /bin/ksh %'
+%lnx_auditd_susp_cmds_2 = %lnx_auditd_susp_cmds_2_0 or %lnx_auditd_susp_cmds_2_1
+%lnx_auditd_susp_cmds_3_0 = "command line" like 'cp /bin/sh'
+%lnx_auditd_susp_cmds_3_1 = "command line" like 'cp /bin/sh %'
+%lnx_auditd_susp_cmds_3 = %lnx_auditd_susp_cmds_3_0 or %lnx_auditd_susp_cmds_3_1
+%lnx_auditd_susp_cmds = %lnx_auditd_susp_cmds_0 or %lnx_auditd_susp_cmds_1 or %lnx_auditd_susp_cmds_2 or %lnx_auditd_susp_cmds_3
+%con = %lnx_auditd_susp_cmds

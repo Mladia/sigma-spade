@@ -1,0 +1,8 @@
+%lnx_auditd_omigod_scx_runasprovider_executeshellcommand_0_0 = "uid" = '0'
+%lnx_auditd_omigod_scx_runasprovider_executeshellcommand_0 = %lnx_auditd_omigod_scx_runasprovider_executeshellcommand_0_0
+%lnx_auditd_omigod_scx_runasprovider_executeshellcommand_1_0 = "cwd" = '/var/opt/microsoft/scx/tmp'
+%lnx_auditd_omigod_scx_runasprovider_executeshellcommand_1 = %lnx_auditd_omigod_scx_runasprovider_executeshellcommand_1_0
+%lnx_auditd_omigod_scx_runasprovider_executeshellcommand_2_0 = "name" = 'sh'
+%lnx_auditd_omigod_scx_runasprovider_executeshellcommand_2 = %lnx_auditd_omigod_scx_runasprovider_executeshellcommand_2_0
+%lnx_auditd_omigod_scx_runasprovider_executeshellcommand = %lnx_auditd_omigod_scx_runasprovider_executeshellcommand_0 and %lnx_auditd_omigod_scx_runasprovider_executeshellcommand_1 and %lnx_auditd_omigod_scx_runasprovider_executeshellcommand_2
+%con = %lnx_auditd_omigod_scx_runasprovider_executeshellcommand

@@ -1,0 +1,8 @@
+%history_0 = "command line" like '%.bash_history%'
+%history_1 = "command line" like '%.zsh_history%'
+%history_2 = "command line" like '%.zhistory%'
+%history_3 = "command line" like '%.history%'
+%history_4 = "command line" like '%.sh_history%'
+%history_5 = "command line" like '%fish_history%'
+%con = %history_0 or %history_1 or %history_2  or %history_3  or %history_4 or %history_5
+dump $base.getVertex(%con)

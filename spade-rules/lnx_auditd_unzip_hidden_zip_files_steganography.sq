@@ -1,0 +1,3 @@
+%con1 = "command line" like 'unzip %.jpg'
+%con2 = "command line" like 'unzip %.png'
+%con = %con1 or %con2

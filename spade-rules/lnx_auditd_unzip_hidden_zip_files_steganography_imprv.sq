@@ -1,0 +1,4 @@
+%unzip = "exe" = '/usr/bin/unzip' and "name" = 'unzip'
+%con1 = "command line" like '%.jpg%'
+%con2 = "command line" like '%.png%'
+%con = %unzip and (%con1 or %con2)

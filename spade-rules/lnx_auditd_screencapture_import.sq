@@ -1,0 +1,12 @@
+%cmd0_0 = "command line" like 'import -window root %.png'
+%cmd0_1 = "command line" like 'import -window root %.jpg'
+%cmd0_2 = "command line" like 'import -window root %.jpeg'
+%cmd0 = %cmd0_0 or %cmd0_1 or %cmd0_2
+
+
+%cmd1_0 = "command line" like 'import %.png'
+%cmd1_1 = "command line" like 'import %.jpg'
+%cmd1_2 = "command line" like 'import %.jpeg'
+%cmd1 = %cmd1_0 or %cmd1_1 or %cmd1_2
+
+%con = %cmd0 or %cmd1

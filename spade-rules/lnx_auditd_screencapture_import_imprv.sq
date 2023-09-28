@@ -1,0 +1,6 @@
+%import_exe = "exe" = '/usr/bin/import-im6.q16' and "name" = 'import'
+%jpg = "command line" like '%png%'
+%jpeg = "command line" like '%jpeg%'
+%png = "command line" like '%png%'
+%window = "command line" like '%-window root%'
+%con = (%import_exe and (%jpeg or %jpg or %png)) or (%import_exe and (%jpeg or %jpg or %png) and %window)

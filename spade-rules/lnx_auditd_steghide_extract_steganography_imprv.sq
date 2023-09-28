@@ -1,0 +1,6 @@
+%steghide = "exe" = '/usr/bin/steghide' and "name" = 'steghide'
+%cmd1 = "command line" like '% extract %' 
+%cmd2 = "command line" like '% -sf %' 
+%cmd3 =  "command line" like '% .jpg%' or "command line" like '% .png%'
+%cmd = %cmd1 or %cmd2 or %cmd3
+%con = %steghide and %cmd

@@ -1,0 +1,9 @@
+%chmod_exe = "exe" = '/usr/bin/chmod' and "name" = 'chmod'
+%cmd_chmod1 = "command line" like '% 777 %'
+%cmd_chmod2 = "command line" like '% u+s %'
+%chmod = %chmod_exe and ( %cmd_chmod1  or %cmd_chmod2)
+%cp_exe = "exe" = '/usr/bin/cp' and "name" = 'cp'
+%cp_cmd1 = "command line" like '%/bin/ksh%'
+%cp_cmd2 = "command line" like '%/bin/sh%'
+%cp = %cp_exe and (%cp_cmd1 or %cp_cmd2)
+%con = %chmod or %cp

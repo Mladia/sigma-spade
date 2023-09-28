@@ -12,7 +12,7 @@ services:
     #TODO: to clairfy; need to match these in args
     volumes:
       #location of spade
-      - /home/nmlad/.sigma-spade/SPADE:/SPADE
+      # - /home/nmlad/.sigma-spade/SPADE:/SPADE
       #$log_location
       - /home/nmlad/.sigma-spade/cache/logs:/logs/:r
       #$export_location

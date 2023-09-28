@@ -1,0 +1,3 @@
+%xwd_root_window = "command line" like 'xwd -root -out %.xwd'
+%xwd_no_root_window = "command line" like 'xwd -out %.xwd'
+%con = %xwd_root_window or %xwd_no_root_window

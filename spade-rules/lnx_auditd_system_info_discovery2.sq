@@ -1,0 +1,10 @@
+%lnx_auditd_system_info_discovery2_0 = "path" = '/sys/class/dmi/id/bios_version'
+%lnx_auditd_system_info_discovery2_1 = "path" = '/sys/class/dmi/id/product_name'
+%lnx_auditd_system_info_discovery2_2 = "path" = '/sys/class/dmi/id/chassis_vendor'
+%lnx_auditd_system_info_discovery2_3 = "path" = '/proc/scsi/scsi'
+%lnx_auditd_system_info_discovery2_4 = "path" = '/proc/ide/hd0/model'
+%lnx_auditd_system_info_discovery2_5 = "path" = '/proc/version'
+%lnx_auditd_system_info_discovery2_6 = "path" like '/etc/%version'
+%lnx_auditd_system_info_discovery2_7 = "path" like '/etc/%release'
+%lnx_auditd_system_info_discovery2_8 = "path" = '/etc/issue'
+%con = %lnx_auditd_system_info_discovery2_0 or %lnx_auditd_system_info_discovery2_1 or %lnx_auditd_system_info_discovery2_2 or %lnx_auditd_system_info_discovery2_3 or %lnx_auditd_system_info_discovery2_4 or %lnx_auditd_system_info_discovery2_5 or %lnx_auditd_system_info_discovery2_6 or %lnx_auditd_system_info_discovery2_7 or %lnx_auditd_system_info_discovery2_8

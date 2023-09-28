@@ -1,0 +1,6 @@
+%lnx_auditd_steghide_extract_steganography_0 = "command line" like 'steghide extract -sf %.jpg %'
+%lnx_auditd_steghide_extract_steganography_1 = "command line" like 'steghide extract -sf %.jpg'
+%lnx_auditd_steghide_extract_steganography_2 = "command line" like 'steghide extract -sf %.png %'
+%lnx_auditd_steghide_extract_steganography_3 = "command line" like 'steghide extract -sf %.png'
+%lnx_auditd_steghide_extract_steganography = %lnx_auditd_steghide_extract_steganography_0 or %lnx_auditd_steghide_extract_steganography_1 or %lnx_auditd_steghide_extract_steganography_2 or %lnx_auditd_steghide_extract_steganography_3
+%con = %lnx_auditd_steghide_extract_steganography

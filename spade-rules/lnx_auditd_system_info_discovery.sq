@@ -1,0 +1,24 @@
+%lnx_auditd_system_info_discovery_0_0 = "path" = '/etc/lsb-release'
+%lnx_auditd_system_info_discovery_0_1 = "path" = '/etc/redhat-release'
+%lnx_auditd_system_info_discovery_0_2 = "path" = '/etc/issue'
+%lnx_auditd_system_info_discovery_0 = %lnx_auditd_system_info_discovery_0_0 or %lnx_auditd_system_info_discovery_0_1 or %lnx_auditd_system_info_discovery_0_2
+%lnx_auditd_system_info_discovery_1_0 = "command line" = 'uname'
+%lnx_auditd_system_info_discovery_1_1 = "command line" like 'uname %'
+%lnx_auditd_system_info_discovery_1_2 = "command line" = 'uptime'
+%lnx_auditd_system_info_discovery_1_3 = "command line" like 'uptime %'
+%lnx_auditd_system_info_discovery_1_4 = "command line" = 'lsmod'
+%lnx_auditd_system_info_discovery_1_5 = "command line" like 'lsmod %'
+%lnx_auditd_system_info_discovery_1_6 = "command line" = 'hostname'
+%lnx_auditd_system_info_discovery_1_7 = "command line" like 'hostname %'
+%lnx_auditd_system_info_discovery_1_8 = "command line" = 'env'
+%lnx_auditd_system_info_discovery_1_9 = "command line" like 'env %'
+%lnx_auditd_system_info_discovery_1 = %lnx_auditd_system_info_discovery_1_0 or %lnx_auditd_system_info_discovery_1_1 or %lnx_auditd_system_info_discovery_1_2 or %lnx_auditd_system_info_discovery_1_3 or %lnx_auditd_system_info_discovery_1_4 or %lnx_auditd_system_info_discovery_1_5 or %lnx_auditd_system_info_discovery_1_6 or %lnx_auditd_system_info_discovery_1_7 or %lnx_auditd_system_info_discovery_1_8 or %lnx_auditd_system_info_discovery_1_9
+%lnx_auditd_system_info_discovery_2_0 = "command line" like 'grep %vbox%'
+%lnx_auditd_system_info_discovery_2_1 = "command line" like 'grep %vm%'
+%lnx_auditd_system_info_discovery_2_2 = "command line" like 'grep %xen%'
+%lnx_auditd_system_info_discovery_2_3 = "command line" like 'grep %virtio%'
+%lnx_auditd_system_info_discovery_2_4 = "command line" like 'grep %hv%'
+%lnx_auditd_system_info_discovery_2 = %lnx_auditd_system_info_discovery_2_0 or %lnx_auditd_system_info_discovery_2_1 or %lnx_auditd_system_info_discovery_2_2 or %lnx_auditd_system_info_discovery_2_3 or %lnx_auditd_system_info_discovery_2_4
+%lnx_auditd_system_info_discovery_3_0 = "command line" like 'kmod list%'
+%lnx_auditd_system_info_discovery_3 = %lnx_auditd_system_info_discovery_3_0
+%con = %lnx_auditd_system_info_discovery_0 or %lnx_auditd_system_info_discovery_1 or %lnx_auditd_system_info_discovery_2 or %lnx_auditd_system_info_discovery_3

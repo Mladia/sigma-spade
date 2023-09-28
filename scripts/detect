@@ -47,7 +47,61 @@ control() {
 
 
 
+
 query() {
+
+    echo "" > "$COMMANDS_LOC"_query
+
+    echo '$res = $base.getVertex(" " == '\'' '\'')' | docker exec -i spade_new spade query>/dev/null 2>&1
+
+    # for sq in spade-rules/lnx_auditd_audio_capture.sq
+    for sq in ../spade-rules/*.sq
+    do
+        sq=../spade-rules/lnx_auditd_system_info_discovery_imprv.sq
+
+        # sq=../spade-rules/lnx_auditd_audio_capture_imprv.sq
+        echo ---$sq:
+        # sed -r '/^\s*$/d' "$sq"
+        # sed -r '/^\s*$/d' "$sq" > "$COMMANDS_LOC"_query
+        sed  -e '/^\s*$/d' -e '/^#/d' "$sq" > "$COMMANDS_LOC"_query
+        # sed -r  -e '/^\s*$/d' -e '/^#/d' "$sq" > "$COMMANDS_LOC"_query
+        # sed -r -e '/^\s*$/d' -e '/^#/d' "$sq" > "$COMMANDS_LOC"_query
+
+
+        printf "\n\$res += \$base.getVertex(%%con)" >> "$COMMANDS_LOC"_query
+
+        # cat "$COMMANDS_LOC"_query
+
+        cat "$COMMANDS_LOC"_query | docker exec -i sigma-spade spade query >/dev/null 2>&1 
+        ####OR DEBUG:
+        # cat "$COMMANDS_LOC"_query | docker exec -i sigma-spade spade query 
+
+
+        # exit
+        # return
+        # sed -r '/^\s*$/d' "$COMMANDS_LOC"_query | docker exec -i spade_new spade query >/dev/null 2>&1 
+        # sed -r '/^\s*$/d' "$COMMANDS_LOC"_query | docker exec -i sigma-spade spade query 
+
+
+
+        cat "$COMMANDS_LOC"_query
+        echo 'dump $base.getVertex(%con)' | docker exec -i sigma-spade spade query  > "$cache_directory"/spade_log 2>&1
+        print_result_detection_rule "$cache_directory"/spade_log 
+        #####OR DEBUG:
+        # echo 'dump $base.getVertex(%con)' | docker exec -i sigma-spade spade query  
+
+        echo ++++++++++++++++++++++++++
+        echo
+
+        #%TODO:
+        exit
+
+    done
+
+    echo 'dump $res' |  docker exec -i sigma-spade spade query 
+}
+
+o_query() {
 
     echo "" > "$COMMANDS_LOC"_query
 
@@ -107,6 +161,30 @@ query() {
 }
 
 
+print_result_detection_rule() {
+
+        while IFS= read -r line1
+        do
+            # If we find an empty line with '[', set the flag to 1
+            if [[ "$line1" == "[" ]]
+            then
+                flag=1
+            elif [[ "$line1" == "]" ]]
+            then
+                cat /tmp/spade--
+                echo "" > /tmp/spade--
+                flag=0
+                break
+            fi
+
+            # If the flag is set to 1, print the line to the temporary file
+            if [[ "$flag" -eq 1 ]]
+            then
+                echo "$line1" >> /tmp/spade--
+            fi
+        done < "$1"
+
+}
 
 
 graph() {

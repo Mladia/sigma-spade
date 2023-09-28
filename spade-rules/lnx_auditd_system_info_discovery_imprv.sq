@@ -1,0 +1,24 @@
+
+%lnx_auditd_system_info_discovery_0_0 = "path" = '/etc/lsb-release'
+%lnx_auditd_system_info_discovery_0_1 = "path" = '/etc/redhat-release'
+%lnx_auditd_system_info_discovery_0_2 = "path" = '/etc/issue'
+%lnx_auditd_system_info_discovery_0 = %lnx_auditd_system_info_discovery_0_0 or %lnx_auditd_system_info_discovery_0_1 or %lnx_auditd_system_info_discovery_0_2
+
+%uname = "exe" = '/usr/bin/uname' and "name" = 'uname'
+%uptime = "exe" = '/usr/bin/uptime' and "name" = 'uptime'
+%lsmod = "exe" = '/usr/sbin/lsmod' and "name" = 'lsmod'
+%hostname = "exe" = '/usr/bin/hostname' and "name" = 'hostname'
+%env = "exe" = '/usr/bin/env' and "name" = 'env'
+%kmod = "exe" = '/usr/bin/kmod' and "name" = 'kmod' and "command line" like '% list%'
+%exes = %uname or %uptime or %lsmod or %hostname or %env or %kmod
+
+
+%lnx_auditd_system_info_discovery_2_0 = "command line" like 'grep %vbox%'
+%lnx_auditd_system_info_discovery_2_1 = "command line" like 'grep %vm%'
+%lnx_auditd_system_info_discovery_2_2 = "command line" like 'grep %xen%'
+%lnx_auditd_system_info_discovery_2_3 = "command line" like 'grep %virtio%'
+%lnx_auditd_system_info_discovery_2_4 = "command line" like 'grep %hv%'
+%lnx_auditd_system_info_discovery_2 = %lnx_auditd_system_info_discovery_2_0 or %lnx_auditd_system_info_discovery_2_1 or %lnx_auditd_system_info_discovery_2_2 or %lnx_auditd_system_info_discovery_2_3 or %lnx_auditd_system_info_discovery_2_4
+
+
+%con = %lnx_auditd_system_info_discovery_0 or %exes or %lnx_auditd_system_info_discovery_2

@@ -1,0 +1,10 @@
+%lnx_auditd_steghide_embed_steganography_0 = "command line" like 'steghide embed -cf % -cf'
+%lnx_auditd_steghide_embed_steganography_1 = "command line" like 'steghide embed -cf % -cf %'
+%lnx_auditd_steghide_embed_steganography_2 = "command line" like 'steghide embed -cf % -ef'
+%lnx_auditd_steghide_embed_steganography_3 = "command line" like 'steghide embed -cf % -ef %'
+%lnx_auditd_steghide_embed_steganography_4 = "command line" like 'steghide embed -ef % -cf'
+%lnx_auditd_steghide_embed_steganography_5 = "command line" like 'steghide embed -ef % -cf %'
+%lnx_auditd_steghide_embed_steganography_6 = "command line" like 'steghide embed -ef % -ef'
+%lnx_auditd_steghide_embed_steganography_7 = "command line" like 'steghide embed -ef % -ef %'
+%lnx_auditd_steghide_embed_steganography = %lnx_auditd_steghide_embed_steganography_0 or %lnx_auditd_steghide_embed_steganography_1 or %lnx_auditd_steghide_embed_steganography_2 or %lnx_auditd_steghide_embed_steganography_3 or %lnx_auditd_steghide_embed_steganography_4 or %lnx_auditd_steghide_embed_steganography_5 or %lnx_auditd_steghide_embed_steganography_6 or %lnx_auditd_steghide_embed_steganography_7
+%con = %lnx_auditd_steghide_embed_steganography

@@ -1,0 +1,4 @@
+%xwd = "exe" = '/usr/bin/xwd' and "name" = 'xwd'
+%cmd1 = "command line" like '%-root%'
+%cmd2 = "command line" like '%-out %.xwd'
+%con = (%xwd and %cmd1) or (%xwd and %cmd2) 

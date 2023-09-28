@@ -1,0 +1,4 @@
+%con1 = "path" like '/usr/lib/systemd/system/%'
+%con2 = "path" like '/etc/systemd/system/%'
+%con3 = "path" like '%/.config/systemd/user/%'
+%con = %con1 or %con2 or %con3

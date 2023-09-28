@@ -43,14 +43,25 @@ init(){
     fi
 
 
-    if ! docker ps | grep -q spade  
+    if ! docker ps | grep -q sigma-spade  
     then
         echo [*] Starting the docker container...
-        cd ./docker/
-        docker-compose build
-        docker-compose up -d
+        cd ../docker/ && docker-compose build
+        # ( cd ../docker/ && docker-compose up  ) 
+        cd ../docker/ && docker-compose up -d
     fi
+}
+
+countdown() {
+    seconds=$1
+    start="$(($(date +%s) + $seconds))"
+    while [ "$start" -ge $(date +%s) ]; do
+        time="$(( $start - $(date +%s) ))"
+        printf '%s\r' "$(date -u -d "@$time" +%H:%M:%S)"
+    done
 }
 
 
 init 
+
+
