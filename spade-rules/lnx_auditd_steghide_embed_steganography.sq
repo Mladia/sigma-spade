@@ -1,3 +1,4 @@
+#mode=3
 %lnx_auditd_steghide_embed_steganography_0 = "command line" like 'steghide embed -cf % -cf'
 %lnx_auditd_steghide_embed_steganography_1 = "command line" like 'steghide embed -cf % -cf %'
 %lnx_auditd_steghide_embed_steganography_2 = "command line" like 'steghide embed -cf % -ef'

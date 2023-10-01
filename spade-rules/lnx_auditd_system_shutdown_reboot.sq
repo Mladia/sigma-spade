@@ -1,11 +1,13 @@
-
+#mode=4
 %shutdowncmd1 = "command line" like '%shutdown%'
 %shutdowncmd2 = "command line" like '%reboot%'
 %shutdowncmd3 = "command line" like '%halt%'
 %shutdowncmd4 = "command line" like '%poweroff%'
-%shutdowncmd = %shutdowncmd1 or %shutdown2 or %shutdown3 or %shutdown4
+%shutdowncmd = %shutdowncmd1 or %shutdowncmd2 or %shutdowncmd3 or %shutdowncmd4
 
 %init = "command line" like '%init%' or "command line" like '%telinit'
 %initselection = "command line" like '%0%' or "command line" like '%6%' 
 
-%con = %shutdowncmd or (%init or %initselection)
+%con = %shutdowncmd or (%init and %initselection)
+#TODO:
+#%con = "" = ''

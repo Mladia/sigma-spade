@@ -1,3 +1,4 @@
+#mode=3
 %lnx_auditd_hidden_zip_files_steganography_0 = "command line" like 'cat %.jpg %.zip'
 %lnx_auditd_hidden_zip_files_steganography_1 = "command line" like 'cat %.jpg %.zip %'
 %lnx_auditd_hidden_zip_files_steganography_2 = "command line" like 'cat %.png %.zip'

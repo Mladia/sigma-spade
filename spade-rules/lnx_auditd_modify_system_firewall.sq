@@ -1,3 +1,4 @@
+#mode=3
 %lnx_auditd_modify_system_firewall_0_0 = "command line" like 'iptables %DROP%'
 %lnx_auditd_modify_system_firewall_0 = %lnx_auditd_modify_system_firewall_0_0
 %lnx_auditd_modify_system_firewall_1_0 = "command line" like 'firewall-cmd %remove%'

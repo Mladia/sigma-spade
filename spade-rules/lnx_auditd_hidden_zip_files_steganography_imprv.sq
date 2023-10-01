@@ -1,3 +1,4 @@
+#mode=1
 %exe = "exe" = '/usr/bin/cat' and "name" = 'cat'
 %cmd1_0 = "command line" like '%.jpg%'
 %cmd1_1 = "command line" like '%.png%'

@@ -1,1 +1,2 @@
+#mode=3
 %con = "command line" like 'cp -i /bin/sh %/crond'

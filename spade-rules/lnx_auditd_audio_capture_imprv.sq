@@ -1,3 +1,6 @@
-#%lnx_auditd_audio_capture= "exe" = '/usr/bin/aplay' and "name" = 'arecord'
-%lnx_auditd_audio_capture= "exe" = '/usr/bin/aplay' and "command line" like '%arecord%'
-%con = %lnx_auditd_audio_capture
+#mode=1
+%lnx_auditd_audio_capture= "exe" = '/usr/bin/aplay' and "name" = 'arecord'
+#%lnx_auditd_audio_capture= "exe" = '/usr/bin/aplay' and "command line" like '%arecord%'
+%cmd1 = "command line" like '%-vv%'
+%cmd2 = "command line" like '%-fdat%'
+%con = %lnx_auditd_audio_capture and (%cmd1 or %cmd2)

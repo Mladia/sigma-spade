@@ -1,3 +1,4 @@
+#mode=4
 %lnx_auditd_dd_delete_file_0 = "command line" like '%dd% %if=/dev/null%'
 %lnx_auditd_dd_delete_file_1 = "command line" like '%dd% %if=/dev/null% %'
 %lnx_auditd_dd_delete_file_2 = "command line" like '%dd% %if=/dev/zero%'

@@ -1,3 +1,4 @@
+#mode=1
 %chmod_exe = "exe" = '/usr/bin/chmod' and "name" = 'chmod'
 %cmd_chmod1 = "command line" like '% 777 %'
 %cmd_chmod2 = "command line" like '% u+s %'

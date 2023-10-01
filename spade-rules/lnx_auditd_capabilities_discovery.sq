@@ -1,3 +1,4 @@
+#mode=3
 %lnx_auditd_capabilities_discovery_0 = "command line" like 'getcap -r /'
 %lnx_auditd_capabilities_discovery_1 = "command line" like 'getcap -r / %'
 %lnx_auditd_capabilities_discovery = %lnx_auditd_capabilities_discovery_0 or %lnx_auditd_capabilities_discovery_1

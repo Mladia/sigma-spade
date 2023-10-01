@@ -1,3 +1,4 @@
+#mode=4
 %lnx_auditd_coinminer = "command line" like '% --cpu-priority%'
 #%lnx_auditd_coinminer = "command line" like '%xmrig%'
 %con = %lnx_auditd_coinminer

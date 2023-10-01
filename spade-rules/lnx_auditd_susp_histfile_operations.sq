@@ -1,3 +1,4 @@
+#mode=4
 %history_0 = "command line" like '%.bash_history%'
 %history_1 = "command line" like '%.zsh_history%'
 %history_2 = "command line" like '%.zhistory%'

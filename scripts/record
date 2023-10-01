@@ -53,7 +53,7 @@ pull_log () {
 
 main  () {
     start_auditd
-    read -n 1 -p Continue?;
+    read -n 1 -p "Session started. Press a key to stop the session.";
     pull_log
 }
 

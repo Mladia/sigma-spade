@@ -1,3 +1,4 @@
+#mode=1
 %exe = "exe" = '/usr/bin/xclip' and "name" = 'xclip'
 %arg1 = "command line" like '%-selection clipboard%'
 %arg2 = "command line" like '%-sel clipboard%'

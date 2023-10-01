@@ -1,3 +1,4 @@
+#mode=4
 %lnx_auditd_unix_shell_configuration_modification_0 = "path" = '/etc/shells'
 %lnx_auditd_unix_shell_configuration_modification_1 = "path" = '/etc/profile'
 %lnx_auditd_unix_shell_configuration_modification_2 = "path" like '/etc/profile.d/%'

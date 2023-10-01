@@ -1,3 +1,4 @@
+#mode=1
 %lnx_auditd_data_compressed_0_0 = "exe" = '/usr/bin/zip' and  "name" = 'zip'
 %lnx_auditd_data_compressed_0 = %lnx_auditd_data_compressed_0_0
 

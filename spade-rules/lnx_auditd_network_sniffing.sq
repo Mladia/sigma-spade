@@ -1,3 +1,4 @@
+#mode=3
 %lnx_auditd_network_sniffing_0_0 = "command line" like 'tcpdump -c % %-i% %'
 %lnx_auditd_network_sniffing_0_1 = "command line" like 'tcpdump -c % %-i%'
 %lnx_auditd_network_sniffing_0 = %lnx_auditd_network_sniffing_0_0 or %lnx_auditd_network_sniffing_0_1

@@ -1,3 +1,4 @@
+#mode=3
 %cmd0_0 = "command line" like 'import -window root %.png'
 %cmd0_1 = "command line" like 'import -window root %.jpg'
 %cmd0_2 = "command line" like 'import -window root %.jpeg'

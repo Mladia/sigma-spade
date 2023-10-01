@@ -1,3 +1,4 @@
+#mode=4
 %lnx_auditd_change_file_time_attr_0_1_0 = "command line" like '%touch%'
 %lnx_auditd_change_file_time_attr_0_1 = %lnx_auditd_change_file_time_attr_0_1_0
 %lnx_auditd_change_file_time_attr_0 = %lnx_auditd_change_file_time_attr_0_1

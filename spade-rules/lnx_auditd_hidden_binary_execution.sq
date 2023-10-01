@@ -1,4 +1,5 @@
-%lnx_auditd_hidden_binary_execution_0_0 = "path" like '%`/.`%'
+#mode=4
+#%lnx_auditd_hidden_binary_execution_0_0 = "path" like '%/.%'
 #%lnx_auditd_hidden_binary_execution_0_0 = "path" = '/etc/sdad'
 %lnx_auditd_hidden_binary_execution_0 = %lnx_auditd_hidden_binary_execution_0_0
 %lnx_auditd_hidden_binary_execution_1_0 = "path" like '%/.cache/%'

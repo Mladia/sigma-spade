@@ -1,3 +1,4 @@
+#mode=4
 %lnx_auditd_susp_exe_folders_0_0 = "exe" like '/tmp/%'
 %lnx_auditd_susp_exe_folders_0_1 = "exe" like '/var/www/%'
 %lnx_auditd_susp_exe_folders_0_2 = "exe" like '/home/%/public_html/%'

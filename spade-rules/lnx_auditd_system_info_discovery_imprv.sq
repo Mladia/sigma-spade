@@ -1,4 +1,4 @@
-
+#mode=1
 %lnx_auditd_system_info_discovery_0_0 = "path" = '/etc/lsb-release'
 %lnx_auditd_system_info_discovery_0_1 = "path" = '/etc/redhat-release'
 %lnx_auditd_system_info_discovery_0_2 = "path" = '/etc/issue'

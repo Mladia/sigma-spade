@@ -1,3 +1,4 @@
+#mode=4
 %lnx_auditd_pers_systemd_reload_0 = "command line" like '%systemctl% %daemon-reload%'
 %lnx_auditd_pers_systemd_reload_1 = "command line" like '%systemctl% %daemon-reload% %'
 %lnx_auditd_pers_systemd_reload_2 = "command line" like '%systemctl% %start%'

@@ -1,3 +1,4 @@
+#mode=3
 %lnx_auditd_data_compressed_0_0 = "command line" = 'zip'
 %lnx_auditd_data_compressed_0_1 = "command line" like 'zip %'
 %lnx_auditd_data_compressed_0 = %lnx_auditd_data_compressed_0_0 or %lnx_auditd_data_compressed_0_1

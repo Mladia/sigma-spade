@@ -1,3 +1,4 @@
+#mode=3
 %lnx_auditd_susp_cmds_0_0 = "command line" like 'chmod 777'
 %lnx_auditd_susp_cmds_0_1 = "command line" like 'chmod 777 %'
 %lnx_auditd_susp_cmds_0 = %lnx_auditd_susp_cmds_0_0 or %lnx_auditd_susp_cmds_0_1

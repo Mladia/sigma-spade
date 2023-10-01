@@ -1,1 +1,2 @@
+#mode=4
 %con = "exe" like '%/useradd'

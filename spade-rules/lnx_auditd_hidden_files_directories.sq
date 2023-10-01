@@ -1,3 +1,4 @@
+#mode=4
 %mkdir = "command line" = 'mkdir %/.%' or "command line" = 'mkdir %.%'
 
 %touch = "command line" = 'touch %/.%' or "command line" = 'touch %.%'

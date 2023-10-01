@@ -1,3 +1,4 @@
+#mode=4
 %lnx_auditd_system_info_discovery2_0 = "path" = '/sys/class/dmi/id/bios_version'
 %lnx_auditd_system_info_discovery2_1 = "path" = '/sys/class/dmi/id/product_name'
 %lnx_auditd_system_info_discovery2_2 = "path" = '/sys/class/dmi/id/chassis_vendor'

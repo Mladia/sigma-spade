@@ -1,1 +1,2 @@
+#mode=4
 %con = "name" = 'split' and "exe" = '/usr/bin/split'

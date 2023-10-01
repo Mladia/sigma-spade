@@ -1,3 +1,4 @@
+#mode=1
 %telnet = "name" = 'telnet' and "exe" = '/usr/bin/nmap'
 %nmap =  "name" = 'nmap' and "exe" = '/usr/bin/nmap'
 %netcat =  "name" = 'netcat' and "exe" = '/usr/bin/nc.openbsd'

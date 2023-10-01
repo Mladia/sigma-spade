@@ -1,3 +1,4 @@
+#mode=4
 %keywords_truncate = "command line" like '%truncate%' and "command line" like '%-s%'
 %keywords_dd =  "command line" like '%dd%' and "command line" like '%if=%'
 %keywords_filter = "command line" like '%of=%'

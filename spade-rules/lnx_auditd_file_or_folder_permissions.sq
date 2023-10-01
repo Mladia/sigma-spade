@@ -1,3 +1,4 @@
+#mode=3
 %lnx_auditd_file_or_folder_permissions_0 = "command line" like '%chmod%'
 %lnx_auditd_file_or_folder_permissions_1 = "command line" like '%chown%'
 %con = %lnx_auditd_file_or_folder_permissions_0 or %lnx_auditd_file_or_folder_permissions_1

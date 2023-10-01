@@ -1,3 +1,4 @@
+#mode=3
 %cmd1 = "command line" like '%iptables -t nat'
 %cmd2 = "command line" like '%iptables -t nat %'
 %cmd = %cmd1 or %cmd2

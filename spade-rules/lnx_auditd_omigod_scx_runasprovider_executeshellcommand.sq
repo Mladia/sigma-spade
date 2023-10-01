@@ -1,3 +1,4 @@
+#mode=4
 %lnx_auditd_omigod_scx_runasprovider_executeshellcommand_0_0 = "uid" = '0'
 %lnx_auditd_omigod_scx_runasprovider_executeshellcommand_0 = %lnx_auditd_omigod_scx_runasprovider_executeshellcommand_0_0
 %lnx_auditd_omigod_scx_runasprovider_executeshellcommand_1_0 = "cwd" = '/var/opt/microsoft/scx/tmp'

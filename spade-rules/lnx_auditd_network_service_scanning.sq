@@ -1,3 +1,4 @@
+#mode=3
 %lnx_auditd_network_service_scanning_0_0 = "exe" like '%/telnet'
 %lnx_auditd_network_service_scanning_0_1 = "exe" like '%/nmap'
 %lnx_auditd_network_service_scanning_0_2 = "exe" like '%/netcat'

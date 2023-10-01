@@ -1,3 +1,4 @@
+#mode=1
 %import_exe = "exe" = '/usr/bin/import-im6.q16' and "name" = 'import'
 %jpg = "command line" like '%png%'
 %jpeg = "command line" like '%jpeg%'

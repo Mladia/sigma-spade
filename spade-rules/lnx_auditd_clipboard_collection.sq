@@ -1,3 +1,4 @@
+#mode=3
 %lnx_auditd_clipboard_collection_0 = "command line" like 'xclip -selection clipboard -o %'
 %lnx_auditd_clipboard_collection_1 = "command line" like 'xclip -selection clipboard -o'
 %lnx_auditd_clipboard_collection_2 = "command line" like 'xclip -selection clip -o %'

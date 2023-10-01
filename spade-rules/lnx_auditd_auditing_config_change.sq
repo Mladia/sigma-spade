@@ -1,3 +1,4 @@
+#mode=4
 %lnx_auditd_auditing_config_change_0 = "path" like '/etc/audit/%'
 %lnx_auditd_auditing_config_change_1 = "path" = '/etc/libaudit.conf'
 %lnx_auditd_auditing_config_change_2 = "path" like '/etc/audisp/%'
