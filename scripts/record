@@ -35,6 +35,9 @@ pull_log () {
     countdown 10
 
     echo [*] Pull the log "$(date)"
+
+    #TODO: add log_name as a paremter, when not empty use it instead of default
+
     log_name="audit-log-"$(date '+%y-%m-%d-%H-%M')".log"
     #TODO: redundancy
     log_location="$LOG_LOCATION/$log_name"

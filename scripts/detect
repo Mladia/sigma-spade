@@ -5,8 +5,6 @@ source ./args
 log_location="${1}"
 
 main() {
-
-
     control
     query
     graph
@@ -56,6 +54,49 @@ query() {
         echo ---$sq:
         sed  -e '/^\s*$/d' -e '/^#/d' "$sq" > "$COMMANDS_LOC"_query
 
+        printf "\n\$res = \$res + \$base.getVertex(%%con)\n" >> "$COMMANDS_LOC"_query
+
+        cat "$COMMANDS_LOC"_query | docker exec -i sigma-spade spade query >/dev/null 2>&1 
+        ####OR DEBUG:
+        # cat "$COMMANDS_LOC"_query | docker exec -i sigma-spade spade query 
+
+        cat "$COMMANDS_LOC"_query
+        echo 'dump $base.getVertex(%con)' | docker exec -i sigma-spade spade query  > "$cache_directory"/spade_log 2>&1
+        print_result_detection_rule "$cache_directory"/spade_log 
+        #####OR DEBUG:
+        # echo 'dump $base.getVertex(%con)' | docker exec -i sigma-spade spade query  
+
+        echo ++++++++++++++++++++++++++
+        #    echo Res: 
+        #     echo 'dump $res' |  docker exec -i sigma-spade spade query >  "$cache_directory"/spade_log 2>&1
+        #  print_result_detection_rule "$cache_directory"/spade_log  
+
+        # echo 'dump $res' |  docker exec -i sigma-spade spade query 
+        #     echo ++++++++++++++++++++++++++
+        echo
+
+
+    done
+
+    echo 'dump $res' |  docker exec -i sigma-spade spade query 
+}
+
+
+
+query_single_detection_rule() {
+
+    echo "" > "$COMMANDS_LOC"_query
+
+    echo '$res = $base.getVertex(" " == '\'' '\'')' | docker exec -i sigma-spade spade query>/dev/null 2>&1
+
+
+    #TODO: perfrom only if detection rule not Null
+    for sq in ../spade-rules/*.sq
+    do
+        echo ---$sq:
+        sed  -e '/^\s*$/d' -e '/^#/d' "$sq" > "$COMMANDS_LOC"_query
+
+        #TODO: load spade query here
 
         printf "\n\$res = \$res + \$base.getVertex(%%con)\n" >> "$COMMANDS_LOC"_query
 
@@ -70,12 +111,12 @@ query() {
         # echo 'dump $base.getVertex(%con)' | docker exec -i sigma-spade spade query  
 
         echo ++++++++++++++++++++++++++
-#    echo Res: 
-#     echo 'dump $res' |  docker exec -i sigma-spade spade query >  "$cache_directory"/spade_log 2>&1
-#  print_result_detection_rule "$cache_directory"/spade_log  
+        #    echo Res: 
+        #     echo 'dump $res' |  docker exec -i sigma-spade spade query >  "$cache_directory"/spade_log 2>&1
+        #  print_result_detection_rule "$cache_directory"/spade_log  
 
-    echo 'dump $res' |  docker exec -i sigma-spade spade query 
-        echo ++++++++++++++++++++++++++
+        # echo 'dump $res' |  docker exec -i sigma-spade spade query 
+        #     echo ++++++++++++++++++++++++++
         echo
 
 
@@ -83,6 +124,10 @@ query() {
 
     echo 'dump $res' |  docker exec -i sigma-spade spade query 
 }
+
+
+
+
 
 print_result_detection_rule() {
 

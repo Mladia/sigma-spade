@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#-s scneario name
+#-d detection rule name
+
+log_name="audit-log-"$(date '+%y-%m-%d-%H-%M')".log"
+log_location=$magic+$log_name
+
+record start_auditd
+
+scenario_databse -s $scenario_name
+
+record pull_log $log_location
+
+detect -d $detection_rule_name -l $log_location
